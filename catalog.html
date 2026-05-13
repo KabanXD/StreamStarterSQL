@@ -642,7 +642,7 @@
           <div class="product-body">
             <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit"><h3 class="p-title">${escapeHtml(p.name)}</h3></a>
             <div class="muted" style="font-size:13px">${escapeHtml(p.brand)} · ${escapeHtml(p.category)}</div>
-            <p class="p-desc muted">${escapeHtml(p.desc || '')}</p>
+            <p class="p-desc muted">${escapeHtml(p.description || '')}</p>
             <div class="p-row">
               <div>
                 <div class="p-price">${Number(p.price||0).toLocaleString()} ₽</div>
@@ -667,7 +667,7 @@
       if (state.maxPrice) list = list.filter(p => Number(p.price) <= Number(state.maxPrice));
       if (state.search && state.search.trim().length > 0) {
         const q = state.search.trim().toLowerCase();
-        list = list.filter(p => ((p.name||'') + ' ' + (p.desc||'') + ' ' + (p.brand||'')).toLowerCase().includes(q));
+        list = list.filter(p => ((p.name||'') + ' ' + (p.description||'') + ' ' + (p.brand||'')).toLowerCase().includes(q));
       }
 
       switch (state.sort) {
