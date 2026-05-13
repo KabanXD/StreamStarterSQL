@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 // Подключение к Supabase (PostgreSQL)
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL || process.env.database_url,
   ssl: { rejectUnauthorized: false }
 });
 
