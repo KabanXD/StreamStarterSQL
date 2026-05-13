@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Обзор StreamCam 4K: стоит ли переплачивать за 4K? | StreamStarter</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="blog.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    .article-full { max-width: 880px; margin: 0 auto; padding: 20px 0 40px; }
+    .article-header h1 { font-size: 3rem; background: linear-gradient(135deg, #ffffff 0%, #d4b5ff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 16px; }
+    .article-meta { display: flex; gap: 24px; color: var(--muted); padding-bottom: 20px; border-bottom: 1px solid rgba(145,70,255,0.2); }
+    .article-featured-image { margin: 30px 0; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(145,70,255,0.2); }
+    .article-content { font-size: 1.15rem; line-height: 1.7; }
+    .article-content h2 { font-size: 2rem; margin-top: 50px; margin-bottom: 20px; color: #fff; border-left: 5px solid var(--accent); padding-left: 20px; }
+    .article-content h3 { font-size: 1.5rem; margin: 35px 0 15px; color: #e0d0ff; }
+    .article-content p { margin-bottom: 24px; }
+    .article-content ul, .article-content ol { margin: 20px 0 30px; padding-left: 30px; }
+    .article-content li { margin-bottom: 10px; }
+    .article-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-content figure { margin: 40px 0; }
+    .article-content figcaption { text-align: center; color: var(--muted); margin-top: 10px; font-size: 0.95rem; }
+    .article-content blockquote { background: linear-gradient(145deg, rgba(145,70,255,0.08), rgba(145,70,255,0.02)); border-left: 4px solid var(--accent); padding: 25px 30px; border-radius: 16px; margin: 40px 0; backdrop-filter: blur(4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .article-content blockquote p { margin: 0; font-size: 1.2rem; font-weight: 500; color: #f0eaff; }
+    .step-card { display: flex; gap: 20px; background: rgba(20,15,30,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(145,70,255,0.15); border-radius: 20px; padding: 24px; margin: 30px 0; align-items: flex-start; }
+    .step-number { flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-2), var(--accent)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: white; box-shadow: 0 10px 20px rgba(145,70,255,0.3); }
+    .step-content { flex: 1; }
+    .step-content h3 { margin-top: 0; margin-bottom: 10px; }
+    .tip-box { background: rgba(255,215,100,0.08); border: 1px solid rgba(255,215,100,0.3); border-radius: 20px; padding: 24px; margin: 40px 0; backdrop-filter: blur(4px); }
+    .tip-box h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 15px; color: #ffd764; font-size: 1.3rem; }
+    .specs-table { width: 100%; border-collapse: collapse; margin: 30px 0; border-radius: 16px; overflow: hidden; background: rgba(20,15,30,0.6); backdrop-filter: blur(4px); }
+    .specs-table th { background: rgba(145,70,255,0.2); padding: 14px 18px; text-align: left; font-weight: 600; color: #e0d0ff; border-bottom: 1px solid rgba(145,70,255,0.3); }
+    .specs-table td { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .related-links { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
+    .related-link { background: rgba(145,70,255,0.08); border: 1px solid rgba(145,70,255,0.15); border-radius: 40px; padding: 10px 20px; color: var(--text); text-decoration: none; transition: all 0.2s; backdrop-filter: blur(4px); }
+    .related-link:hover { background: rgba(145,70,255,0.2); border-color: var(--accent); transform: translateY(-3px); }
+    .rating { display: flex; align-items: center; gap: 5px; margin: 15px 0; }
+    .rating span { font-size: 1.8rem; color: #ffd764; }
+  /* Главное изображение не выше 500px */
+/* Главное изображение — растягивается на всю ширину, высота до 500px */
+.article-featured-image {
+  max-height: 500px;
+  overflow: hidden;
+}
+.article-featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ← заменено с contain */
+}
+
+/* Картинки внутри текста — растягиваются на всю ширину, высота до 400px */
+.article-content figure img {
+  max-height: 500px;
+  width: 100%;
+  object-fit: cover;   /* ← заменено с contain */
+}
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo">$$</div>
+        <div class="brand-text">
+          <div class="brand-title">StreamStarter</div>
+          <div class="brand-sub">Стерим и стримьте</div>
+        </div>
+      </div>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="blog.html">Блог</a>
+        <a href="support.html">Поддержка</a>
+      </nav>
+
+      <div class="actions">
+        <button class="bot-btn">Открыть бота</button>
+        <a class="catalog-btn" href="catalog.html">Каталог</a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="support.html">Поддержка</a>
+      <a href="blog.html">Блог</a>
+    </div>
+  </header>
+
+  <main class="site-main container">
+    <article class="article-full">
+      <nav class="breadcrumbs">
+        <a href="blog.html">Блог</a> / <a href="blog.html?cat=reviews">Обзоры</a> / <span>StreamCam 4K</span>
+      </nav>
+
+      <header class="article-header">
+        <h1>Обзор StreamCam 4K: стоит ли переплачивать за 4K?</h1>
+        <div class="article-meta">
+          <span>📅 25 февраля 2025</span>
+          <span>✍️ Дмитрий Технарь</span>
+          <span>🏷️ Обзоры</span>
+          <span>⏱️ 8 мин чтения</span>
+        </div>
+      </header>
+
+      <figure class="article-featured-image">
+        <img src="thumb-streamcam-4k-review.png" alt="StreamCam 4K веб-камера" />
+      </figure>
+
+      <div class="article-content">
+        <div class="rating">
+          <span>★★★★½</span> <strong style="color: var(--muted);">4.5/5 — Отличный выбор для профессионалов</strong>
+        </div>
+
+        <p><strong>4K-веб-камеры становятся всё доступнее, но нужны ли они обычному стримеру?</strong> Сегодня тестируем Beamline StreamCam 4K — камеру среднего ценового сегмента, которая обещает кристально чистое изображение и продвинутую автофокусировку. Разбираемся, кому стоит её купить, а кому хватит и Full HD.</p>
+
+        <div style="background: rgba(145,70,255,0.05); border-radius: 20px; padding: 20px 30px; margin: 30px 0; border: 1px solid rgba(145,70,255,0.1);">
+          <h3 style="margin-top: 0;">📑 Содержание</h3>
+          <ul style="columns: 2; margin-bottom: 0;">
+            <li><a href="#specs">Характеристики</a></li>
+            <li><a href="#design">Комплектация и дизайн</a></li>
+            <li><a href="#quality">Качество изображения</a></li>
+            <li><a href="#autofocus">Автофокус и 4K</a></li>
+            <li><a href="#software">ПО и настройки</a></li>
+            <li><a href="#verdict">Вердикт: брать или нет?</a></li>
+          </ul>
+        </div>
+
+        <h2 id="specs">Технические характеристики</h2>
+        <table class="specs-table">
+          <thead>
+            <tr><th>Параметр</th><th>Значение</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Максимальное разрешение</td><td>3840×2160 (4K) @ 30 fps</td></tr>
+            <tr><td>Full HD режим</td><td>1920×1080 @ 60 fps</td></tr>
+            <tr><td>Матрица</td><td>CMOS 1/2.5", 8.5 Мп</td></tr>
+            <tr><td>Автофокус</td><td>Фазовый, 0.2 сек</td></tr>
+            <tr><td>Угол обзора</td><td>78° (с возможностью цифрового зума)</td></tr>
+            <tr><td>Подключение</td><td>USB 3.0 Type-C</td></tr>
+            <tr><td>Микрофон</td><td>Два всенаправленных с шумоподавлением</td></tr>
+            <tr><td>Крепление</td><td>На монитор + резьба 1/4" для штатива</td></tr>
+            <tr><td>Цена на момент обзора</td><td>29 990 ₽</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="design">Комплектация и дизайн</h2>
+        <div class="step-card">
+          <div class="step-number">📦</div>
+          <div class="step-content">
+            <h3>Что в коробке?</h3>
+            <p>Камера поставляется в стильной чёрной коробке с магнитной застёжкой. Внутри:</p>
+            <ul>
+              <li>Сама камера StreamCam 4K</li>
+              <li>USB-C на USB-A кабель (2 метра)</li>
+              <li>Съёмное крепление на монитор</li>
+              <li>Переходник на штатив 1/4"</li>
+              <li>Краткая инструкция и гарантийный талон</li>
+            </ul>
+          </div>
+        </div>
+        <p>Корпус выполнен из матового пластика с металлической передней панелью. Выглядит дорого и минималистично. Светодиодный индикатор работы ненавязчивый. Крепление надёжно фиксируется на мониторах толщиной до 5 см, а при желании камеру можно поставить на штатив.</p>
+
+        <figure class="article-featured-image">
+          <img src="article-streamcam-unboxing.png" alt="Комплектация StreamCam 4K" />
+        </figure>
+        <figcaption>Комплект поставки: всё необходимое для старта</figcaption>
+
+        <h2 id="quality">Качество изображения</h2>
+        <p>Основное, ради чего покупают эту камеру — картинка. В 4K при хорошем освещении детализация поражает: видны мельчайшие текстуры одежды, волосы, даже поры на коже. Цветопередача естественная, без ухода в холодные или тёплые тона. При слабом свете включается автоматическая коррекция, которая поднимает экспозицию, но появляются шумы — впрочем, как и у любой веб-камеры.</p>
+        <p>В режиме 1080p 60 fps картинка остаётся чёткой, а плавность движений идеально подходит для динамичных стримов.</p>
+
+        <table class="specs-table">
+          <thead>
+            <tr><th>Условия освещения</th><th>Оценка качества</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Яркий дневной свет</td><td>★★★★★ — идеально</td></tr>
+            <tr><td>Искусственное освещение (LED-панели)</td><td>★★★★½ — отлично</td></tr>
+            <tr><td>Слабое освещение (одна лампа)</td><td>★★★☆☆ — приемлемо, но шумновато</td></tr>
+            <tr><td>Полная темнота (только свет монитора)</td><td>★★☆☆☆ — шумно, лучше добавить свет</td></tr>
+          </tbody>
+        </table>
+
+        <div class="tip-box">
+          <h4>💡 Совет по освещению</h4>
+          <p>Даже с топовой камерой плохой свет испортит картинку. Рекомендуем использовать хотя бы одну кольцевую лампу или LED-панель — разница будет колоссальной.</p>
+        </div>
+
+        <h2 id="autofocus">Автофокус и 4K: главные фишки</h2>
+        <div class="scheme-card" style="background: rgba(20,15,30,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(145,70,255,0.15); border-radius: 20px; padding: 24px; margin: 30px 0;">
+          <h3>Фазовый автофокус</h3>
+          <p>StreamCam 4K использует фазовый автофокус (PDAF), как в современных смартфонах. Он моментально наводится на лицо и не «дышит» (не перефокусируется туда-сюда). Если вы часто двигаетесь или показываете предметы в кадре, автофокус не подведёт.</p>
+          <p><strong>4K при 30 fps</strong> — идеально для записи видео, проведения презентаций, кулинарных стримов, где важна каждая деталь. Для игровых стримов лучше переключиться в 1080p 60 fps — плавность важнее сверхчёткости.</p>
+        </div>
+
+        <figure class="article-featured-image">
+          <img src="article-streamcam-autofocus.png" alt="Демонстрация автофокуса" />
+        </figure>
+        <figcaption>Автофокус быстро переключается между лицом и предметом в руке</figcaption>
+
+        <h2 id="software">Программное обеспечение и настройки</h2>
+        <p>Beamline предлагает фирменную утилиту <strong>Beamline Camera Hub</strong> (Windows/macOS). В ней можно:</p>
+        <ul>
+          <li>Регулировать яркость, контраст, насыщенность, резкость.</li>
+          <li>Включать/выключать автофокус и HDR (в 1080p).</li>
+          <li>Настраивать угол обзора (цифровой зум).</li>
+          <li>Обновлять прошивку камеры.</li>
+        </ul>
+        <p>Все настройки сохраняются в памяти камеры и работают в любых приложениях (OBS, Zoom, Discord).</p>
+
+        <h2 id="verdict">Вердикт: стоит ли покупать StreamCam 4K?</h2>
+        <div class="step-card">
+          <div class="step-number">🏆</div>
+          <div class="step-content">
+            <h3>Кому подойдёт:</h3>
+            <ul>
+              <li>Профессиональным стримерам, которые хотят максимальное качество картинки.</li>
+              <li>Видеоблогерам, записывающим ролики на камеру.</li>
+              <li>Тем, кто проводит презентации или обучающие вебинары с демонстрацией мелких деталей.</li>
+              <li>Пользователям с хорошим освещением и современным ПК (USB 3.0 обязателен).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">💰</div>
+          <div class="step-content">
+            <h3>Кому можно сэкономить:</h3>
+            <ul>
+              <li>Начинающим стримерам — разница между хорошей 1080p камерой за 10 000 ₽ и этой будет не так заметна при плохом свете.</li>
+              <li>Если вы стримите в 720p или 1080p 30 fps — камера избыточна.</li>
+              <li>Если у вас слабый ПК или нет USB 3.0 — 4K поток может тормозить.</li>
+            </ul>
+          </div>
+        </div>
+
+        <blockquote>
+          <p>🎥 «StreamCam 4K — одна из лучших веб-камер на рынке, но её потенциал раскрывается только при хорошем освещении и мощном компьютере. Если вы готовы — берите, не пожалеете».</p>
+        </blockquote>
+
+        <div style="margin-top: 40px;">
+          <h3>Что почитать дальше?</h3>
+          <div class="related-links">
+            <a href="article-budget-lighting.html" class="related-link">💡 Бюджетный свет: 3 схемы до 3000 ₽</a>
+            <a href="article.html" class="related-link">🎥 Как настроить OBS для Twitch за 15 минут</a>
+            <a href="article-obs-audio.html" class="related-link">🎤 Идеальный звук: фильтры для микрофона</a>
+            <a href="article-promotion-100-viewers.html" class="related-link">🚀 Первые 100 зрителей</a>
+          </div>
+        </div>
+      </div>
+          <h3>Дмитрий Технарь</h3>
+          <p>Технический обозреватель с 7-летним стажем. Специализируется на аудио- и видеооборудовании для стримеров. Ведёт YouTube-канал о гаджетах.</p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+<footer class="site-footer">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Товары</h4>
+        <ul>
+          <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
+          <li><a href="catalog.html?cat=mice">Мышки</a></li>
+          <li><a href="catalog.html?cat=cameras">Камеры</a></li>
+          <li><a href="catalog.html?cat=light">Свет</a></li>
+          <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
+          <li><a href="catalog.html">Все товары</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <ul>
+          <li><a href="support.html">База знаний</a></li>
+          <li><a href="support.html#faq">Частые вопросы</a></li>
+          <li><a href="blog.html">Гайды</a></li>
+          <!-- Вот эта ссылка теперь ведёт к контактам -->
+          <li><a href="#contacts">Связаться с нами</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="blog.html">Блог</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Партнёрам</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Правовая информация</h4>
+        <ul>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Оферта</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Блок с картой и контактами (добавлен id="contacts") -->
+    <div class="footer-contact-block" id="contacts">
+      <div class="footer-contact-map">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+      </div>
+      <div class="footer-contact-info">
+        <p><strong>Контакты магазина</strong></p>
+        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+        <p>📍 ул. Твардовского, д.2к5, Москва</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle?.addEventListener('click', () => {
+      const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
+      mobileMenu.style.display = isHidden ? 'block' : 'none';
+      mobileMenu.setAttribute('aria-hidden', String(!isHidden));
+    });
+  </script>
+</body>
+</html>

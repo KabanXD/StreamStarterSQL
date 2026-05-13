@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Настройка уведомлений о донатах и подписчиках через StreamElements | StreamStarter</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="blog.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    .article-full { max-width: 880px; margin: 0 auto; padding: 20px 0 40px; }
+    .article-header h1 { font-size: 3rem; background: linear-gradient(135deg, #ffffff 0%, #d4b5ff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 16px; }
+    .article-meta { display: flex; gap: 24px; color: var(--muted); padding-bottom: 20px; border-bottom: 1px solid rgba(145,70,255,0.2); }
+    .article-featured-image { margin: 30px 0; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(145,70,255,0.2); }
+    .article-content { font-size: 1.15rem; line-height: 1.7; }
+    .article-content h2 { font-size: 2rem; margin-top: 50px; margin-bottom: 20px; color: #fff; border-left: 5px solid var(--accent); padding-left: 20px; }
+    .article-content h3 { font-size: 1.5rem; margin: 35px 0 15px; color: #e0d0ff; }
+    .article-content p { margin-bottom: 24px; }
+    .article-content ul, .article-content ol { margin: 20px 0 30px; padding-left: 30px; }
+    .article-content li { margin-bottom: 10px; }
+    .article-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-content figure { margin: 40px 0; }
+    .article-content figcaption { text-align: center; color: var(--muted); margin-top: 10px; font-size: 0.95rem; }
+    .article-content blockquote { background: linear-gradient(145deg, rgba(145,70,255,0.08), rgba(145,70,255,0.02)); border-left: 4px solid var(--accent); padding: 25px 30px; border-radius: 16px; margin: 40px 0; backdrop-filter: blur(4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .article-content blockquote p { margin: 0; font-size: 1.2rem; font-weight: 500; color: #f0eaff; }
+    .step-card { display: flex; gap: 20px; background: rgba(20,15,30,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(145,70,255,0.15); border-radius: 20px; padding: 24px; margin: 30px 0; align-items: flex-start; }
+    .step-number { flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-2), var(--accent)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: white; box-shadow: 0 10px 20px rgba(145,70,255,0.3); }
+    .step-content { flex: 1; }
+    .step-content h3 { margin-top: 0; margin-bottom: 10px; }
+    .tip-box { background: rgba(255,215,100,0.08); border: 1px solid rgba(255,215,100,0.3); border-radius: 20px; padding: 24px; margin: 40px 0; backdrop-filter: blur(4px); }
+    .tip-box h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 15px; color: #ffd764; font-size: 1.3rem; }
+    .specs-table { width: 100%; border-collapse: collapse; margin: 30px 0; border-radius: 16px; overflow: hidden; background: rgba(20,15,30,0.6); backdrop-filter: blur(4px); }
+    .specs-table th { background: rgba(145,70,255,0.2); padding: 14px 18px; text-align: left; font-weight: 600; color: #e0d0ff; border-bottom: 1px solid rgba(145,70,255,0.3); }
+    .specs-table td { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .related-links { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
+    .related-link { background: rgba(145,70,255,0.08); border: 1px solid rgba(145,70,255,0.15); border-radius: 40px; padding: 10px 20px; color: var(--text); text-decoration: none; transition: all 0.2s; backdrop-filter: blur(4px); }
+    .related-link:hover { background: rgba(145,70,255,0.2); border-color: var(--accent); transform: translateY(-3px); }
+                .article-featured-image {
+  max-height: 500px;
+  overflow: hidden;
+}
+.article-featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ← заменено с contain */
+}
+
+/* Картинки внутри текста — растягиваются на всю ширину, высота до 400px */
+.article-content figure img {
+  max-height: 500px;
+  width: 100%;
+  object-fit: cover;   /* ← заменено с contain */
+}
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px; /* по желанию, если нужны скругления */
+  margin-right: 12px; /* отступ от текста */
+}
+.brand-sub {
+  white-space: nowrap;   /* не переносить на новую строку */
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;       /* на случай переполнения */
+  gap: 16px;             /* расстояние между брендом, навигацией и кнопками */
+}
+@media (max-width: 720px) {
+  .main-nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: inline-block;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
+  <img src="favicon.png" alt="StreamStarter" class="logo-img" />
+    <div class="brand-text">
+      <div class="brand-title">StreamStarter</div>
+      <div class="brand-sub">Всё для твоего стрима</div>
+    </div>
+  </a>
+</div>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="blog.html">Блог</a>
+        <a href="support.html">Поддержка</a>
+      </nav>
+
+      <div class="actions">
+        <button class="bot-btn">Открыть бота</button>
+        <a class="catalog-btn" href="catalog.html">Каталог</a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="support.html">Поддержка</a>
+      <a href="blog.html">Блог</a>
+    </div>
+  </header>
+
+  <main class="site-main container">
+    <article class="article-full">
+      <nav class="breadcrumbs">
+        <a href="blog.html">Блог</a> / <a href="blog.html?cat=guides">Гайды</a> / <span>Уведомления StreamElements</span>
+      </nav>
+
+      <header class="article-header">
+        <h1>Как настроить уведомления о донатах и подписчиках через StreamElements</h1>
+        <div class="article-meta">
+          <span>📅 20 марта 2025</span>
+          <span>✍️ Команда StreamStarter</span>
+          <span>🏷️ Гайды</span>
+          <span>⏱️ 8 мин чтения</span>
+        </div>
+      </header>
+
+      <figure class="article-featured-image">
+        <img src="article-streamelements-main.png" alt="Уведомления StreamElements" />
+      </figure>
+
+      <div class="article-content">
+        <p><strong>Уведомления (алерты) — это душа стрима.</strong> Они создают интерактивность, благодарят зрителей за поддержку и мотивируют других подписываться или донатить. StreamElements — один из самых популярных бесплатных сервисов для создания красивых уведомлений. В этом гайде мы настроим алерты с нуля и добавим их в OBS.</p>
+
+        <div style="background: rgba(145,70,255,0.05); border-radius: 20px; padding: 20px 30px; margin: 30px 0; border: 1px solid rgba(145,70,255,0.1);">
+          <h3 style="margin-top: 0;">📑 Содержание</h3>
+          <ul style="columns: 2; margin-bottom: 0;">
+            <li><a href="#what-is">Что такое StreamElements?</a></li>
+            <li><a href="#register">Регистрация и вход</a></li>
+            <li><a href="#create-overlay">Создание оверлея</a></li>
+            <li><a href="#setup-alerts">Настройка уведомлений</a></li>
+            <li><a href="#customize">Кастомизация алертов</a></li>
+            <li><a href="#obs">Добавление в OBS</a></li>
+            <li><a href="#tips">💡 Полезные советы</a></li>
+          </ul>
+        </div>
+
+        <h2 id="what-is">Что такое StreamElements?</h2>
+        <p>StreamElements — это облачная платформа для стримеров, которая позволяет создавать оверлеи, алерты, чат-ботов и многое другое. В отличие от Streamlabs, StreamElements не требует установки отдельной программы — всё настраивается через браузер и работает как источник в OBS.</p>
+        <p><strong>Основные возможности:</strong></p>
+        <ul>
+          <li>Уведомления о подписках, донатах, рейдах, хостах.</li>
+          <li>Готовые темы оформления или создание своих.</li>
+          <li>Чат-бот с модерацией и командами.</li>
+          <li>Магазин мерча и донат-страница.</li>
+          <li>Статистика стрима.</li>
+        </ul>
+
+        <h2 id="register">Шаг 1: Регистрация и вход</h2>
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Создайте аккаунт StreamElements</h3>
+            <p>Перейдите на <a href="https://streamelements.com" target="_blank">streamelements.com</a> и нажмите «Login». Авторизуйтесь через Twitch, YouTube или Trovo — сервис автоматически привяжется к вашему стримерскому аккаунту. Подтвердите разрешения, которые запрашивает StreamElements (чтение данных канала, управление чатом и т.д.).</p>
+          </div>
+        </div>
+
+        <figure class="article-featured-image">
+          <img src="article-streamelements-login.png" alt="Вход в StreamElements" />
+        </figure>
+        <figcaption>Вход через Twitch — самый быстрый способ</figcaption>
+        <h2 id="create-overlay">Шаг 2: Создание оверлея</h2>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Создайте новый набор оверлеев</h3>
+            <p>После входа в личный кабинет перейдите в раздел <strong>«Overlays»</strong> в левом меню. Нажмите «Create New Overlay» и дайте ему название, например «Мой первый оверлей». Выберите разрешение (обычно 1920x1080) и нажмите «Create».</p>
+          </div>
+        </div>
+
+        <h2 id="setup-alerts">Шаг 3: Настройка уведомлений</h2>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Добавьте виджет алертов</h3>
+            <p>Внутри созданного оверлея нажмите «Add Widget» и выберите «AlertBox». Это основной виджет для всех уведомлений. Он автоматически добавится на холст. Вы можете перемещать его, изменять размер и настраивать анимацию появления.</p>
+          </div>
+        </div>
+
+        <p>Теперь настройте, какие события будут вызывать уведомления:</p>
+        <ul>
+          <li><strong>Подписка (Subscription)</strong> — новый подписчик на канале.</li>
+          <li><strong>Донат (Donation)</strong> — через встроенную донат-страницу StreamElements или PayPal.</li>
+          <li><strong>Рейд (Raid)</strong> — когда другой стример отправляет к вам зрителей.</li>
+          <li><strong>Хост (Host)</strong> — когда ваш канал хостят.</li>
+          <li><strong>Фоллов (Follow)</strong> — новый фолловер.</li>
+        </ul>
+
+        <table class="specs-table">
+          <thead>
+            <tr><th>Событие</th><th>Рекомендуемая длительность</th><th>Приоритет</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Подписка / Донат</td><td>8–10 секунд</td><td>Высокий</td></tr>
+            <tr><td>Рейд / Хост</td><td>6–8 секунд</td><td>Средний</td></tr>
+            <tr><td>Фоллов</td><td>4–5 секунд</td><td>Низкий</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="customize">Шаг 4: Кастомизация алертов</h2>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Сделайте уведомления уникальными</h3>
+            <p>В настройках AlertBox для каждого события можно выбрать:</p>
+            <ul>
+              <li><strong>Шаблон</strong> — готовый дизайн (их сотни в галерее).</li>
+              <li><strong>Звук</strong> — загрузите свой или выберите из библиотеки.</li>
+              <li><strong>Анимацию</strong> — появление, исчезание, эффекты.</li>
+              <li><strong>Текст</strong> — что будет написано (например, «{name} подписался на {tier} уровне!»).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <h4>🎨 Совет по дизайну</h4>
+          <p>Не перегружайте алерты. Лучше простой, но стильный виджет с вашим логотипом и цветовой гаммой канала. Бесплатные шаблоны можно найти в галерее StreamElements или на сайтах вроде Nerd or Die.</p>
+        </div>
+
+        <figure class="article-featured-image">
+          <img src="article-streamelements-alertbox-settings.png" alt="Настройки AlertBox" />
+        </figure>
+        <figcaption>Настройка внешнего вида уведомления</figcaption>
+        <h2 id="obs">Шаг 5: Добавление в OBS</h2>
+        <div class="step-card">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Интеграция с OBS Studio</h3>
+            <p>Вернитесь в раздел «Overlays» и нажмите на значок «Copy URL» рядом с вашим оверлеем. Это специальная ссылка, которая содержит все виджеты.</p>
+            <p>В OBS создайте новый источник: <strong>+ → Источник браузера</strong>. Назовите его «StreamElements Alerts» и вставьте скопированный URL в поле «URL». Установите ширину и высоту (1920x1080). Нажмите «ОК».</p>
+            <p><strong>Важно:</strong> поставьте галочку «Использовать аппаратное ускорение» и «Обновлять браузер, когда сцена становится активной».</p>
+          </div>
+        </div>
+
+        <blockquote>
+          <p>🔗 «Источник браузера в OBS — это окно в мир интерактива. Всё, что вы настраиваете в StreamElements, мгновенно отображается на стриме без перезапуска».</p>
+        </blockquote>
+
+        <h2 id="test">Как протестировать уведомления?</h2>
+        <p>Внутри настроек AlertBox есть кнопка «Test» для каждого события. Нажмите её, чтобы увидеть, как алерт выглядит на стриме. Также можно сделать тестовый донат самому себе через донат-страницу StreamElements (минимальная сумма — 1$).</p>
+
+        <h2 id="tips">💡 Дополнительные возможности StreamElements</h2>
+        <ul>
+          <li><strong>Чат-бот</strong> — настройте автоматические приветствия, команды (!дискорд, !ютуб), модерацию спама и ссылок.</li>
+          <li><strong>Магазин мерча</strong> — интегрируйте продажу футболок, кружек прямо на стрим.</li>
+          <li><strong>Донат-лидерборд</strong> — показывает топ донатеров за стрим/месяц.</li>
+          <li><strong>Счётчики целей</strong> — визуализируйте прогресс сбора средств на новое оборудование.</li>
+        </ul>
+
+        <div class="tip-box">
+          <h4>🎁 Бонус: готовые темы оверлеев</h4>
+          <p>Если не хотите возиться с дизайном, в StreamElements есть раздел «Themes». Выберите понравившуюся тему, нажмите «Apply», и все виджеты (алерты, чат, цели) настроятся автоматически. Останется только скопировать URL в OBS.</p>
+        </div>
+
+        <div style="margin-top: 40px;">
+          <h3>Что почитать дальше?</h3>
+          <div class="related-links">
+            <a href="article.html" class="related-link">🎥 Как настроить OBS для Twitch за 15 минут</a>
+            <a href="article-obs-audio.html" class="related-link">🎤 Идеальный звук: фильтры для микрофона в OBS</a>
+            <a href="article-promotion-100-viewers.html" class="related-link">🚀 Первые 100 зрителей: стратегия продвижения</a>
+            <a href="article-budget-lighting.html" class="related-link">💡 Бюджетный свет: 3 схемы до 3000 ₽</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-author-bio">
+        <div>
+          <h3>Команда StreamStarter</h3>
+          <p>Мы помогаем начинающим стримерам выбрать оборудование, настроить трансляции и вырасти с нуля. Следите за новыми гайдами и задавайте вопросы в поддержке.</p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+<footer class="site-footer">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Товары</h4>
+        <ul>
+          <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
+          <li><a href="catalog.html?cat=mice">Мышки</a></li>
+          <li><a href="catalog.html?cat=cameras">Камеры</a></li>
+          <li><a href="catalog.html?cat=light">Свет</a></li>
+          <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
+          <li><a href="catalog.html">Все товары</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <ul>
+          <li><a href="support.html">База знаний</a></li>
+          <li><a href="support.html#faq">Частые вопросы</a></li>
+          <li><a href="blog.html">Гайды</a></li>
+          <!-- Вот эта ссылка теперь ведёт к контактам -->
+          <li><a href="#contacts">Связаться с нами</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="blog.html">Блог</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Партнёрам</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Правовая информация</h4>
+        <ul>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Оферта</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Блок с картой и контактами (добавлен id="contacts") -->
+    <div class="footer-contact-block" id="contacts">
+      <div class="footer-contact-map">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+      </div>
+      <div class="footer-contact-info">
+        <p><strong>Контакты магазина</strong></p>
+        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+        <p>📍 ул. Твардовского, д.2к5, Москва</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle?.addEventListener('click', () => {
+      const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
+      mobileMenu.style.display = isHidden ? 'block' : 'none';
+      mobileMenu.setAttribute('aria-hidden', String(!isHidden));
+    });
+  </script>
+</body>
+</html>

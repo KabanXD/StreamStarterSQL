@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Первые 100 зрителей: стратегия продвижения на Twitch | StreamStarter</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="blog.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    .article-full { max-width: 880px; margin: 0 auto; padding: 20px 0 40px; }
+    .article-header h1 { font-size: 3rem; background: linear-gradient(135deg, #ffffff 0%, #d4b5ff 80%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 16px; }
+    .article-meta { display: flex; gap: 24px; color: var(--muted); padding-bottom: 20px; border-bottom: 1px solid rgba(145,70,255,0.2); }
+    .article-featured-image { margin: 30px 0; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(145,70,255,0.2); }
+    .article-content { font-size: 1.15rem; line-height: 1.7; }
+    .article-content h2 { font-size: 2rem; margin-top: 50px; margin-bottom: 20px; color: #fff; border-left: 5px solid var(--accent); padding-left: 20px; }
+    .article-content h3 { font-size: 1.5rem; margin: 35px 0 15px; color: #e0d0ff; }
+    .article-content p { margin-bottom: 24px; }
+    .article-content ul, .article-content ol { margin: 20px 0 30px; padding-left: 30px; }
+    .article-content li { margin-bottom: 10px; }
+    .article-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-content figure { margin: 40px 0; }
+    .article-content figcaption { text-align: center; color: var(--muted); margin-top: 10px; font-size: 0.95rem; }
+    .article-content blockquote { background: linear-gradient(145deg, rgba(145,70,255,0.08), rgba(145,70,255,0.02)); border-left: 4px solid var(--accent); padding: 25px 30px; border-radius: 16px; margin: 40px 0; backdrop-filter: blur(4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .article-content blockquote p { margin: 0; font-size: 1.2rem; font-weight: 500; color: #f0eaff; }
+    .step-card { display: flex; gap: 20px; background: rgba(20,15,30,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(145,70,255,0.15); border-radius: 20px; padding: 24px; margin: 30px 0; align-items: flex-start; }
+    .step-number { flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-2), var(--accent)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: white; box-shadow: 0 10px 20px rgba(145,70,255,0.3); }
+    .step-content { flex: 1; }
+    .step-content h3 { margin-top: 0; margin-bottom: 10px; }
+    .tip-box { background: rgba(255,215,100,0.08); border: 1px solid rgba(255,215,100,0.3); border-radius: 20px; padding: 24px; margin: 40px 0; backdrop-filter: blur(4px); }
+    .tip-box h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 15px; color: #ffd764; font-size: 1.3rem; }
+    .specs-table { width: 100%; border-collapse: collapse; margin: 30px 0; border-radius: 16px; overflow: hidden; background: rgba(20,15,30,0.6); backdrop-filter: blur(4px); }
+    .specs-table th { background: rgba(145,70,255,0.2); padding: 14px 18px; text-align: left; font-weight: 600; color: #e0d0ff; border-bottom: 1px solid rgba(145,70,255,0.3); }
+    .specs-table td { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .related-links { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
+    .related-link { background: rgba(145,70,255,0.08); border: 1px solid rgba(145,70,255,0.15); border-radius: 40px; padding: 10px 20px; color: var(--text); text-decoration: none; transition: all 0.2s; backdrop-filter: blur(4px); }
+    .related-link:hover { background: rgba(145,70,255,0.2); border-color: var(--accent); transform: translateY(-3px); }
+        .article-featured-image {
+  max-height: 500px;
+  overflow: hidden;
+}
+.article-featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ← заменено с contain */
+}
+
+/* Картинки внутри текста — растягиваются на всю ширину, высота до 400px */
+.article-content figure img {
+  max-height: 400px;
+  width: 100%;
+  object-fit: cover;   /* ← заменено с contain */
+}
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px; /* по желанию, если нужны скругления */
+  margin-right: 12px; /* отступ от текста */
+}
+.brand-sub {
+  white-space: nowrap;   /* не переносить на новую строку */
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;       /* на случай переполнения */
+  gap: 16px;             /* расстояние между брендом, навигацией и кнопками */
+}
+@media (max-width: 720px) {
+  .main-nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: inline-block;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
+  <img src="favicon.png" alt="StreamStarter" class="logo-img" />
+    <div class="brand-text">
+      <div class="brand-title">StreamStarter</div>
+      <div class="brand-sub">Всё для твоего стрима</div>
+    </div>
+  </a>
+</div>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="blog.html">Блог</a>
+        <a href="support.html">Поддержка</a>
+      </nav>
+
+      <div class="actions">
+        <button class="bot-btn">Открыть бота</button>
+        <a class="catalog-btn" href="catalog.html">Каталог</a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="support.html">Поддержка</a>
+      <a href="blog.html">Блог</a>
+    </div>
+  </header>
+
+  <main class="site-main container">
+    <article class="article-full">
+      <nav class="breadcrumbs">
+        <a href="blog.html">Блог</a> / <a href="blog.html?cat=guides">Гайды</a> / <span>Продвижение на Twitch</span>
+      </nav>
+
+      <header class="article-header">
+        <h1>Первые 100 зрителей: стратегия продвижения на Twitch</h1>
+        <div class="article-meta">
+          <span>📅 10 февраля 2025</span>
+          <span>✍️ Маркетолог Олег</span>
+          <span>🏷️ Продвижение</span>
+          <span>⏱️ 9 мин чтения</span>
+        </div>
+      </header>
+
+      <figure class="article-featured-image">
+        <img src="about-promotion-strategy.png" alt="Рост аудитории на Twitch" />
+      </figure>
+
+      <div class="article-content">
+        <p><strong>Начать стримить легко. Сложно — сделать так, чтобы тебя смотрели.</strong> На Twitch миллионы стримеров, и конкуренция огромна. Но не отчаивайтесь: даже с нуля можно набрать первую сотню постоянных зрителей за 1–2 месяца. В этом гайде я поделюсь рабочей стратегией продвижения, которая не требует вложений в рекламу.</p>
+
+        <div style="background: rgba(145,70,255,0.05); border-radius: 20px; padding: 20px 30px; margin: 30px 0; border: 1px solid rgba(145,70,255,0.1);">
+          <h3 style="margin-top: 0;">📑 Содержание</h3>
+          <ul style="columns: 2; margin-bottom: 0;">
+            <li><a href="#prepare">Подготовка канала</a></li>
+            <li><a href="#niche">Выбор ниши и времени</a></li>
+            <li><a href="#networking">Нетворкинг и сообщества</a></li>
+            <li><a href="#clips">Клипы и короткие видео</a></li>
+            <li><a href="#consistency">Регулярность и расписание</a></li>
+            <li><a href="#mistakes">Частые ошибки</a></li>
+          </ul>
+        </div>
+
+        <h2 id="prepare">Шаг 0: Подготовка канала</h2>
+        <div class="step-card">
+          <div class="step-number">0</div>
+          <div class="step-content">
+            <h3>Без этого даже не начинайте</h3>
+            <p>Прежде чем привлекать зрителей, убедитесь, что ваш канал выглядит привлекательно:</p>
+            <ul>
+              <li><strong>Аватар и баннер</strong> — качественные, в едином стиле.</li>
+              <li><strong>О себе (Bio)</strong> — кратко, кто вы, что стримите, почему стоит смотреть.</li>
+              <li><strong>Панели под стримом</strong> — информация о ПК, донаты, расписание.</li>
+              <li><strong>Оверлей и алерты</strong> — минималистичные, не перегружающие экран.</li>
+            </ul>
+          </div>
+        </div>
+
+        <figure>
+          <img src="article-channel-setup.png" alt="Оформление канала Twitch" />
+          <figcaption>Пример оформления: чистый оверлей, панели, информация о стримере</figcaption>
+        </figure>
+
+        <h2 id="niche">Шаг 1: Выберите нишу и время</h2>
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Не стримьте «всё подряд»</h3>
+            <p>Новичку сложно конкурировать в топовых играх. Найдите игру с активным, но не переполненным сообществом (500–2000 зрителей в категории). Используйте сервисы вроде TwitchTracker для анализа.</p>
+            <p><strong>Время стрима тоже важно.</strong> Изучите, когда ваша целевая аудитория активна. Утренние и дневные слоты часто менее конкурентны.</p>
+          </div>
+        </div>
+
+        <h2 id="networking">Шаг 2: Нетворкинг и сообщества</h2>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Станьте частью комьюнити</h3>
+            <p>Самый быстрый способ получить первых зрителей — общение. Заходите на стримы к другим небольшим стримерам в вашей нише, общайтесь в чате, дружите. Не просите «загляни ко мне», просто будьте интересным собеседником.</p>
+            <p>Также участвуйте в Discord-серверах, тематических форумах, группах ВК. Делитесь полезным, помогайте новичкам — вас запомнят.</p>
+          </div>
+        </div>
+
+        <blockquote>
+          <p>🤝 «Нетворкинг — это не про то, чтобы брать. Это про то, чтобы давать. Помогайте другим, и люди потянутся к вам».</p>
+        </blockquote>
+
+        <h2 id="clips">Шаг 3: Клипы и короткие видео</h2>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Twitch не продвигает стримы. Продвигайте их сами.</h3>
+            <p>Во время стрима делайте клипы ярких моментов. Скачивайте их и публикуйте в TikTok, YouTube Shorts, Instagram Reels. В описании указывайте ссылку на Twitch и время следующих стримов. Короткие видео — мощнейший бесплатный источник трафика в 2025 году.</p>
+          </div>
+        </div>
+
+        <table class="specs-table">
+          <thead>
+            <tr><th>Платформа</th><th>Тип контента</th><th>Частота постинга</th><th>Потенциальный охват</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>TikTok</td><td>Клипы до 60 сек, вертикальные</td><td>1–2 в день</td><td>Очень высокий</td></tr>
+            <tr><td>YouTube Shorts</td><td>Клипы до 60 сек</td><td>1 в день</td><td>Высокий</td></tr>
+            <tr><td>Twitter (X)</td><td>Анонсы, клипы, мемы</td><td>2–3 в день</td><td>Средний</td></tr>
+            <tr><td>Discord-сервер</td><td>Анонсы, общение, голосования</td><td>—</td><td>Постоянная аудитория</td></tr>
+          </tbody>
+        </table>
+
+        <div class="tip-box">
+          <h4>🎬 Как сделать клип вирусным?</h4>
+          <p>Выбирайте момент с эмоциональной реакцией (смех, удивление, фейл). Добавляйте субтитры. Используйте трендовую музыку. В конце — призыв к действию: «Подпишись, чтобы не пропустить стримы!»</p>
+        </div>
+
+        <h2 id="consistency">Шаг 4: Регулярность и расписание</h2>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Зрители любят предсказуемость</h3>
+            <p>Определите дни и время стримов и придерживайтесь их. Повесьте расписание на канале. Если пропускаете — предупреждайте в соцсетях. Регулярность вырабатывает привычку у зрителей заходить именно к вам.</p>
+            <p>Начните с 3–4 стримов в неделю по 2–3 часа. Этого достаточно, чтобы наработать базу и не выгореть.</p>
+          </div>
+        </div>
+
+        <h2 id="mistakes">Чего делать НЕ стоит: частые ошибки новичков</h2>
+        <ul>
+          <li><strong>F4F (follow for follow)</strong> — обмен фолловерами. Даёт мёртвую аудиторию, которая никогда не будет смотреть стрим.</li>
+          <li><strong>Стримы по 8 часов каждый день</strong> — ведёт к выгоранию. Качество важнее количества.</li>
+          <li><strong>Молчание в эфире</strong> — даже если зрителей нет, комментируйте свои действия.</li>
+          <li><strong>Игнорирование чата</strong> — всегда приветствуйте новых зрителей, отвечайте на вопросы.</li>
+          <li><strong>Плохой звук</strong> — зрители скорее простят посредственную картинку, чем ужасный звук.</li>
+        </ul>
+
+        <div class="tip-box">
+          <h4>📈 Примерный план на первые 30 дней</h4>
+          <ul style="margin-bottom: 0;">
+            <li><strong>Неделя 1:</strong> Настройка канала, выбор ниши, создание расписания.</li>
+            <li><strong>Неделя 2:</strong> Активный нетворкинг, первые стримы, запись клипов.</li>
+            <li><strong>Неделя 3:</strong> Регулярный постинг клипов в TikTok/Shorts, продолжение нетворкинга.</li>
+            <li><strong>Неделя 4:</strong> Анализ, какие клипы зашли лучше, корректировка контента.</li>
+          </ul>
+        </div>
+
+        <blockquote>
+          <p>🚀 «Успех на Twitch — это марафон, а не спринт. Не ждите тысячи зрителей через неделю. Работайте над качеством, будьте искренни, и аудитория придёт».</p>
+        </blockquote>
+
+        <div style="margin-top: 40px;">
+          <h3>Что почитать дальше?</h3>
+          <div class="related-links">
+            <a href="article.html" class="related-link">🎥 Как настроить OBS для Twitch за 15 минут</a>
+            <a href="article-obs-audio.html" class="related-link">🎤 Идеальный звук: фильтры для микрофона</a>
+            <a href="article-budget-lighting.html" class="related-link">💡 Бюджетный свет: 3 схемы до 3000 ₽</a>
+            <a href="article-streamcam-4k-review.html" class="related-link">📷 Обзор StreamCam 4K</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="article-author-bio">
+        <div>
+          <h3>Маркетолог Олег</h3>
+          <p>5 лет в SMM и продвижении Twitch-каналов. Помог десяткам стримеров вырасти с нуля до партнёров. Ведёт Telegram-канал о стримерском маркетинге.</p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+<footer class="site-footer">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Товары</h4>
+        <ul>
+          <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
+          <li><a href="catalog.html?cat=mice">Мышки</a></li>
+          <li><a href="catalog.html?cat=cameras">Камеры</a></li>
+          <li><a href="catalog.html?cat=light">Свет</a></li>
+          <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
+          <li><a href="catalog.html">Все товары</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <ul>
+          <li><a href="support.html">База знаний</a></li>
+          <li><a href="support.html#faq">Частые вопросы</a></li>
+          <li><a href="blog.html">Гайды</a></li>
+          <!-- Вот эта ссылка теперь ведёт к контактам -->
+          <li><a href="#contacts">Связаться с нами</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="blog.html">Блог</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Партнёрам</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Правовая информация</h4>
+        <ul>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Оферта</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Блок с картой и контактами (добавлен id="contacts") -->
+    <div class="footer-contact-block" id="contacts">
+      <div class="footer-contact-map">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+      </div>
+      <div class="footer-contact-info">
+        <p><strong>Контакты магазина</strong></p>
+        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+        <p>📍 ул. Твардовского, д.2к5, Москва</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle?.addEventListener('click', () => {
+      const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
+      mobileMenu.style.display = isHidden ? 'block' : 'none';
+      mobileMenu.setAttribute('aria-hidden', String(!isHidden));
+    });
+  </script>
+</body>
+</html>

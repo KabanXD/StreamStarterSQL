@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StreamStarter — Блог и гайды для стримеров</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="blog.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    /* Дополнительные стили для пагинации */
+    .blog-grid {
+      transition: opacity 0.2s;
+    }
+    .blog-pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 50px;
+    }
+    .page-btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .page-btn:hover {
+      background: rgba(145, 70, 255, 0.1);
+      border-color: rgba(145, 70, 255, 0.3);
+    }
+    .page-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px; /* по желанию, если нужны скругления */
+  margin-right: 12px; /* отступ от текста */
+}
+.brand-sub {
+  white-space: nowrap;   /* не переносить на новую строку */
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;       /* на случай переполнения */
+  gap: 16px;             /* расстояние между брендом, навигацией и кнопками */
+}
+@media (max-width: 720px) {
+  .main-nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: inline-block;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
+  <img src="favicon.png" alt="StreamStarter" class="logo-img" />
+    <div class="brand-text">
+      <div class="brand-title">StreamStarter</div>
+      <div class="brand-sub">Всё для твоего стрима</div>
+    </div>
+  </a>
+</div>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="blog.html">Блог</a>
+        <a href="support.html">Поддержка</a>
+      </nav>
+
+      <div class="actions">
+        <button class="bot-btn">Открыть бота</button>
+        <a class="catalog-btn" href="catalog.html">Каталог</a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="support.html">Поддержка</a>
+      <a href="blog.html">Блог</a>
+    </div>
+  </header>
+
+  <main class="site-main container">
+    <section class="blog-hero">
+      <h1>Блог StreamStarter</h1>
+      <p class="lead">Гайды, новости и советы по стримингу, оборудованию и продвижению.</p>
+      <div class="blog-search">
+        <input type="search" placeholder="Поиск по статьям..." id="blogSearch" />
+      </div>
+    </section>
+
+    <!-- Категории блога -->
+    <div class="blog-categories">
+      <button class="blog-chip active" data-cat="all">Все</button>
+      <button class="blog-chip" data-cat="guides">Гайды</button>
+      <button class="blog-chip" data-cat="news">Новости</button>
+      <button class="blog-chip" data-cat="reviews">Обзоры</button>
+      <button class="blog-chip" data-cat="tips">Советы</button>
+    </div>
+
+    <!-- Сетка статей -->
+    <section class="blog-grid" id="blogGrid">
+      <!-- Статья 1: Настройка OBS -->
+      <article class="blog-card" data-category="guides">
+        <a href="article.html" class="blog-card-image">
+          <img src="article-obs-setup-thumb.png" alt="Настройка OBS" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Гайды</span>
+          <h3><a href="article.html">Как настроить OBS для Twitch за 15 минут</a></h3>
+          <p>Пошаговая инструкция по установке и базовой настройке OBS Studio для начинающих стримеров.</p>
+          <div class="blog-meta">
+            <span class="blog-date">12 марта 2025</span>
+            <span class="blog-author">Команда StreamStarter</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Статья 2: Идеальный звук -->
+      <article class="blog-card" data-category="guides">
+        <a href="article-obs-audio.html" class="blog-card-image">
+          <img src="article-audio-filters-thumb.png" alt="Фильтры звука" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Гайды</span>
+          <h3><a href="article-obs-audio.html">Идеальный звук: фильтры шумоподавления и компрессор в OBS</a></h3>
+          <p>Как сделать голос чистым, громким и без посторонних шумов с помощью встроенных фильтров.</p>
+          <div class="blog-meta">
+            <span class="blog-date">5 марта 2025</span>
+            <span class="blog-author">Алексей Звукарь</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Статья 3: НОВОСТЬ Twitch (добавлена) -->
+      <article class="blog-card" data-category="news">
+        <a href="article-twitch-update.html" class="blog-card-image">
+          <img src="thumb-twitch-update.png" alt="Обновление Twitch" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Новости</span>
+          <h3><a href="article-twitch-update.html">Twitch повышает качество транскодирования для партнёров</a></h3>
+          <p>Платформа анонсировала улучшенные настройки битрейта и новые возможности для авторов.</p>
+          <div class="blog-meta">
+            <span class="blog-date">1 марта 2025</span>
+            <span class="blog-author">StreamStarter News</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Статья 4: Обзор StreamCam 4K -->
+      <article class="blog-card" data-category="reviews">
+        <a href="article-streamcam-4k-review.html" class="blog-card-image">
+          <img src="thumb-streamcam-4k-review.png" alt="Обзор StreamCam 4K" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Обзоры</span>
+          <h3><a href="article-streamcam-4k-review.html">Обзор StreamCam 4K: стоит ли переплачивать за 4K?</a></h3>
+          <p>Тестируем камеру Beamline StreamCam 4K в реальных условиях стрима.</p>
+          <div class="blog-meta">
+            <span class="blog-date">25 февраля 2025</span>
+            <span class="blog-author">Дмитрий Технарь</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Статья 5: Бюджетный свет -->
+      <article class="blog-card" data-category="tips">
+        <a href="article-budget-lighting.html" class="blog-card-image">
+          <img src="article-budget-lighting-thumb.png" alt="Бюджетный свет" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Советы</span>
+          <h3><a href="article-budget-lighting.html">Бюджетный свет для стрима: 3 схемы до 3000 ₽</a></h3>
+          <p>Как правильно поставить свет, чтобы лицо выглядело профессионально, не потратив состояние.</p>
+          <div class="blog-meta">
+            <span class="blog-date">18 февраля 2025</span>
+            <span class="blog-author">Анна Светлова</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Статья 6: Продвижение (100 зрителей) -->
+      <article class="blog-card" data-category="guides">
+        <a href="article-promotion-100-viewers.html" class="blog-card-image">
+          <img src="about-promotion-strategy.png" alt="Продвижение на Twitch" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Гайды</span>
+          <h3><a href="article-promotion-100-viewers.html">Первые 100 зрителей: стратегия продвижения на Twitch</a></h3>
+          <p>Где и как рассказывать о своём канале, чтобы привлечь аудиторию с нуля.</p>
+          <div class="blog-meta">
+            <span class="blog-date">10 февраля 2025</span>
+            <span class="blog-author">Маркетолог Олег</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Статья 7: USB vs XLR (скрыта, на второй странице) -->
+      <article class="blog-card" data-category="guides" style="display: none;">
+        <a href="article-usb-vs-xlr-microphone.html" class="blog-card-image">
+          <img src="thumb-usb-vs-xlr.png" alt="USB или XLR" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Гайды</span>
+          <h3><a href="article-usb-vs-xlr-microphone.html">Как выбрать микрофон для стрима: USB или XLR?</a></h3>
+          <p>Плюсы и минусы обоих типов, сравнение бюджетов и рекомендации.</p>
+          <div class="blog-meta">
+            <span class="blog-date">3 марта 2025</span>
+            <span class="blog-author">Алексей Звукарь</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Статья 8: StreamElements (скрыта, на второй странице) -->
+      <article class="blog-card" data-category="guides" style="display: none;">
+        <a href="article-streamelements-alerts-setup.html" class="blog-card-image">
+          <img src="thumb-streamelements-alerts.png" alt="StreamElements алерты" loading="lazy" />
+        </a>
+        <div class="blog-card-content">
+          <span class="blog-cat-tag">Гайды</span>
+          <h3><a href="article-streamelements-alerts-setup.html">Настройка уведомлений о донатах и подписчиках через StreamElements</a></h3>
+          <p>Создаём красивые алерты и добавляем их в OBS за 10 минут.</p>
+          <div class="blog-meta">
+            <span class="blog-date">20 марта 2025</span>
+            <span class="blog-author">Команда StreamStarter</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Пагинация -->
+    <div class="blog-pagination" id="pagination">
+      <button class="page-btn active" data-page="1">1</button>
+      <button class="page-btn" data-page="2">2</button>
+      <button class="page-btn" data-page="next">Вперёд →</button>
+    </div>
+  </main>
+
+  <!-- Футер -->
+<footer class="site-footer">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Товары</h4>
+        <ul>
+          <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
+          <li><a href="catalog.html?cat=mice">Мышки</a></li>
+          <li><a href="catalog.html?cat=cameras">Камеры</a></li>
+          <li><a href="catalog.html?cat=light">Свет</a></li>
+          <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
+          <li><a href="catalog.html">Все товары</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <ul>
+          <li><a href="support.html">База знаний</a></li>
+          <li><a href="support.html#faq">Частые вопросы</a></li>
+          <li><a href="blog.html">Гайды</a></li>
+          <!-- Вот эта ссылка теперь ведёт к контактам -->
+          <li><a href="#contacts">Связаться с нами</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="blog.html">Блог</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Партнёрам</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Правовая информация</h4>
+        <ul>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Оферта</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Блок с картой и контактами (добавлен id="contacts") -->
+    <div class="footer-contact-block" id="contacts">
+      <div class="footer-contact-map">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+      </div>
+      <div class="footer-contact-info">
+        <p><strong>Контакты магазина</strong></p>
+        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+        <p>📍 ул. Твардовского, д.2к5, Москва</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    // Фильтрация по категориям
+    const chips = document.querySelectorAll('.blog-chip');
+    const allCards = Array.from(document.querySelectorAll('.blog-card'));
+    
+    // Пагинация
+    const cardsPerPage = 6;
+    let currentPage = 1;
+    let currentCategory = 'all';
+    let filteredCards = allCards.filter(card => card.dataset.category === currentCategory || currentCategory === 'all');
+
+    const grid = document.getElementById('blogGrid');
+    const paginationDiv = document.getElementById('pagination');
+
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
+      paginationDiv.innerHTML = '';
+      
+      if (totalPages <= 1) return;
+
+      // Кнопка "Назад"
+      if (currentPage > 1) {
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'page-btn';
+        prevBtn.dataset.page = 'prev';
+        prevBtn.textContent = '← Назад';
+        paginationDiv.appendChild(prevBtn);
+      }
+
+      // Номера страниц
+      for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+        pageBtn.dataset.page = i;
+        pageBtn.textContent = i;
+        paginationDiv.appendChild(pageBtn);
+      }
+
+      // Кнопка "Вперёд"
+      if (currentPage < totalPages) {
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'page-btn';
+        nextBtn.dataset.page = 'next';
+        nextBtn.textContent = 'Вперёд →';
+        paginationDiv.appendChild(nextBtn);
+      }
+    }
+
+    function showPage(page) {
+      const start = (page - 1) * cardsPerPage;
+      const end = start + cardsPerPage;
+      
+      allCards.forEach(card => card.style.display = 'none');
+      filteredCards.forEach((card, index) => {
+        if (index >= start && index < end) {
+          card.style.display = '';
+        }
+      });
+
+      currentPage = page;
+      updatePagination();
+    }
+
+    function applyFilter(category) {
+      currentCategory = category;
+      filteredCards = allCards.filter(card => category === 'all' || card.dataset.category === category);
+      currentPage = 1;
+      showPage(1);
+    }
+
+    // Обработчики чипсов
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        applyFilter(chip.dataset.cat);
+      });
+    });
+
+    // Обработчик пагинации
+    paginationDiv.addEventListener('click', (e) => {
+      const btn = e.target.closest('.page-btn');
+      if (!btn) return;
+      
+      const page = btn.dataset.page;
+      if (page === 'prev') {
+        if (currentPage > 1) showPage(currentPage - 1);
+      } else if (page === 'next') {
+        const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
+        if (currentPage < totalPages) showPage(currentPage + 1);
+      } else {
+        showPage(parseInt(page));
+      }
+    });
+
+    // Поиск по заголовкам и описаниям
+    document.getElementById('blogSearch')?.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      
+      allCards.forEach(card => {
+        const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+        const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
+        const matches = title.includes(term) || desc.includes(term);
+        
+        // Сохраняем соответствие в data-атрибуте для последующей фильтрации
+        card.dataset.searchMatch = matches ? 'true' : 'false';
+      });
+
+      // Обновляем filteredCards с учётом поиска и категории
+      filteredCards = allCards.filter(card => {
+        const categoryMatch = currentCategory === 'all' || card.dataset.category === currentCategory;
+        const searchMatch = card.dataset.searchMatch === 'true';
+        return categoryMatch && searchMatch;
+      });
+
+      currentPage = 1;
+      showPage(1);
+    });
+
+    // Мобильное меню
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle?.addEventListener('click', () => {
+      const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
+      mobileMenu.style.display = isHidden ? 'block' : 'none';
+      mobileMenu.setAttribute('aria-hidden', String(!isHidden));
+    });
+
+    // Инициализация
+    applyFilter('all');
+  </script>
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StreamStarter — Поддержка и база знаний</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="support.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    .search-highlight {
+      background: rgba(145, 70, 255, 0.3);
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .faq-item.hidden, .guide-card.hidden {
+      display: none;
+    }
+    .no-results-message {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      font-size: 1.2rem;
+    }
+    /* Красивая форма обратной связи */
+/* Центрирование и стилизация карточки контакта */
+.support-contact {
+  margin: 40px 0 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-card {
+  background: linear-gradient(145deg, #0e0a14, #0a0710);
+  border: 1px solid rgba(145,70,255,0.15);
+  border-radius: 30px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  max-width: 700px;
+  width: 100%;
+}
+
+.contact-card h2 {
+  margin-top: 0;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #fff, #d4b5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.contact-card p {
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+
+/* Стили полей формы */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-wrapper input,
+.input-wrapper textarea {
+  width: 100%;
+  padding: 14px 50px 14px 18px;
+  background: rgba(20, 15, 30, 0.7);
+  border: 1px solid rgba(145, 70, 255, 0.3);
+  border-radius: 16px;
+  color: var(--text);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-wrapper input:focus,
+.input-wrapper textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(145, 70, 255, 0.2), 0 8px 20px rgba(145, 70, 255, 0.15);
+  background: rgba(35, 25, 45, 0.8);
+}
+
+.input-wrapper input::placeholder,
+.input-wrapper textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
+.input-wrapper textarea {
+  resize: vertical;
+  min-height: 120px;
+  padding-top: 16px;
+}
+
+.input-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.input-icon-textarea {
+  top: 24px;
+  transform: none;
+}
+
+.input-wrapper:focus-within .input-icon {
+  opacity: 1;
+}
+
+/* Кнопка отправки */
+.support-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto;
+  min-width: 200px;
+}
+
+.support-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(145, 70, 255, 0.3);
+}
+
+.support-submit-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.support-submit-btn:hover svg {
+  transform: translateX(3px) translateY(-3px);
+}
+
+.form-note {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .support-form .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .support-submit-btn {
+    width: 100%;
+  }
+}
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px; /* по желанию, если нужны скругления */
+  margin-right: 12px; /* отступ от текста */
+}
+.brand-sub {
+  white-space: nowrap;   /* не переносить на новую строку */
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;       /* на случай переполнения */
+  gap: 16px;             /* расстояние между брендом, навигацией и кнопками */
+}
+@media (max-width: 720px) {
+  .main-nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: inline-block;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
+  <img src="favicon.png" alt="StreamStarter" class="logo-img" />
+    <div class="brand-text">
+      <div class="brand-title">StreamStarter</div>
+      <div class="brand-sub">Всё для твоего стрима</div>
+    </div>
+  </a>
+</div>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="blog.html">Блог</a>
+        <a href="support.html">Поддержка</a>
+      </nav>
+
+      <div class="actions">
+        <button class="bot-btn">Открыть бота</button>
+        <a class="catalog-btn" href="catalog.html">Каталог</a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="index.html">Главная</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="support.html">Поддержка</a>
+      <a href="blog.html">Блог</a>
+    </div>
+  </header>
+
+  <main class="site-main container">
+    <section class="support-hero">
+      <h1>База знаний стримера</h1>
+      <p class="lead">Всё, что нужно знать для запуска успешного стрима — от выбора железа до первых зрителей.</p>
+      <div class="support-search">
+        <input type="search" placeholder="Найти ответ на вопрос..." id="supportSearch" />
+        <button class="cta primary" id="searchButton">Поиск</button>
+      </div>
+    </section>
+
+    <!-- FAQ (аккордеон) -->
+    <section class="support-faq" id="faq">
+      <h2 class="section-title">Часто задаваемые вопросы</h2>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <button class="faq-question">С чего начать стримить на Twitch или YouTube?</button>
+          <div class="faq-answer">
+            <p>Для начала вам понадобится: компьютер или консоль, программа для трансляции (OBS Studio), аккаунт на платформе. Установите OBS, подключите аккаунт в настройках, создайте сцену с источником (захват игры или окна) и нажмите «Запустить трансляцию». Подробнее — в нашем <a href="article.html">гайде для новичков</a>.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Какой минимальный ПК нужен для стрима?</button>
+          <div class="faq-answer">
+            <p>Для стрима в 1080p 60 FPS рекомендуется процессор Intel Core i5 / AMD Ryzen 5 (6+ ядер), видеокарта NVIDIA GTX 1660 или лучше, 16 ГБ ОЗУ. Для менее требовательных игр можно начать с более скромной конфигурации. Используйте аппаратный кодировщик NVENC или AMD AMF для снижения нагрузки.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Как улучшить качество звука на стриме?</button>
+          <div class="faq-answer">
+            <p>Используйте отдельный микрофон (USB или XLR). В OBS добавьте фильтры: шумоподавление (RNNoise), компрессор, эквалайзер. Располагайте микрофон близко ко рту, используйте поп-фильтр. Избегайте фонового шума. Читайте наш <a href="article-obs-audio.html">гайд по идеальному звуку</a>.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Как настроить уведомления о донатах и подписчиках?</button>
+          <div class="faq-answer">
+            <p>Создайте аккаунт на сервисе Streamlabs или StreamElements. Там вы получите ссылку-виджет, которую нужно добавить в OBS как «Источник браузера». Настройте внешний вид и звуки уведомлений в личном кабинете сервиса. Подробнее — <a href="article-streamelements-alerts-setup.html">в нашем гайде</a>.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Что делать, если стрим тормозит или лагает?</button>
+          <div class="faq-answer">
+            <p>Снизьте битрейт и разрешение трансляции. Включите аппаратное кодирование (NVENC/AMF). Закройте лишние программы. Проверьте скорость интернета (upload) — для 1080p нужно не менее 6-8 Мбит/с.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Популярные гайды (карточки) -->
+    <section class="support-guides">
+      <h2 class="section-title">Популярные инструкции</h2>
+      <div class="guides-grid" id="guidesGrid">
+        <article class="guide-card">
+          <div class="guide-thumb">
+            <img src="article-obs-setup-thumb.png" alt="Настройка OBS" loading="lazy" />
+          </div>
+          <div class="guide-content">
+            <h3>Как настроить OBS для Twitch за 15 минут</h3>
+            <p>Пошаговая инструкция: от установки до первого запуска стрима.</p>
+            <a href="article.html" class="guide-link">Читать →</a>
+          </div>
+        </article>
+        <article class="guide-card">
+          <div class="guide-thumb">
+            <img src="article-audio-filters-thumb.png" alt="Звук на стриме" loading="lazy" />
+          </div>
+          <div class="guide-content">
+            <h3>Идеальный звук: фильтры и настройка микрофона</h3>
+            <p>Как убрать шум, сделать голос чистым и громким.</p>
+            <a href="article-obs-audio.html" class="guide-link">Читать →</a>
+          </div>
+        </article>
+        <article class="guide-card">
+          <div class="guide-thumb">
+            <img src="article-budget-lighting-thumb.png" alt="Свет для стрима" loading="lazy" />
+          </div>
+          <div class="guide-content">
+            <h3>Свет для стрима: бюджетные схемы</h3>
+            <p>Как поставить свет, чтобы лицо выглядело профессионально.</p>
+            <a href="article-budget-lighting.html" class="guide-link">Читать →</a>
+          </div>
+        </article>
+        <article class="guide-card">
+          <div class="guide-thumb">
+            <img src="about-promotion-strategy.png" alt="Продвижение стримера" loading="lazy" />
+          </div>
+          <div class="guide-content">
+            <h3>Первые 100 зрителей: стратегия продвижения</h3>
+            <p>Где и как рассказывать о своём канале, чтобы привлечь аудиторию.</p>
+            <a href="article-promotion-100-viewers.html" class="guide-link">Читать →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Форма обратной связи -->
+<section class="support-contact">
+  <div class="contact-card">
+    <h2>Не нашли ответ?</h2>
+    <p>Напишите нам — мы поможем с настройкой, подбором оборудования или решением технических проблем.</p>
+
+    <form id="supportForm" class="support-form" action="https://api.web3forms.com/submit" method="POST">
+      <!-- Скрытые поля Web3Forms -->
+      <input type="hidden" name="access_key" value="2624f039-2119-4e58-ba13-7c08fbcbc75d">
+      <input type="hidden" name="from_name" value="StreamStarter Support">
+      <input type="hidden" name="subject" value="Новое сообщение с сайта StreamStarter">
+
+      <div class="form-row">
+        <div class="input-wrapper">
+          <input type="text" name="name" placeholder="Ваше имя" required />
+          <span class="input-icon">👤</span>
+        </div>
+        <div class="input-wrapper">
+          <input type="email" name="email" placeholder="Ваш Email" required />
+          <span class="input-icon">✉️</span>
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <textarea name="message" placeholder="Опишите проблему или вопрос..." rows="5" required></textarea>
+        <span class="input-icon input-icon-textarea">💬</span>
+      </div>
+
+      <button type="submit" class="cta primary support-submit-btn">
+        Отправить запрос
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+
+      <p class="form-note">Обычно отвечаем в течение 24 часов.</p>
+    </form>
+  </div>
+</section>
+  </main>
+
+<footer class="site-footer">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Товары</h4>
+        <ul>
+          <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
+          <li><a href="catalog.html?cat=mice">Мышки</a></li>
+          <li><a href="catalog.html?cat=cameras">Камеры</a></li>
+          <li><a href="catalog.html?cat=light">Свет</a></li>
+          <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
+          <li><a href="catalog.html">Все товары</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <ul>
+          <li><a href="support.html">База знаний</a></li>
+          <li><a href="support.html#faq">Частые вопросы</a></li>
+          <li><a href="blog.html">Гайды</a></li>
+          <!-- Вот эта ссылка теперь ведёт к контактам -->
+          <li><a href="#contacts">Связаться с нами</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="blog.html">Блог</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Партнёрам</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Правовая информация</h4>
+        <ul>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Оферта</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Блок с картой и контактами (добавлен id="contacts") -->
+    <div class="footer-contact-block" id="contacts">
+      <div class="footer-contact-map">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+      </div>
+      <div class="footer-contact-info">
+        <p><strong>Контакты магазина</strong></p>
+        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+        <p>📍 ул. Твардовского, д.2к5, Москва</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+  <script>
+  // Аккордеон FAQ
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    });
+  });
+
+  // Мобильное меню
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuToggle?.addEventListener('click', () => {
+    const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
+    mobileMenu.style.display = isHidden ? 'block' : 'none';
+    mobileMenu.setAttribute('aria-hidden', String(!isHidden));
+  });
+
+  // ---------- Поиск по FAQ и гайдам ----------
+  const searchInput = document.getElementById('supportSearch');
+  const searchButton = document.getElementById('searchButton');
+  const faqItems = document.querySelectorAll('.faq-item');
+  const guideCards = document.querySelectorAll('.guide-card');
+  
+  let noResultsMsg = document.createElement('div');
+  noResultsMsg.className = 'no-results-message';
+  noResultsMsg.textContent = 'Ничего не найдено. Попробуйте изменить запрос.';
+  noResultsMsg.style.display = 'none';
+  document.querySelector('.support-faq').appendChild(noResultsMsg);
+
+  function performSearch() {
+    const query = searchInput.value.trim().toLowerCase();
+    let faqFound = false;
+    let guidesFound = false;
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question')?.textContent.toLowerCase() || '';
+      const answer = item.querySelector('.faq-answer')?.textContent.toLowerCase() || '';
+      if (query === '' || question.includes(query) || answer.includes(query)) {
+        item.classList.remove('hidden');
+        faqFound = true;
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+
+    guideCards.forEach(card => {
+      const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+      const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
+      if (query === '' || title.includes(query) || desc.includes(query)) {
+        card.classList.remove('hidden');
+        guidesFound = true;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    if (!faqFound && !guidesFound && query !== '') {
+      noResultsMsg.style.display = 'block';
+    } else {
+      noResultsMsg.style.display = 'none';
+    }
+  }
+
+  searchButton.addEventListener('click', performSearch);
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') performSearch();
+  });
+  searchInput.addEventListener('input', () => {
+    if (searchInput.value === '') performSearch();
+  });
+
+// Форма обратной связи (Web3Forms)
+const supportForm = document.getElementById('supportForm');
+supportForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+
+  // Клиентская проверка
+  const name = formData.get('name')?.trim() || '';
+  const email = formData.get('email')?.trim() || '';
+  const message = formData.get('message')?.trim() || '';
+  if (!name || !email || !message) {
+    alert('Пожалуйста, заполните все поля.');
+    return;
+  }
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: formData
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      alert('Спасибо! Ваше сообщение отправлено. Мы ответим в течение 24 часов.');
+      form.reset();
+    } else {
+      alert('Ошибка: ' + (data.message || 'Попробуйте позже.'));
+    }
+  } catch (err) {
+    alert('Ошибка сети. Проверьте подключение к интернету и попробуйте снова.');
+  }
+});
+</script>
+</body>
+</html>

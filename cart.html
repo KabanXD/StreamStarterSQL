@@ -1,0 +1,1498 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Корзина — StreamStarter</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="cart.css" />
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=1f98a8a3-8193-424c-af05-8aa10768ef38&lang=ru_RU" type="text/javascript"></script>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+  /* ----- Модальное окно и карта ----- */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
+    z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal {
+    background: linear-gradient(145deg, #13101a 0%, #0d0a14 100%);
+    border: 1px solid rgba(145, 70, 255, 0.3); border-radius: 24px; padding: 32px;
+    max-width: 780px; width: 95%; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(145, 70, 255, 0.2);
+    color: #eaeaf6;
+  }
+  .modal h3 {
+    font-size: 1.6rem; margin: 0 0 8px 0; font-weight: 700;
+    background: linear-gradient(135deg, #fff, #d4b5ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .modal .subtitle {
+    color: #9aa0a6; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5;
+  }
+  .modal .form-row { display: flex; gap: 12px; margin-bottom: 16px; }
+  .modal .form-row > div { flex: 1; }
+  .modal label {
+    display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; color: #d0d0e0;
+  }
+  .modal input, .modal select {
+    width: 100%; padding: 12px 16px; border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.04);
+    color: #fff; font-size: 0.95rem; transition: border-color 0.2s;
+  }
+  .modal input:focus {
+    outline: none; border-color: #9146ff; box-shadow: 0 0 0 3px rgba(145, 70, 255, 0.2);
+  }
+  .modal .map-container {
+    border-radius: 16px; overflow: hidden; margin: 16px 0; height: 340px; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .modal .actions { display: flex; gap: 12px; margin-top: 28px; justify-content: flex-end; }
+  .btn-primary {
+    background: linear-gradient(90deg, #7f4cff, #9146ff); color: white;
+    padding: 10px 20px; border-radius: 12px; border: 0; font-weight: 700; cursor: pointer; transition: transform 0.1s;
+  }
+  .btn-primary:hover { transform: scale(1.02); }
+  .btn-ghost {
+    background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #ccc;
+    padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.05); }
+/* ----- Промокод ----- */
+.promo-cancel-btn {
+  color: #ff6b6b;
+  border-color: rgba(255,107,107,0.3);
+  margin-left: 4px;
+}
+.promo-cancel-btn:hover {
+  background: rgba(255,107,107,0.1);
+}
+
+  /* ----- Подсказки адреса ----- */
+  .suggestions-wrap { position: relative; }
+  .suggestions-list {
+    position: absolute; top: 100%; left: 0; right: 0; background: rgba(20,15,30,0.95);
+    backdrop-filter: blur(8px); border: 1px solid rgba(145,70,255,0.2); border-radius: 0 0 12px 12px;
+    max-height: 200px; overflow-y: auto; z-index: 50; list-style: none; padding: 0; margin: 0;
+    display: none;
+  }
+  .suggestions-list.visible { display: block; }
+  .suggestions-list li {
+    padding: 12px 16px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .suggestions-list li:hover { background: rgba(145,70,255,0.15); color: white; }
+
+  /* ----- Определение геолокации ----- */
+  .geo-btn {
+    background: rgba(145,70,255,0.1); border: 1px solid rgba(145,70,255,0.3); color: #e0d0ff;
+    padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 0.9rem;
+    display: inline-flex; align-items: center; gap: 8px; font-weight: 600;
+  }
+  .geo-btn:hover { background: rgba(145,70,255,0.2); }
+
+  /* ----- Отображение адреса в форме ----- */
+  .address-display {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 14px 18px; min-height: 58px; color: #9aa0a6;
+    cursor: pointer; transition: border-color 0.2s, background 0.2s; font-size: 0.95rem;
+  }
+  .address-display.filled { color: #fff; border-color: rgba(145,70,255,0.3); background: rgba(145,70,255,0.04); }
+  .address-display:hover { border-color: rgba(145,70,255,0.5); }
+
+  /* ----- Способы оплаты ----- */
+  .payment-methods { margin-top: 15px; }
+  .payment-methods .radio { display: flex; align-items: center; gap: 10px; padding: 8px 0; cursor: pointer; }
+
+  /* ----- Сводка и сообщения ----- */
+  .summary-note.warning { color: #ffcf9d; }
+  .form-message { padding: 10px; border-radius: 8px; margin-top: 10px; }
+  .form-message.error { background: rgba(255,95,95,0.1); color: #ffb8b8; }
+  .form-message.success { background: rgba(64,208,114,0.1); color: #b9f5c1; }
+
+  /* ----- Сохранённые адреса ----- */
+  .saved-address-item {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px; padding: 10px 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s;
+  }
+  .saved-address-item:hover { border-color: rgba(145,70,255,0.3); background: rgba(145,70,255,0.05); }
+
+  /* Стили для кастомного дропдауна выбора времени */
+.ss-dropdown { position: relative; width: 100%; }
+.ss-dropdown-button {
+  display: flex; align-items: center; justify-content: space-between; width: 100%;
+  padding: 12px 16px; background: rgba(20,15,30,0.8); backdrop-filter: blur(4px);
+  border: 1px solid rgba(145,70,255,0.2); border-radius: 12px; color: var(--text);
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;
+}
+.ss-dropdown-button:hover { border-color: rgba(145,70,255,0.5); background: rgba(30,20,40,0.9); }
+.ss-dropdown-arrow { display: inline-flex; margin-left: 12px; transition: transform 0.3s; }
+.ss-dropdown-arrow svg { width: 16px; height: 16px; fill: var(--muted); }
+.ss-dropdown.open .ss-dropdown-arrow { transform: rotate(180deg); }
+.ss-dropdown-list-container {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; max-height: 0;
+  overflow: hidden; transition: max-height 0.3s; z-index: 50;
+}
+.ss-dropdown.open .ss-dropdown-list-container { max-height: 300px; }
+.ss-dropdown-list-wrapper {
+  padding: 8px; background: rgba(20,15,30,0.95); backdrop-filter: blur(8px);
+  border: 1px solid rgba(145,70,255,0.2); border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+.ss-dropdown-list { list-style: none; margin: 0; padding: 0; }
+.ss-dropdown-item {
+  padding: 12px 16px; border-radius: 8px; color: var(--text); cursor: pointer;
+}
+.ss-dropdown-item:hover { background: rgba(145,70,255,0.15); color: white; }
+.ss-dropdown-item.selected { background: rgba(145,70,255,0.2); font-weight: 600; }
+
+.hidden-select {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+/* Кнопка вызова данных карты */
+.btn-ghost.small {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* Ошибка под полем */
+.field-error {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px; /* по желанию, если нужны скругления */
+  margin-right: 12px; /* отступ от текста */
+}
+.brand-sub {
+  white-space: nowrap;   /* не переносить на новую строку */
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;       /* на случай переполнения */
+  gap: 16px;             /* расстояние между брендом, навигацией и кнопками */
+}
+@media (max-width: 720px) {
+  .main-nav {
+    display: none;
+  }
+  .menu-toggle {
+    display: inline-block;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
+  <img src="favicon.png" alt="StreamStarter" class="logo-img" />
+    <div class="brand-text">
+      <div class="brand-title">StreamStarter</div>
+      <div class="brand-sub">Всё для твоего стрима</div>
+    </div>
+  </a>
+</div>
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="blog.html">Блог</a>
+        <a href="support.html">Поддержка</a>
+      </nav>
+    <div class="actions">
+      <button class="bot-btn">Открыть бота</button>
+      <a class="catalog-btn" href="catalog.html">Каталог</a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <a href="index.html">Главная</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="blog.html">Блог</a>
+    <a href="support.html">Поддержка</a>
+    <div class="mobile-cta">
+      <button class="bot-btn full">Открыть бота</button>
+      <button class="ghost-btn full">Войти</button>
+    </div>
+  </div>
+</header>
+
+<main class="site-main container cart-page" style="padding:36px 16px;">
+  <div class="cart-topbar">
+    <div>
+      <h1 class="section-title">Корзина</h1>
+      <p class="muted cart-lead">Проверьте состав заказа, выберите доставку и оформите покупку.</p>
+    </div>
+    <a href="catalog.html" class="cta ghost cart-back-btn">Вернуться в каталог</a>
+  </div>
+
+  <div id="orderSuccess" class="success-banner panel" hidden>
+    <div class="success-title">Заказ оформлен</div>
+    <div class="success-text" id="successText">Спасибо за заказ.</div>
+    <div class="success-actions">
+      <a href="catalog.html" class="cta primary">Продолжить покупки</a>
+      <button type="button" class="cta ghost" id="closeSuccessBtn">Закрыть</button>
+    </div>
+  </div>
+
+  <div class="cart-grid" id="cartGrid">
+    <section class="cart-items" aria-label="Список товаров в корзине">
+      <div class="cart-header"><div>Товары</div><div class="cart-actions muted">Управление</div></div>
+      <div id="cartList" class="cart-list" role="list"></div>
+      <div class="cart-empty-slate panel" id="emptySuggest" hidden>
+        <h2>Ваша корзина пуста</h2>
+        <p class="muted">Посмотрите наши <a href="catalog.html" class="link-accent">товары</a> и добавьте понравившееся.</p>
+        <a href="catalog.html" class="cta primary" style="display:inline-flex; margin-top:12px;">Перейти в каталог</a>
+      </div>
+    </section>
+
+    <aside class="order-summary" aria-label="Сводка заказа и оформление">
+      <div class="summary-card panel">
+        <h3>Сводка заказа</h3>
+        <div class="summary-row"><div>Товары</div><div id="summaryItems">0</div></div>
+        <div class="summary-row"><div>Доступные</div><div id="summaryAvailable">0</div></div>
+        <div class="summary-row"><div>Недоступные</div><div id="summaryUnavailable">0</div></div>
+<div class="summary-row">
+  <div>Промокод</div>
+  <div class="promo-status" id="promoStatus">Не применён</div>
+</div>
+<div id="promoDetails" style="font-size:0.85rem; color: var(--accent); margin-top: 4px;"></div>
+<div class="promo-box">
+  <input id="promoInput" type="text" placeholder="Промокод" autocomplete="off" />
+  <button type="button" class="icon-btn promo-btn" id="promoApplyBtn">Применить</button>
+  <button type="button" class="icon-btn promo-cancel-btn" id="promoCancelBtn" style="display:none;">✕</button>
+</div>
+        <div class="summary-row"><div>Скидка</div><div class="summary-price" id="summaryDiscount">0 ₽</div></div>
+        <div class="summary-row"><div>Доставка</div><div class="summary-price" id="summaryDelivery">0 ₽</div></div>
+        <div class="summary-row total"><div>Итого</div><div class="price-large" id="summaryTotal">0 ₽</div></div>
+        <div class="summary-note muted" id="summaryNote">Оформление доступно только для товаров в наличии.</div>
+        <button class="cta primary full" id="submitFromSummary" type="submit" form="checkoutForm" disabled>Оформить заказ</button>
+      </div>
+
+      <form class="checkout-form panel" id="checkoutForm" aria-label="Форма оформления заказа">
+        <h3>Данные покупателя</h3>
+        <label for="fio">ФИО *</label>
+        <input id="fio" name="fio" placeholder="Иванов Иван Иванович" required autocomplete="name">
+        <label for="phone">Телефон *</label>
+        <input id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required autocomplete="tel">
+        <label for="email">Email *</label>
+        <input id="email" name="email" type="email" placeholder="email@example.com" required autocomplete="email">
+
+        <h4 style="margin-top:16px">Доставка</h4>
+        <label class="radio"><input type="radio" name="delivery" value="courier"> Доставка курьером — <span id="deliveryPriceLabel">299 ₽</span></label>
+        <label class="radio"><input type="radio" name="delivery" value="pickup" checked> Самовывоз — бесплатно</label>
+
+        <div id="addressBlock" style="margin-top:12px;">
+          <label>Адрес доставки</label>
+          <div class="address-display" id="addressDisplay" title="Нажмите, чтобы указать адрес">Нажмите, чтобы указать адрес</div>
+          <input type="hidden" name="addressFull" id="addressFull" />
+          <input type="hidden" name="addressComponents" id="addressComponents" />
+        </div>
+        <div id="pickupInfo" style="margin-top:12px; display:none;" class="muted">
+          📍 Адрес магазина: ул. Стримерская, д.10,<br>ежедневно с 10:00 до 22:00.
+        </div>
+
+        <h4 style="margin-top:16px">Выберите способ оплаты</h4>
+        <div class="payment-methods" id="paymentMethods"></div>
+
+<button type="button" id="openCardModalBtn" class="btn-ghost" style="display: none; margin-top: 1px; padding: 12px 24px; font-size: 1rem; width: 100%; border: 2px solid rgba(145, 70, 255, 0.4);">💳 Ввести данные карты</button>
+        <div class="form-actions" style="margin-top:20px">
+          <button type="submit" class="cta primary full" id="submitOrderBtn">Подтвердить и оплатить</button>
+          <button type="button" class="cta ghost full" id="clearCartBtn">Очистить корзину</button>
+        </div>
+        <div class="muted note" style="margin-top:10px;font-size:13px">Нажимая «Подтвердить», вы принимаете условия доставки и возврата.</div>
+        <div class="form-message" id="formMessage" role="status" aria-live="polite" hidden></div>
+      </form>
+    </aside>
+  </div>
+</main>
+
+<!-- Модальное окно адреса -->
+<div class="modal-overlay" id="addressModal">
+  <div class="modal">
+    <h3>📍 Адрес доставки</h3>
+    <div class="subtitle">
+      Доставка курьером по Москве (в пределах МКАД) — <strong>299 ₽</strong>.<br>
+      Бесплатно при сумме заказа от <strong>10 000 ₽</strong>.
+    </div>
+    <div id="savedAddresses" style="margin-bottom: 16px;"></div>
+    <div class="suggestions-wrap">
+      <label>Адрес (улица, дом) *</label>
+      <input id="addressInput" placeholder="Начните вводить адрес..." autocomplete="off" />
+      <ul id="suggestionsList" class="suggestions-list"></ul>
+    </div>
+    <div class="map-container" id="yandexMap"></div>
+    <button type="button" class="geo-btn" id="detectLocationBtn">📍 Определить моё местоположение</button>
+    <div class="form-row">
+      <div><label>Квартира</label><input id="modalFlat" placeholder="42" /></div>
+      <div><label>Этаж</label><input id="modalFloor" placeholder="3" /></div>
+    </div>
+    <div><label>Домофон (код)</label><input id="modalIntercom" placeholder="12В345" /></div>
+    <div class="form-row">
+      <div><label>Дата доставки *</label><input type="date" id="modalDate" /></div>
+      <div>
+        <label>Время (выберите слот) *</label>
+        <!-- Кастомный дропдаун вместо нативного select -->
+        <div class="ss-dropdown" id="timeDropdown">
+          <button type="button" class="ss-dropdown-button">
+            <span class="ss-dropdown-title">Выберите временной слот</span>
+            <span class="ss-dropdown-arrow">
+              <svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
+            </span>
+          </button>
+          <div class="ss-dropdown-list-container">
+            <div class="ss-dropdown-list-wrapper">
+              <ul class="ss-dropdown-list">
+                <li class="ss-dropdown-item" data-value="10:00–12:00">10:00–12:00</li>
+                <li class="ss-dropdown-item" data-value="12:00–14:00">12:00–14:00</li>
+                <li class="ss-dropdown-item" data-value="14:00–16:00">14:00–16:00</li>
+                <li class="ss-dropdown-item" data-value="16:00–18:00">16:00–18:00</li>
+                <li class="ss-dropdown-item" data-value="18:00–20:00">18:00–20:00</li>
+                <li class="ss-dropdown-item" data-value="20:00–22:00">20:00–22:00</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <select id="modalTimeSlot" class="hidden-select">
+          <option value="">Выберите временной слот *</option>
+          <option value="10:00–12:00">10:00–12:00</option>
+          <option value="12:00–14:00">12:00–14:00</option>
+          <option value="14:00–16:00">14:00–16:00</option>
+          <option value="16:00–18:00">16:00–18:00</option>
+          <option value="18:00–20:00">18:00–20:00</option>
+          <option value="20:00–22:00">20:00–22:00</option>
+        </select>
+      </div>
+    </div>
+    <div><label>Комментарий к доставке</label><input id="modalComment" placeholder="Например: не звонить в дверь, оставить у двери" /></div>
+    <div class="actions">
+      <button type="button" class="btn-ghost" id="cancelAddressBtn">Отмена</button>
+      <button type="button" class="btn-primary" id="saveAddressBtn">Сохранить адрес</button>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно СБП -->
+<div class="modal-overlay" id="sbpModal">
+  <div class="modal" style="max-width:400px; text-align:center">
+    <h3>💳 Оплата через СБП</h3>
+    <p style="margin:20px 0">Вы будете перенаправлены в приложение банка</p>
+    <button class="btn-primary" onclick="document.getElementById('sbpModal').classList.remove('open')">Понятно</button>
+  </div>
+</div>
+
+<!-- Модальное окно банковской карты -->
+<div class="modal-overlay" id="cardModal">
+  <div class="modal" style="max-width:400px">
+    <h3>💳 Введите данные карты</h3>
+    <form id="cardForm">
+      <label>Номер карты</label>
+      <input id="cardNumber" placeholder="0000 0000 0000 0000" required>
+      <div id="cardTypeIndicator" style="font-size: 14px; color: #ccc; margin-top: 4px;"></div>
+      <div class="form-row">
+        <div><label>Срок</label><input id="cardExpiry" placeholder="ММ/ГГ" required></div>
+        <div><label>CVC</label><input id="cardCvc" placeholder="123" required></div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn-ghost" id="closeCardModal">Отмена</button>
+        <button type="submit" class="btn-primary">Оплатить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Товары</h4>
+        <ul>
+          <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
+          <li><a href="catalog.html?cat=mice">Мышки</a></li>
+          <li><a href="catalog.html?cat=cameras">Камеры</a></li>
+          <li><a href="catalog.html?cat=light">Свет</a></li>
+          <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
+          <li><a href="catalog.html">Все товары</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Поддержка</h4>
+        <ul>
+          <li><a href="support.html">База знаний</a></li>
+          <li><a href="support.html#faq">Частые вопросы</a></li>
+          <li><a href="blog.html">Гайды</a></li>
+          <li><a href="#">Связаться с нами</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="blog.html">Блог</a></li>
+          <li><a href="#">Вакансии</a></li>
+          <li><a href="#">Партнёрам</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Правовая информация</h4>
+        <ul>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Пользовательское соглашение</a></li>
+          <li><a href="#">Оферта</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Новый блок с картой и контактами -->
+    <div class="footer-contact-block">
+      <div class="footer-contact-map">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+      </div>
+      <div class="footer-contact-info">
+        <p><strong>Контакты магазина</strong></p>
+        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+        <p>📍 ул. Стримерская, д.10, Москва</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const STORAGE = {
+      cart: 'cart',
+      orders: 'ss_orders',
+      lastOrder: 'ss_last_order'
+    };
+
+    let PRODUCTS = [];
+    let state = {
+      cart: [],
+      promoCode: '',
+      delivery: 'pickup',
+      payment: 'sbp'
+    };
+
+    // Промокоды
+const PROMOCODES = [
+  { code: 'START5', discount: 0.05, minSubtotal: 5000, expires: '2025-12-31', type: 'percent', description: 'Скидка 5% при заказе от 5 000 ₽' },
+  { code: 'START10', discount: 0.10, minSubtotal: 5000, expires: '2026-06-01', type: 'percent', description: 'Скидка 10% при заказе от 5 000 ₽' },
+  { code: 'NEW500', discount: 500, minSubtotal: 7000, expires: '2026-06-01', type: 'fixed', description: 'Скидка 500 ₽ при заказе от 7 000 ₽' },
+  { code: 'VIP3000', discount: 3000, minSubtotal: 15000, expires: '2026-12-31', type: 'fixed', repeatOrderOnly: true, description: 'Скидка 3 000 ₽ при заказе от 15 000 ₽ (для постоянных клиентов)' }
+];
+
+    // ========== DOM‑элементы ==========
+    const cartList = document.getElementById('cartList');
+    const emptySuggest = document.getElementById('emptySuggest');
+    const cartGrid = document.getElementById('cartGrid');
+    const summaryItems = document.getElementById('summaryItems');
+    const summaryAvailable = document.getElementById('summaryAvailable');
+    const summaryUnavailable = document.getElementById('summaryUnavailable');
+    const summaryDiscount = document.getElementById('summaryDiscount');
+    const summaryDelivery = document.getElementById('summaryDelivery');
+    const summaryTotal = document.getElementById('summaryTotal');
+    const summaryNote = document.getElementById('summaryNote');
+    const promoInput = document.getElementById('promoInput');
+    const promoApplyBtn = document.getElementById('promoApplyBtn');
+    const promoStatus = document.getElementById('promoStatus');
+    const promoCancelBtn = document.getElementById('promoCancelBtn');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const submitOrderBtn = document.getElementById('submitOrderBtn');
+    const submitFromSummary = document.getElementById('submitFromSummary');
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    const formMessage = document.getElementById('formMessage');
+    const orderSuccess = document.getElementById('orderSuccess');
+    const successText = document.getElementById('successText');
+    const closeSuccessBtn = document.getElementById('closeSuccessBtn');
+
+    // Адресные элементы
+    const addressBlock = document.getElementById('addressBlock');
+    const pickupInfo = document.getElementById('pickupInfo');
+    const addressDisplay = document.getElementById('addressDisplay');
+    const addressFull = document.getElementById('addressFull');
+    const addressComponents = document.getElementById('addressComponents');
+    const addressModal = document.getElementById('addressModal');
+    const modalStreet = document.getElementById('addressInput');
+    const modalFlat = document.getElementById('modalFlat');
+    const modalFloor = document.getElementById('modalFloor');
+    const modalIntercom = document.getElementById('modalIntercom');
+    const modalDate = document.getElementById('modalDate');
+    const modalTime = document.getElementById('modalTimeSlot');
+    const modalComment = document.getElementById('modalComment');
+    const deliveryPriceLabel = document.getElementById('deliveryPriceLabel');
+    const paymentMethods = document.getElementById('paymentMethods');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
+    const savedAddressesDiv = document.getElementById('savedAddresses');
+
+    // Модальные окна оплаты
+    const sbpModal = document.getElementById('sbpModal');
+    const cardModal = document.getElementById('cardModal');
+    const cardForm = document.getElementById('cardForm');
+    const cardNumber = document.getElementById('cardNumber');
+    const cardExpiry = document.getElementById('cardExpiry');
+    const cardCvc = document.getElementById('cardCvc');
+    const closeCardModal = document.getElementById('closeCardModal');
+
+    // ========== Вспомогательные функции ==========
+    function escapeHtml(s) { if (s == null) return ''; return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c])); }
+    function escapeAttr(s) { return escapeHtml(s).replace(/"/g, '&quot;'); }
+    function formatPrice(value) { return `${Math.round(Number(value) || 0).toLocaleString('ru-RU')} ₽`; }
+    function parseQty(value) { const n = Number(value); return (!Number.isFinite(n) || n < 1) ? 1 : Math.max(1, Math.floor(n)); }
+
+ // Функция для показа ошибки под полем
+  function showFieldError(element, message) {
+    if (!element) return;
+    element.style.borderColor = '#ff6b6b';
+    const existing = element.parentNode.querySelector('.field-error');
+    if (existing) existing.remove();
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error';
+    errorDiv.textContent = message;
+    errorDiv.style.color = '#ff6b6b';
+    errorDiv.style.fontSize = '13px';
+    errorDiv.style.marginTop = '4px';
+    element.parentNode.appendChild(errorDiv);
+    setTimeout(() => {
+      element.style.borderColor = '';
+      if (errorDiv.parentNode) errorDiv.parentNode.removeChild(errorDiv);
+    }, 5000);
+  }
+
+  // Маска номера карты
+  function maskCardNumber(input) {
+    let val = input.value.replace(/\D/g, '');
+    if (val.length > 16) val = val.slice(0, 16);
+    const parts = val.match(/.{1,4}/g) || [];
+    input.value = parts.join(' ');
+  }
+
+  // Определение типа карты
+  function detectCardType(number) {
+    const clean = number.replace(/\s/g, '');
+    if (/^4/.test(clean)) return 'visa';
+    if (/^5[1-5]/.test(clean)) return 'mastercard';
+    if (/^220[0-4]/.test(clean)) return 'mir';
+    if (/^62/.test(clean)) return 'unionpay';
+    return '';
+  }
+
+  // Обновление индикатора типа карты
+  function updateCardTypeIndicator() {
+    const type = detectCardType(cardNumber.value);
+    const indicator = document.getElementById('cardTypeIndicator');
+    if (indicator) {
+      const icons = {
+        visa: '💳 Visa',
+        mastercard: '💳 Mastercard',
+        mir: '💳 МИР',
+        unionpay: '💳 UnionPay'
+      };
+      indicator.textContent = icons[type] || '';
+    }
+  }
+
+  // Обработчики полей карты
+  cardNumber.addEventListener('input', function(e) {
+    maskCardNumber(e.target);
+    updateCardTypeIndicator();
+  });
+
+  cardExpiry.addEventListener('input', function(e) {
+    let val = e.target.value.replace(/\D/g, '');
+    if (val.length > 4) val = val.slice(0, 4);
+    if (val.length >= 2) val = val.slice(0, 2) + '/' + val.slice(2);
+    e.target.value = val;
+  });
+
+  cardCvc.addEventListener('input', function(e) {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+  });
+
+// Элементы (убедитесь, что объявлены)
+const openCardModalBtn = document.getElementById('openCardModalBtn');
+
+// Показываем кнопку, только когда выбрана оплата картой
+function updateOpenCardButtonVisibility() {
+  if (openCardModalBtn) {
+    openCardModalBtn.style.display = state.payment === 'card' ? 'inline-block' : 'none';
+  }
+}
+
+// Вызывайте эту функцию в renderPaymentMethods() и при инициализации
+function renderPaymentMethods() {
+  paymentMethods.innerHTML = `
+    <label class="radio"><input type="radio" name="pay" value="sbp" ${state.payment === 'sbp' ? 'checked' : ''}> СБП (перевод по номеру телефона)</label>
+    <label class="radio"><input type="radio" name="pay" value="card" ${state.payment === 'card' ? 'checked' : ''}> Банковская карта (онлайн)</label>
+    <label class="radio"><input type="radio" name="pay" value="cash" ${state.payment === 'cash' ? 'checked' : ''}> Наличными при получении</label>
+  `;
+
+  document.querySelectorAll('input[name="pay"]').forEach(input => {
+    input.addEventListener('change', () => {
+      state.payment = input.value;
+      updateOpenCardButtonVisibility();
+      render(); // если нужно пересчитать корзину
+    });
+  });
+
+  updateOpenCardButtonVisibility(); // синхронизируем при рендере
+}
+
+// Открытие модального окна
+openCardModalBtn.addEventListener('click', () => {
+  cardModal.classList.add('open');
+  // сброс полей и ошибок
+  cardNumber.value = '';
+  cardExpiry.value = '';
+  cardCvc.value = '';
+  document.getElementById('cardTypeIndicator').textContent = '';
+  [cardNumber, cardExpiry, cardCvc].forEach(el => {
+    el.style.borderColor = '';
+    const err = el.parentNode.querySelector('.field-error');
+    if (err) err.remove();
+  });
+});
+
+if (state.payment === 'card') {
+  const number = (cardNumber?.value || '').replace(/\s/g, '');
+  const expiry = cardExpiry?.value || '';
+  const cvc = cardCvc?.value || '';
+  if (!number || !expiry || !cvc) {
+    setMessage('Сначала введите данные банковской карты', 'error');
+    return;
+  }
+  // простая проверка длины номера
+  if (number.length < 13 || number.length > 19) {
+    setMessage('Номер карты должен содержать от 13 до 19 цифр', 'error');
+    return;
+  }
+  // проверка срока (ММ/ГГ)
+  const expiryParts = expiry.split('/');
+  if (expiryParts.length !== 2 || expiryParts[0].length !== 2 || expiryParts[1].length !== 2) {
+    setMessage('Введите срок карты в формате ММ/ГГ', 'error');
+    return;
+  }
+  // проверка CVC
+  if (cvc.length < 3 || cvc.length > 4) {
+    setMessage('CVC должен содержать 3 или 4 цифры', 'error');
+    return;
+  }
+}
+
+    function normalizeProduct(p) {
+      return {
+        ...p, id: Number(p.id), price: Number(p.price) || 0, available: p.available !== false,
+        stock: p.stock == null ? null : Number(p.stock), name: p.name || 'Товар',
+        brand: p.brand || '', category: p.category || '', desc: p.desc || p.description || '',
+        thumb: p.thumb || p.image || (Array.isArray(p.images) ? p.images[0] : '') || 'placeholder.png'
+      };
+    }
+
+    function isAvailable(product) {
+      if (!product) return false;
+      if (product.available === false) return false;
+      if (product.stock !== null && Number(product.stock) <= 0) return false;
+      return true;
+    }
+
+    function readCart() {
+      try { return JSON.parse(localStorage.getItem(STORAGE.cart) || '[]').filter(i => i && i.id != null).map(i => ({ id: Number(i.id), qty: parseQty(i.qty) })); } catch (e) { return []; }
+    }
+    function saveCart(cart) {
+      const safe = Array.isArray(cart) ? cart.filter(i => i && i.id != null).map(i => ({ id: Number(i.id), qty: parseQty(i.qty) })) : [];
+      localStorage.setItem(STORAGE.cart, JSON.stringify(safe)); state.cart = safe;
+      try { localStorage.setItem('__last_cart_update__', String(Date.now())); } catch (e) {}
+      window.dispatchEvent(new Event('cart-updated')); render();
+    }
+
+    // ========== Загрузка товаров ==========
+    async function loadProductsFromApi() { try { const r = await fetch('/api/products', { cache: 'no-store' }); if (!r.ok) return null; const data = await r.json(); return Array.isArray(data) ? data.map(normalizeProduct) : null; } catch (e) { return null; } }
+    async function loadProductsFromJson() { try { const r = await fetch('products.json', { cache: 'no-store' }); if (!r.ok) return null; const data = await r.json(); return Array.isArray(data) ? data.map(normalizeProduct) : null; } catch (e) { return null; } }
+    function loadCustomProducts() { try { return JSON.parse(localStorage.getItem('custom_products') || '[]').map(normalizeProduct); } catch (e) { return []; } }
+    function mergeProducts(base) { const map = new Map(); (base || []).forEach(p => map.set(Number(p.id), p)); loadCustomProducts().forEach(p => map.set(Number(p.id), p)); return Array.from(map.values()); }
+    async function loadProductsOnce() {
+      if (Array.isArray(window.PRODUCTS) && window.PRODUCTS.length) { PRODUCTS = mergeProducts(window.PRODUCTS); window.PRODUCTS = PRODUCTS; return PRODUCTS; }
+      const api = await loadProductsFromApi(); if (api) { PRODUCTS = mergeProducts(api); window.PRODUCTS = PRODUCTS; return PRODUCTS; }
+      const json = await loadProductsFromJson(); if (json) { PRODUCTS = mergeProducts(json); window.PRODUCTS = PRODUCTS; return PRODUCTS; }
+      PRODUCTS = mergeProducts([ {"id":201,"name":"RK-Compact Pro","price":7490,"category":"keyboards","brand":"ProGamer","thumb":"prod-keyboard-01.png","available":true}, {"id":213,"name":"BeatStudio 7","price":10990,"category":"headphones","brand":"ProGamer","thumb":"prod-headphones-01.png","available":false}, {"id":205,"name":"StreamCam 4K","price":29990,"category":"cameras","brand":"Beamline","thumb":"prod-camera-01.png","available":true} ]);
+      window.PRODUCTS = PRODUCTS; return PRODUCTS;
+    }
+    function getProductById(id) { return (Array.isArray(window.PRODUCTS) ? window.PRODUCTS : PRODUCTS).find(p => Number(p.id) === Number(id)) || null; }
+
+    // ========== Расчёт корзины ==========
+    function getCartLines() {
+      return state.cart.map(item => {
+        const product = getProductById(item.id);
+        const qty = parseQty(item.qty);
+        const available = isAvailable(product);
+        const price = available ? (Number(product?.price) || 0) : 0;
+        return { id: Number(item.id), qty, product, available, price, lineTotal: price * qty };
+      });
+    }
+
+function getDeliveryCost() {
+  if (state.delivery === 'pickup') return 0;
+  const lines = getCartLines();
+  const availableSubtotal = lines.filter(l => l.available).reduce((sum, l) => sum + l.lineTotal, 0);
+  // Учитываем действующую скидку промокода
+  const promoCode = String(state.promoCode || '').trim().toUpperCase();
+  let discount = 0;
+  if (promoCode) {
+    const validation = validatePromoCode(promoCode, availableSubtotal);
+    if (validation.valid) {
+      discount = validation.discount;
+    }
+  }
+  const finalSubtotal = availableSubtotal - discount;
+  return finalSubtotal >= 10000 ? 0 : 299;
+}
+
+function validatePromoCode(code, subtotal) {
+  const found = PROMOCODES.find(p => p.code === code);
+  if (!found) return { valid: false, discount: 0, message: 'Промокод не найден' };
+
+  // Проверка срока
+  const now = new Date();
+  const expiry = new Date(found.expires);
+  if (now > expiry) return { valid: false, discount: 0, message: 'Промокод истёк' };
+
+  // Проверка минимальной суммы
+  if (subtotal < found.minSubtotal) {
+    return { valid: false, discount: 0, message: `Минимальная сумма заказа: ${found.minSubtotal.toLocaleString()} ₽` };
+  }
+
+  // Проверка на первый заказ
+  if (found.firstOrderOnly) {
+    const orders = JSON.parse(localStorage.getItem('ss_orders') || '[]');
+    if (orders.length > 0) {
+      return { valid: false, discount: 0, message: 'Промокод доступен только для первого заказа' };
+    }
+  }
+
+  // Проверка на повторные заказы
+  if (found.repeatOrderOnly) {
+    const orders = JSON.parse(localStorage.getItem('ss_orders') || '[]');
+    if (orders.length === 0) {
+      return { valid: false, discount: 0, message: 'Промокод доступен только при повторном заказе' };
+    }
+  }
+
+  // Расчёт скидки
+  let discount = 0;
+  if (found.type === 'percent') {
+    discount = subtotal * found.discount;
+  } else if (found.type === 'fixed') {
+    discount = found.discount;
+    if (discount > subtotal) discount = subtotal;
+  }
+
+  return { valid: true, discount, message: found.description || 'Промокод применён' };
+}
+
+  function getPromoDiscount(subtotal) {
+   const code = String(state.promoCode || '').trim().toUpperCase();
+    if (!code) return 0;
+   const result = validatePromoCode(code, subtotal);
+   if (!result.valid) return 0;
+   return result.discount;
+  }
+
+  function getPromoLabel() {
+   const code = String(state.promoCode || '').trim().toUpperCase();
+    if (!code) return { text: 'Не применён', details: '' };
+    const subtotal = getTotals().availableSubtotal;
+    const result = validatePromoCode(code, subtotal);
+    if (result.valid) {
+      const promo = PROMOCODES.find(p => p.code === code);
+      const name = promo ? promo.code : code;
+      const desc = result.message || '';
+      return { text: `${name} · -${formatPrice(result.discount)}`, details: desc, active: true };
+    }
+    return { text: `${code} · ${result.message}`, details: '', active: false };
+  }
+
+    function getTotals() {
+      const lines = getCartLines();
+      const itemsCount = lines.reduce((s, l) => s + l.qty, 0);
+      const availableCount = lines.filter(l => l.available).reduce((s, l) => s + l.qty, 0);
+      const unavailableCount = lines.filter(l => !l.available).reduce((s, l) => s + l.qty, 0);
+      const availableSubtotal = lines.filter(l => l.available).reduce((s, l) => s + l.lineTotal, 0);
+      const discount = getPromoDiscount(availableSubtotal);
+      const delivery = getDeliveryCost();
+      const total = Math.max(0, availableSubtotal - discount + delivery);
+      return { lines, itemsCount, availableCount, unavailableCount, availableSubtotal, discount, delivery, total };
+    }
+
+    // ========== Рендер корзины ==========
+    function renderCartItems() {
+      const totals = getTotals();
+      cartList.innerHTML = '';
+      if (!state.cart.length) { emptySuggest.hidden = false; cartGrid.classList.add('cart-grid-empty'); return; }
+      emptySuggest.hidden = true; cartGrid.classList.remove('cart-grid-empty');
+
+      totals.lines.forEach(line => {
+        const p = line.product || {};
+        const unavailable = !line.available;
+        const title = p.name || 'Товар';
+        const thumb = p.thumb || 'placeholder.png';
+        const article = document.createElement('article');
+        article.className = `cart-item${unavailable ? ' unavailable' : ''}`;
+        article.dataset.id = line.id;
+        article.innerHTML = `
+          <a href="product.html?id=${encodeURIComponent(line.id)}" class="cart-thumb">
+            <img src="${escapeAttr(thumb)}" alt="${escapeAttr(title)}" loading="lazy" onerror="this.src='placeholder.png'"/>
+          </a>
+          <div class="cart-meta">
+            <a href="product.html?id=${encodeURIComponent(line.id)}" class="cart-title">${escapeHtml(title)}</a>
+            <div class="muted cart-sub">${escapeHtml(p.brand || '')} · ${escapeHtml(p.category || '')}</div>
+            <div class="cart-desc muted">${escapeHtml(p.desc || '')}</div>
+            <div class="cart-controls">
+              <div class="qty">
+                <button class="icon-btn qty-btn dec-btn" data-id="${line.id}" ${unavailable ? 'disabled' : ''}>−</button>
+                <input class="qty-input" data-id="${line.id}" type="number" min="1" value="${line.qty}" ${unavailable ? 'disabled' : ''}>
+                <button class="icon-btn qty-btn inc-btn" data-id="${line.id}" ${unavailable ? 'disabled' : ''}>＋</button>
+              </div>
+              <div class="price ${unavailable ? 'muted' : ''}">${unavailable ? 'Нет в наличии' : formatPrice(line.lineTotal)}</div>
+            </div>
+          </div>
+          <div class="cart-item-actions"><button type="button" class="icon-btn small remove-btn" data-id="${line.id}">Удалить</button></div>
+        `;
+        cartList.appendChild(article);
+      });
+
+      summaryItems.textContent = totals.itemsCount;
+      summaryAvailable.textContent = totals.availableCount;
+      summaryUnavailable.textContent = totals.unavailableCount;
+      summaryDiscount.textContent = totals.discount > 0 ? `− ${formatPrice(totals.discount)}` : formatPrice(0);
+      summaryDelivery.textContent = formatPrice(totals.delivery);
+      summaryTotal.textContent = formatPrice(totals.total);
+      const promoInfo = getPromoLabel();
+        promoStatus.textContent = promoInfo.text;
+        document.getElementById('promoDetails').textContent = promoInfo.details || '';
+        promoCancelBtn.style.display = state.promoCode ? 'inline-block' : 'none';
+      const canCheckout = totals.availableCount > 0 && totals.unavailableCount === 0;
+      submitOrderBtn.disabled = !canCheckout;
+      submitFromSummary.disabled = !canCheckout;
+    }
+
+    function render() { state.cart = readCart(); renderCartItems(); }
+
+    // ========== АДРЕС И КАРТА ==========
+function openAddressModal() { 
+  addressModal.classList.add('open'); 
+  if (window.yandexMap) window.yandexMap.container.fitToViewport();
+  // Запрещаем выбор сегодняшней и прошлых дат
+  const today = new Date();
+  today.setDate(today.getDate() + 1); // завтрашний день
+  const minDate = today.toISOString().split('T')[0];
+  modalDate.min = minDate;
+  // Если текущее значение меньше минимального — сбрасываем
+  if (modalDate.value && modalDate.value < minDate) {
+    modalDate.value = '';
+  }
+}
+    function closeAddressModal() { addressModal.classList.remove('open'); }
+    function updateAddressDisplay() {
+      if (addressFull.value) { addressDisplay.textContent = addressFull.value; addressDisplay.classList.add('filled'); }
+      else { addressDisplay.textContent = 'Нажмите, чтобы указать адрес'; addressDisplay.classList.remove('filled'); }
+    }
+
+    function saveAddressToStorage(fullAddress, components) {
+      const saved = JSON.parse(localStorage.getItem('saved_addresses') || '[]');
+      saved.unshift({ full: fullAddress, components, date: new Date().toISOString() });
+      if (saved.length > 5) saved.pop();
+      localStorage.setItem('saved_addresses', JSON.stringify(saved));
+    }
+
+    function renderSavedAddresses() {
+      const saved = JSON.parse(localStorage.getItem('saved_addresses') || '[]');
+      if (!saved.length) { savedAddressesDiv.innerHTML = ''; return; }
+      savedAddressesDiv.innerHTML = '<label style="margin-bottom:8px;">Сохранённые адреса</label>' + saved.map((addr, idx) => `
+        <div class="saved-address-item" data-idx="${idx}">${escapeHtml(addr.full)}</div>
+      `).join('');
+      document.querySelectorAll('.saved-address-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const idx = parseInt(item.dataset.idx);
+          const addr = saved[idx];
+          if (addr) {
+            const components = addr.components || {};
+              modalStreet.value = components.street || '';
+              modalFlat.value = components.flat || '';
+              modalFloor.value = components.floor || '';
+              modalIntercom.value = components.intercom || '';
+              modalDate.value = components.date || '';
+              modalTime.value = components.time || '';
+              modalComment.value = components.comment || '';
+              addressComponents.value = JSON.stringify(components);
+             if (components.street && window.yandexMap) {
+              ymaps.geocode(components.street, { results: 1 }).then(res => {
+                const first = res.geoObjects.get(0);
+                if (first) {
+                  const coords = first.geometry.getCoordinates();
+                  window.yandexMap.setCenter(coords, 15);
+                  window.placemark.geometry.setCoordinates(coords);
+                }
+              });
+            }
+          }
+        });
+      });
+    }
+
+    function fillAddressComponents() {
+      const fields = {
+        street: modalStreet.value.trim(),
+        flat: modalFlat.value.trim(),
+        floor: modalFloor.value.trim(),
+        intercom: modalIntercom.value.trim(),
+        date: modalDate.value,
+        time: modalTime.value,
+        comment: modalComment.value.trim()
+      };
+      addressComponents.value = JSON.stringify(fields);
+      const parts = [];
+      if (fields.street) parts.push(fields.street);
+      if (fields.flat) parts.push(`кв. ${fields.flat}`);
+      if (fields.floor) parts.push(`${fields.floor} этаж`);
+      if (fields.intercom) parts.push(`Домофон: ${fields.intercom}`);
+      const dateTime = [fields.date, fields.time].filter(Boolean).join(', ');
+      const full = `${parts.join(', ')}${dateTime ? `\nДоставка: ${dateTime}` : ''}${fields.comment ? `\nКомментарий: ${fields.comment}` : ''}`;
+      addressFull.value = full;
+      updateAddressDisplay();
+      saveAddressToStorage(full, fields);
+      closeAddressModal();
+      renderSavedAddresses();
+    }
+
+    // Инициализация карты
+    if (typeof ymaps !== 'undefined') {
+      ymaps.ready(function () {
+        window.yandexMap = new ymaps.Map('yandexMap', {
+          center: [55.751574, 37.573856],
+          zoom: 12,
+          controls: ['zoomControl']
+        });
+
+        window.placemark = new ymaps.Placemark([55.751574, 37.573856], {}, { draggable: true });
+        window.yandexMap.geoObjects.add(window.placemark);
+
+        window.placemark.events.add('dragend', function () {
+          const coords = window.placemark.geometry.getCoordinates();
+          ymaps.geocode(coords).then(function (res) {
+            const first = res.geoObjects.get(0);
+            if (first) {
+              modalStreet.value = first.getAddressLine();
+            }
+          });
+        });
+
+        // Подсказки
+const suggestView = new ymaps.SuggestView('addressInput', { boundedBy: [[55.5, 37.0], [56.0, 38.0]] });
+suggestView.events.add('select', function (e) {
+  const item = e.get('item');
+  if (item && item.value) {
+    modalStreet.value = item.value; // временно, чтобы пользователь видел что выбрал
+    ymaps.geocode(item.value, { results: 1 }).then(function (res) {
+      const first = res.geoObjects.get(0);
+      if (first) {
+        const coords = first.geometry.getCoordinates();
+        window.yandexMap.setCenter(coords, 15);
+        window.placemark.geometry.setCoordinates(coords);
+        // Разбираем адрес и оставляем только улицу и дом
+        const street = first.getThoroughfare();
+        const house = first.getPremiseNumber();
+        if (street) {
+          modalStreet.value = house ? `${street}, ${house}` : street;
+        } else {
+          modalStreet.value = item.value; // если не получилось, оставляем полный
+        }
+      }
+    });
+  }
+});
+
+        // Живое обновление карты при вводе адреса
+        let debounceTimer;
+        modalStreet.addEventListener('input', function(e) {
+          const val = e.target.value.trim();
+          if (val.length < 3) return;
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            ymaps.geocode(val, { results: 1 }).then(function (res) {
+              const first = res.geoObjects.get(0);
+              if (first) {
+                const coords = first.geometry.getCoordinates();
+                window.yandexMap.setCenter(coords, 15);
+                window.placemark.geometry.setCoordinates(coords);
+              }
+            });
+          }, 500);
+        });
+      });
+    }
+
+    // Геолокация
+       document.getElementById('detectLocationBtn').addEventListener('click', function () {
+          if (!navigator.geolocation) { alert('Геолокация не поддерживается браузером'); return; }
+            navigator.geolocation.getCurrentPosition(function (pos) {
+            const coords = [pos.coords.latitude, pos.coords.longitude];
+             window.yandexMap.setCenter(coords, 16);
+             window.placemark.geometry.setCoordinates(coords);
+              ymaps.geocode(coords).then(function (res) {
+               const first = res.geoObjects.get(0);
+               if (first) {
+             const street = first.getThoroughfare();
+              const house = first.getPremiseNumber();
+              modalStreet.value = street ? (house ? `${street}, ${house}` : street) : first.getAddressLine();
+            }
+           });
+         }, function () { alert('Не удалось определить местоположение'); });
+         });
+
+    // ========== Кастомный дропдаун времени ==========
+    function initTimeDropdown() {
+      const dropdown = document.getElementById('timeDropdown');
+      if (!dropdown) return;
+      const button = dropdown.querySelector('.ss-dropdown-button');
+      const title = dropdown.querySelector('.ss-dropdown-title');
+      const listUl = dropdown.querySelector('.ss-dropdown-list');
+      const selectEl = modalTime;
+
+      listUl.querySelectorAll('.ss-dropdown-item').forEach(li => {
+        li.addEventListener('click', () => {
+          const value = li.dataset.value;
+          selectEl.value = value;
+          title.textContent = li.textContent;
+          listUl.querySelectorAll('.ss-dropdown-item').forEach(item => item.classList.remove('selected'));
+          li.classList.add('selected');
+          dropdown.classList.remove('open');
+          selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      });
+
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
+      });
+
+      selectEl.addEventListener('change', () => {
+        const selectedValue = selectEl.value;
+        title.textContent = selectEl.options[selectEl.selectedIndex]?.textContent || 'Выберите временной слот';
+        listUl.querySelectorAll('.ss-dropdown-item').forEach(li => {
+          li.classList.toggle('selected', li.dataset.value === selectedValue);
+        });
+      });
+    }
+
+    // ========== Управление доставкой и оплатой ==========
+    function updateDeliveryUI() {
+      if (state.delivery === 'pickup') {
+        addressBlock.style.display = 'none'; pickupInfo.style.display = '';
+        addressFull.value = ''; updateAddressDisplay();
+      } else {
+        addressBlock.style.display = ''; pickupInfo.style.display = 'none';
+      }
+      renderPaymentMethods();
+      deliveryPriceLabel.textContent = getDeliveryCost() === 0 ? '299 ₽' : `${getDeliveryCost()} ₽`;
+    }
+
+function renderPaymentMethods() {
+  paymentMethods.innerHTML = `
+    <label class="radio"><input type="radio" name="pay" value="sbp" ${state.payment === 'sbp' ? 'checked' : ''}> СБП (перевод по номеру телефона)</label>
+    <label class="radio"><input type="radio" name="pay" value="card" ${state.payment === 'card' ? 'checked' : ''}> Банковская карта (онлайн)</label>
+    <label class="radio"><input type="radio" name="pay" value="cash" ${state.payment === 'cash' ? 'checked' : ''}> Наличными при получении</label>
+  `;
+
+  document.querySelectorAll('input[name="pay"]').forEach(input => {
+    input.addEventListener('change', () => {
+      state.payment = input.value;
+      updateOpenCardButtonVisibility(); // показывать/скрывать кнопку
+      render(); // если нужно пересчитать корзину
+    });
+  });
+
+  updateOpenCardButtonVisibility(); // синхронизировать при первом рендере
+}
+
+    // ========== ВАЛИДАЦИЯ БАНКОВСКОЙ КАРТЫ ==========
+    function initCardValidation() {
+      if (!cardNumber || !cardExpiry || !cardCvc) return;
+
+      // Маска номера карты (только цифры, группировка по 4)
+      cardNumber.addEventListener('input', function(e) {
+        let val = this.value.replace(/\D/g, ''); // оставляем только цифры
+        if (val.length > 19) val = val.slice(0, 19);
+        // Форматируем с пробелами через каждые 4 цифры
+        const formatted = val.replace(/(.{4})/g, '$1 ').trim();
+        this.value = formatted;
+        detectCardType(val);
+      });
+
+      // Маска срока (ММ/ГГ)
+      cardExpiry.addEventListener('input', function(e) {
+        let val = this.value.replace(/\D/g, '');
+        if (val.length > 4) val = val.slice(0, 4);
+        if (val.length >= 3) {
+          this.value = val.slice(0, 2) + '/' + val.slice(2);
+        } else {
+          this.value = val;
+        }
+      });
+
+      // CVC только цифры, макс 3 (или 4 для Amex)
+      cardCvc.addEventListener('input', function(e) {
+        this.value = this.value.replace(/\D/g, '');
+        if (this.value.length > 4) this.value = this.value.slice(0, 4);
+      });
+
+      function detectCardType(number) {
+        const container = cardNumber.closest('.modal') || cardNumber.parentElement;
+        // Убираем старые иконки
+        const oldIcon = container.querySelector('.card-type-icon');
+        if (oldIcon) oldIcon.remove();
+        if (number.length < 4) return;
+        const first = number.substring(0, 4);
+        let type = '';
+        if (/^2/.test(number) && number.length >= 6 && parseInt(number.substring(0,6)) >= 222100 && parseInt(number.substring(0,6)) <= 272099) type = 'Мир';
+        else if (/^4/.test(first)) type = 'Visa';
+        else if (/^5[1-5]/.test(first)) type = 'MasterCard';
+        else if (/^220[0-4]/.test(first)) type = 'Мир';
+        else if (/^62/.test(first)) type = 'UnionPay';
+        else return;
+        const icon = document.createElement('span');
+        icon.className = 'card-type-icon';
+        icon.style.cssText = 'margin-left:8px;font-size:14px;font-weight:bold;color:#d4b5ff';
+        icon.textContent = type;
+        cardNumber.parentElement.appendChild(icon);
+      }
+    }
+
+    // ========== Обработка оплаты ==========
+    function processSbpPayment(callback) {
+      sbpModal.classList.add('open');
+      setTimeout(() => {
+        sbpModal.classList.remove('open');
+        callback(true);
+      }, 3000);
+    }
+
+    function processCardPayment(callback) {
+      cardModal.classList.add('open');
+      cardForm.onsubmit = (e) => {
+        e.preventDefault();
+        // Базовая проверка
+        const number = cardNumber.value.replace(/\s/g, '');
+        if (number.length < 13 || number.length > 19) {
+          alert('Введите корректный номер карты');
+          return;
+        }
+        cardModal.classList.remove('open');
+        callback(true);
+      };
+      closeCardModal.onclick = () => {
+        cardModal.classList.remove('open');
+        callback(false);
+      };
+    }
+
+    function processCashPayment(callback) {
+      setTimeout(() => callback(true), 100);
+    }
+
+    function submitOrder(paymentDetails) {
+      setMessage('');
+      const totals = getTotals();
+      if (!state.cart.length || totals.availableCount === 0) return setMessage('Корзина пуста или нет доступных товаров.', 'error');
+      // Проверка данных банковской карты
+if (state.payment === 'card') {
+  const number = (cardNumber?.value || '').replace(/\s/g, '');
+  const expiry = cardExpiry?.value || '';
+  const cvc = cardCvc?.value || '';
+  if (!number || !expiry || !cvc) {
+    setMessage('Сначала введите данные банковской карты', 'error');
+    return;
+  }
+  if (number.length < 13 || number.length > 19) {
+    setMessage('Номер карты должен содержать от 13 до 19 цифр', 'error');
+    return;
+  }
+  const expiryParts = expiry.split('/');
+  if (expiryParts.length !== 2 || expiryParts[0].length !== 2 || expiryParts[1].length !== 2) {
+    setMessage('Введите срок карты в формате ММ/ГГ', 'error');
+    return;
+  }
+  if (cvc.length < 3 || cvc.length > 4) {
+    setMessage('CVC должен содержать 3 или 4 цифры', 'error');
+    return;
+  }
+}
+      if (!checkoutForm.reportValidity()) return;
+      if (!validatePhone(phoneInput.value)) return setMessage('Неверный формат телефона.', 'error');
+      if (!validateEmail(emailInput.value)) return setMessage('Неверный формат email.', 'error');
+      if (state.delivery === 'courier' && !addressFull.value) {
+
+       // Показать ошибку под блоком адреса
+        const existing = addressDisplay.parentNode.querySelector('.field-error');
+       if (!existing) {
+          const error = document.createElement('div');
+          error.className = 'field-error';
+         error.textContent = 'Укажите адрес доставки';
+         addressDisplay.parentNode.appendChild(error);
+         setTimeout(() => error.remove(), 5000);
+       }
+        addressDisplay.style.borderColor = '#ff6b6b';
+       setTimeout(() => { addressDisplay.style.borderColor = ''; }, 5000);
+        return;
+      }
+
+      cardModal.addEventListener('click', function(e) {
+  if (e.target === cardModal) cardModal.classList.remove('open');
+});
+
+// Очистка полей и индикатора при открытии
+      const observer = new MutationObserver((mutations) => {
+       mutations.forEach(mu => {
+         if (mu.attributeName === 'class' && cardModal.classList.contains('open')) {
+            cardNumber.value = '';
+            cardExpiry.value = '';
+            cardCvc.value = '';
+            document.getElementById('cardTypeIndicator').textContent = '';
+            // сбросить рамки ошибок
+         [cardNumber, cardExpiry, cardCvc].forEach(el => {
+           el.style.borderColor = '';
+           const error = el.parentNode.querySelector('.field-error');
+           if (error) error.remove();
+          });
+       }
+      });
+    });
+observer.observe(cardModal, { attributes: true });
+
+      const formData = new FormData(checkoutForm);
+      const order = {
+        id: `SS-${Date.now().toString(36).toUpperCase()}`,
+        createdAt: new Date().toISOString(),
+        status: 'new',
+        customer: {
+          fio: formData.get('fio').trim(),
+          phone: formData.get('phone'),
+          email: formData.get('email'),
+          address: addressFull.value,
+          addressComponents: addressComponents.value
+        },
+        delivery: { type: state.delivery, cost: totals.delivery },
+        payment: state.payment,
+        promoCode: state.promoCode,
+        items: totals.lines.filter(l => l.available).map(l => ({ id: l.id, name: l.product?.name, qty: l.qty, price: l.price, sum: l.lineTotal })),
+        totals: { subtotal: totals.availableSubtotal, discount: totals.discount, delivery: totals.delivery, total: totals.total },
+        paymentDetails: paymentDetails || ''
+      };
+
+      const orders = JSON.parse(localStorage.getItem('ss_orders') || '[]');
+      orders.unshift(order);
+      localStorage.setItem('ss_orders', JSON.stringify(orders));
+      saveCart([]);
+      checkoutForm.reset();
+      state.promoCode = ''; promoInput.value = ''; state.delivery = 'courier'; state.payment = 'sbp';
+      addressFull.value = ''; updateAddressDisplay(); updateDeliveryUI();
+      setMessage('Заказ успешно оформлен.', 'success');
+      successText.textContent = `Заказ ${order.id} на ${order.items.reduce((s,i) => s + i.qty, 0)} товар(ов). Сумма: ${formatPrice(order.totals.total)}.`;
+      orderSuccess.hidden = false;
+      orderSuccess.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ========== Обработчики событий ==========
+    checkoutForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const actualPayment = state.payment;
+      if (actualPayment === 'sbp') {
+        processSbpPayment((success) => { if (success) submitOrder('Оплата СБП'); });
+        return;
+      }
+if (actualPayment === 'card') {
+    submitOrder('Оплата картой онлайн');
+    return;
+}
+      if (actualPayment === 'cash') {
+        processCashPayment(() => submitOrder('Наличными при получении'));
+        return;
+      }
+      submitOrder('');
+    });
+
+    // Маска телефона и валидация
+    function validatePhone(phone) { return /^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/.test(phone); }
+    function validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+    function setMessage(text, type = 'info') {
+      if (!text) { formMessage.hidden = true; formMessage.textContent = ''; return; }
+      formMessage.hidden = false; formMessage.textContent = text; formMessage.className = `form-message ${type}`;
+    }
+
+    phoneInput.addEventListener('input', function (e) {
+      let val = e.target.value.replace(/[^\d]/g, '');
+      if (val.length > 11) val = val.slice(0, 11);
+      if (!val) return e.target.value = '';
+      if (!val.startsWith('7') && val.length > 0) val = '7' + val;
+      let formatted = '+7';
+      if (val.length > 1) formatted += ' (' + val.slice(1, 4);
+      if (val.length >= 4) formatted += ') ' + val.slice(4, 7);
+      if (val.length >= 7) formatted += '-' + val.slice(7, 9);
+      if (val.length >= 9) formatted += '-' + val.slice(9, 11);
+      e.target.value = formatted;
+    });
+
+    // Адрес, карта, доставка
+    addressDisplay.addEventListener('click', openAddressModal);
+    document.getElementById('cancelAddressBtn').addEventListener('click', closeAddressModal);
+document.getElementById('saveAddressBtn').addEventListener('click', function () {
+  // Проверка улицы
+  if (!modalStreet.value.trim()) { 
+    alert('Введите адрес'); 
+    return; 
+  }
+  // Проверка даты
+  if (!modalDate.value) {
+    showFieldError(modalDate, 'Выберите дату доставки');
+    return;
+  }
+  // Проверка времени
+  if (!modalTime.value) {
+    // Для кастомного дропдауна подсвечиваем его кнопку
+    const timeDropdown = document.getElementById('timeDropdown');
+    if (timeDropdown) {
+      const btn = timeDropdown.querySelector('.ss-dropdown-button');
+      if (btn) showFieldError(btn, 'Выберите время доставки');
+    }
+    return;
+  }
+  // Очищаем предыдущие ошибки
+  [modalDate, modalTime].forEach(el => {
+    if (el) el.style.borderColor = '';
+    const err = el.parentNode?.querySelector('.field-error');
+    if (err) err.remove();
+  });
+  const timeBtn = document.querySelector('#timeDropdown .ss-dropdown-button');
+  if (timeBtn) {
+    timeBtn.style.borderColor = '';
+    const err = timeBtn.parentNode?.querySelector('.field-error');
+    if (err) err.remove();
+  }
+  fillAddressComponents();
+});
+    addressModal.addEventListener('click', function (e) { if (e.target === addressModal) closeAddressModal(); });
+
+    document.querySelectorAll('input[name="delivery"]').forEach(input => {
+      input.addEventListener('change', (e) => {
+        state.delivery = e.target.value;
+        // при переключении на самовывоз сбрасываем адрес и обновляем UI
+        updateDeliveryUI();
+        render();
+      });
+    });
+
+    // Действия с товарами в корзине
+    cartList.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const id = Number(btn.dataset.id);
+      if (btn.classList.contains('inc-btn')) { const cart = readCart(); const it = cart.find(i => Number(i.id) === id); if (it) { it.qty = parseQty(it.qty) + 1; saveCart(cart); } }
+      else if (btn.classList.contains('dec-btn')) { const cart = readCart(); const it = cart.find(i => Number(i.id) === id); if (it && parseQty(it.qty) > 1) { it.qty = parseQty(it.qty) - 1; saveCart(cart); } }
+      else if (btn.classList.contains('remove-btn')) { saveCart(readCart().filter(i => Number(i.id) !== id)); }
+    });
+    cartList.addEventListener('change', (e) => {
+      const input = e.target.closest('.qty-input');
+      if (!input) return;
+      const id = Number(input.dataset.id);
+      const cart = readCart(); const it = cart.find(i => Number(i.id) === id);
+      if (it) { it.qty = parseQty(input.value); saveCart(cart); }
+    });
+
+  promoApplyBtn.addEventListener('click', () => {
+    const inputCode = String(promoInput.value || '').trim().toUpperCase();
+   if (!inputCode) return;
+   state.promoCode = inputCode;
+   const subtotal = getTotals().availableSubtotal;
+   const validation = validatePromoCode(inputCode, subtotal);
+   if (!validation.valid) {
+    setMessage(validation.message, 'error');
+   } else {
+      setMessage(validation.message, 'success');
+    }
+   render();
+  });
+
+  promoCancelBtn.addEventListener('click', () => {
+    state.promoCode = '';
+   promoInput.value = '';
+    setMessage('Промокод отменён', 'info');
+    render();
+  });
+
+promoInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const inputCode = String(promoInput.value || '').trim().toUpperCase();
+    state.promoCode = inputCode;
+    const subtotal = getTotals().availableSubtotal;
+    const validation = validatePromoCode(inputCode, subtotal);
+    if (!validation.valid) {
+      setMessage(validation.message, 'error');
+    } else {
+      setMessage(validation.message, 'success');
+    }
+    render();
+  }
+});
+
+    clearCartBtn.addEventListener('click', () => { if (state.cart.length && confirm('Очистить корзину?')) { saveCart([]); setMessage('Корзина очищена.', 'info'); } });
+    closeSuccessBtn.addEventListener('click', () => { orderSuccess.hidden = true; });
+
+    window.addEventListener('cart-updated', () => { state.cart = readCart(); render(); });
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle?.addEventListener('click', () => { const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false'; mobileMenu.style.display = isHidden ? 'block' : 'none'; mobileMenu.setAttribute('aria-hidden', String(!isHidden)); });
+
+    // Старт приложения
+    async function boot() {
+      await loadProductsOnce();
+      state.cart = readCart();
+      updateDeliveryUI();
+      renderSavedAddresses();
+      render();
+      initTimeDropdown();
+      initCardValidation();
+          closeCardModal.addEventListener('click', () => cardModal.classList.remove('open'));
+    cardModal.addEventListener('click', (e) => { if (e.target === cardModal) cardModal.classList.remove('open'); });
+
+    }
+    window.addToCart = function (id, qty = 1) { const cart = readCart(); const it = cart.find(i => Number(i.id) === Number(id)); if (it) it.qty = parseQty(it.qty) + parseQty(qty); else cart.push({ id: Number(id), qty: parseQty(qty) }); saveCart(cart); };
+    boot();
+  
+  })();
+</script>
+</body>
+</html>
