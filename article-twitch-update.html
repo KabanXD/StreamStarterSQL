@@ -14,34 +14,43 @@
     .article-featured-image { margin: 30px 0; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(145,70,255,0.2); }
     .article-content { font-size: 1.15rem; line-height: 1.7; }
     .article-content h2 { font-size: 2rem; margin-top: 50px; margin-bottom: 20px; color: #fff; border-left: 5px solid var(--accent); padding-left: 20px; }
+    .article-content h3 { font-size: 1.5rem; margin: 35px 0 15px; color: #e0d0ff; }
     .article-content p { margin-bottom: 24px; }
-    .article-content ul { margin: 20px 0 30px; padding-left: 30px; }
+    .article-content ul, .article-content ol { margin: 20px 0 30px; padding-left: 30px; }
     .article-content li { margin-bottom: 10px; }
+    .article-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-content figure { margin: 40px 0; }
+    .article-content figcaption { text-align: center; color: var(--muted); margin-top: 10px; font-size: 0.95rem; }
+    .article-content blockquote { background: linear-gradient(145deg, rgba(145,70,255,0.08), rgba(145,70,255,0.02)); border-left: 4px solid var(--accent); padding: 25px 30px; border-radius: 16px; margin: 40px 0; backdrop-filter: blur(4px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .article-content blockquote p { margin: 0; font-size: 1.2rem; font-weight: 500; color: #f0eaff; }
+    .step-card { display: flex; gap: 20px; background: rgba(20,15,30,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(145,70,255,0.15); border-radius: 20px; padding: 24px; margin: 30px 0; align-items: flex-start; }
+    .step-number { flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-2), var(--accent)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: white; box-shadow: 0 10px 20px rgba(145,70,255,0.3); }
+    .step-content { flex: 1; }
+    .step-content h3 { margin-top: 0; margin-bottom: 10px; }
+    .tip-box { background: rgba(255,215,100,0.08); border: 1px solid rgba(255,215,100,0.3); border-radius: 20px; padding: 24px; margin: 40px 0; backdrop-filter: blur(4px); }
+    .tip-box h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 15px; color: #ffd764; font-size: 1.3rem; }
     .specs-table { width: 100%; border-collapse: collapse; margin: 30px 0; border-radius: 16px; overflow: hidden; background: rgba(20,15,30,0.6); backdrop-filter: blur(4px); }
     .specs-table th { background: rgba(145,70,255,0.2); padding: 14px 18px; text-align: left; font-weight: 600; color: #e0d0ff; border-bottom: 1px solid rgba(145,70,255,0.3); }
     .specs-table td { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .specs-table tr:last-child td { border-bottom: none; }
-    .tip-box { background: rgba(255,215,100,0.08); border: 1px solid rgba(255,215,100,0.3); border-radius: 20px; padding: 24px; margin: 40px 0; backdrop-filter: blur(4px); }
-    .tip-box h4 { display: flex; align-items: center; gap: 10px; margin: 0 0 15px; color: #ffd764; font-size: 1.3rem; }
     .related-links { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
     .related-link { background: rgba(145,70,255,0.08); border: 1px solid rgba(145,70,255,0.15); border-radius: 40px; padding: 10px 20px; color: var(--text); text-decoration: none; transition: all 0.2s; backdrop-filter: blur(4px); }
     .related-link:hover { background: rgba(145,70,255,0.2); border-color: var(--accent); transform: translateY(-3px); }
-  /* Главное изображение не выше 500px */
-.article-featured-image {
+                .article-featured-image {
   max-height: 500px;
   overflow: hidden;
 }
 .article-featured-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;   /* ← заменено с contain */
 }
 
-/* Картинки внутри текста (если будут) не выше 400px */
+/* Картинки внутри текста — растягиваются на всю ширину, высота до 400px */
 .article-content figure img {
-  max-height: 400px;
+  max-height: 500px;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;   /* ← заменено с contain */
+}
 .logo-img {
   width: 40px;
   height: 40px;
@@ -84,7 +93,6 @@
     </div>
   </a>
 </div>
-
       <nav class="main-nav" id="mainNav">
         <a href="index.html">Главная</a>
         <a href="catalog.html">Каталог</a>
