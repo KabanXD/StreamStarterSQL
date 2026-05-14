@@ -13,11 +13,11 @@
   width: 40px;
   height: 40px;
   object-fit: contain;
-  border-radius: 8px; /* по желанию, если нужны скругления */
-  margin-right: 12px; /* отступ от текста */
+  border-radius: 8px;
+  margin-right: 12px;
 }
 .brand-sub {
-  white-space: nowrap;   /* не переносить на новую строку */
+  white-space: nowrap;
   font-size: 12px;
   color: var(--muted);
   margin-top: 2px;
@@ -26,25 +26,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;       /* на случай переполнения */
-  gap: 16px;             /* расстояние между брендом, навигацией и кнопками */
+  flex-wrap: wrap;
+  gap: 16px;
 }
 @media (max-width: 720px) {
-  .main-nav {
-    display: none;
-  }
-  .menu-toggle {
-    display: inline-block;
-  }
+  .main-nav { display: none; }
+  .menu-toggle { display: inline-block; }
 }
-/* Обёртка кнопки сброса — выравнивание по правому краю */
 .btn-reset-wrapper {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
-
-/* Сама кнопка */
 .btn-reset-filters {
   padding: 10px 20px;
   font-size: 0.95rem;
@@ -57,59 +50,60 @@
   transition: background 0.2s, border-color 0.2s;
   white-space: nowrap;
 }
-
 .btn-reset-filters:hover {
   background: rgba(145, 70, 255, 0.18);
   border-color: var(--accent);
 }
-  .p-desc {
-  display: block;
-  -webkit-line-clamp: unset;
-  overflow: visible;
-  white-space: normal;
+
+/* Исправление описания в карточке */
+.p-desc {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: unset !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  max-height: none !important;
+  text-overflow: unset !important;
 }
-  </style>
+</style>
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
         <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
-  <img src="favicon.png" alt="StreamStarter" class="logo-img" />
-    <div class="brand-text">
-      <div class="brand-title">StreamStarter</div>
-      <div class="brand-sub">Всё для твоего стрима</div>
-    </div>
-  </a>
-</div>
+          <img src="favicon.png" alt="StreamStarter" class="logo-img" />
+          <div class="brand-text">
+            <div class="brand-title">StreamStarter</div>
+            <div class="brand-sub">Всё для твоего стрима</div>
+          </div>
+        </a>
+      </div>
 
-<nav class="main-nav" id="mainNav">
-  <a href="index.html">Главная</a>
-  <a href="catalog.html">Каталог</a>
-  <a href="blog.html">Блог</a>
-  <a href="support.html">Поддержка</a>
-</nav>
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="blog.html">Блог</a>
+        <a href="support.html">Поддержка</a>
+      </nav>
 
       <div class="actions">
         <button class="bot-btn">Открыть бота</button>
         <a class="catalog-btn" href="catalog.html">Каталог</a>
-
         <button class="icon-btn" id="cartBtn" aria-label="Открыть корзину">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12L4 2H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span class="cart-count" id="cartCount" hidden>0</span>
         </button>
-
         <button class="menu-toggle" id="menuToggle" aria-label="Меню">
           <svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         </button>
       </div>
+    </div>
   </header>
 
   <main class="site-main container">
-    <section class="catalog-hero" style="margin-top:18px; ">
-      <div class="hero-left">
-        <h1>Каталог товаров</h1>
-      </div>
+    <section class="catalog-hero" style="margin-top:18px;">
+      <div class="hero-left"><h1>Каталог товаров</h1></div>
       <div class="hero-right">
         <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end">
           <a class="cta ghost" href="index.html">На главную</a>
@@ -119,13 +113,11 @@
 
     <section class="catalog-controls" aria-label="Фильтры каталога">
       <div class="controls-grid">
-        <!-- Поиск -->
         <div class="control search-control">
           <label for="searchInput" class="sr-only">Поиск</label>
           <input id="searchInput" type="search" placeholder="Поиск по названию, описанию или бренду..." />
         </div>
 
-        <!-- Кастомный dropdown: Категория -->
         <div class="control dropdown-control">
           <label class="sr-only" for="categorySelect">Категория</label>
           <select id="categorySelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -142,9 +134,7 @@
           <div class="ss-dropdown" data-select-id="categorySelect">
             <button type="button" class="ss-dropdown-button">
               <span class="ss-dropdown-title">Все категории</span>
-              <span class="ss-dropdown-arrow">
-                <svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
-              </span>
+              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
             <div class="ss-dropdown-list-container">
               <div class="ss-dropdown-list-wrapper">
@@ -155,7 +145,6 @@
           </div>
         </div>
 
-        <!-- Кастомный dropdown: Бренд -->
         <div class="control dropdown-control">
           <label class="sr-only" for="brandSelect">Бренд</label>
           <select id="brandSelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -170,9 +159,7 @@
           <div class="ss-dropdown" data-select-id="brandSelect">
             <button type="button" class="ss-dropdown-button">
               <span class="ss-dropdown-title">Все бренды</span>
-              <span class="ss-dropdown-arrow">
-                <svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
-              </span>
+              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
             <div class="ss-dropdown-list-container">
               <div class="ss-dropdown-list-wrapper">
@@ -183,7 +170,6 @@
           </div>
         </div>
 
-        <!-- Кастомный dropdown: Доступность -->
         <div class="control dropdown-control">
           <label class="sr-only" for="availabilitySelect">Доступность</label>
           <select id="availabilitySelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -194,9 +180,7 @@
           <div class="ss-dropdown" data-select-id="availabilitySelect">
             <button type="button" class="ss-dropdown-button">
               <span class="ss-dropdown-title">Все — доступность</span>
-              <span class="ss-dropdown-arrow">
-                <svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
-              </span>
+              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
             <div class="ss-dropdown-list-container">
               <div class="ss-dropdown-list-wrapper">
@@ -207,7 +191,6 @@
           </div>
         </div>
 
-        <!-- Кастомный dropdown: Сортировка -->
         <div class="control dropdown-control">
           <label class="sr-only" for="sortSelect">Сортировка</label>
           <select id="sortSelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -220,9 +203,7 @@
           <div class="ss-dropdown" data-select-id="sortSelect">
             <button type="button" class="ss-dropdown-button">
               <span class="ss-dropdown-title">Популярные</span>
-              <span class="ss-dropdown-arrow">
-                <svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
-              </span>
+              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
             <div class="ss-dropdown-list-container">
               <div class="ss-dropdown-list-wrapper">
@@ -233,7 +214,6 @@
           </div>
         </div>
 
-        <!-- Цена -->
         <div class="control price-range">
           <label class="sr-only" for="minPrice">Минимальная цена</label>
           <input id="minPrice" type="number" min="0" placeholder="Мин ₽" />
@@ -241,12 +221,10 @@
           <input id="maxPrice" type="number" min="0" placeholder="Макс ₽" />
         </div>
       </div>
-      <!-- Кнопка очистки фильтров -->
-        <div class="control btn-reset-wrapper">
-          <button type="button" id="resetFiltersBtn" class="btn-reset-filters">
-          ✕ Очистить всё
-          </button>
-        </div>
+
+      <div class="control btn-reset-wrapper">
+        <button type="button" id="resetFiltersBtn" class="btn-reset-filters">✕ Очистить всё</button>
+      </div>
 
       <div class="category-chips" id="categoryChips" aria-hidden="false">
         <button class="chip active" data-cat="">Все</button>
@@ -259,14 +237,13 @@
         <button class="chip" data-cat="accessories">Аксессуары</button>
       </div>
     </section>
-</div>
+
     <section class="products-section" aria-label="Товары">
       <div id="productsGrid" class="products-grid" role="list"></div>
       <div id="noResults" class="muted" style="display:none;margin-top:18px">Ничего не найдено :( Попробуйте другой фильтр.</div>
     </section>
   </main>
 
-  <!-- Футер ВНЕ main — новый, на всю ширину -->
 <footer class="site-footer">
   <div class="container footer-container">
     <div class="footer-grid">
@@ -287,7 +264,6 @@
           <li><a href="support.html">База знаний</a></li>
           <li><a href="support.html#faq">Частые вопросы</a></li>
           <li><a href="blog.html">Гайды</a></li>
-          <!-- Вот эта ссылка теперь ведёт к контактам -->
           <li><a href="#contacts">Связаться с нами</a></li>
         </ul>
       </div>
@@ -311,7 +287,6 @@
       </div>
     </div>
 
-    <!-- Блок с картой и контактами (добавлен id="contacts") -->
     <div class="footer-contact-block" id="contacts">
       <div class="footer-contact-map">
         <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
@@ -347,8 +322,8 @@
           <div class="total-sum" id="cartTotal">0 ₽</div>
         </div>
         <div class="drawer-actions" style="display:flex;flex-direction:column;gap:8px">
-          <a href="cart.html" class="cta ghost full" style="padding:10px 12px; text-align:center;">Перейти в корзину</a>
-          <a href="https://t.me/your_bot" target="_blank" rel="noopener" class="cta primary full" style="padding:10px 12px; text-align:center;">Оформить через Telegram</a>
+          <a href="cart.html" class="cta ghost full" style="padding:10px 12px;text-align:center;">Перейти в корзину</a>
+          <a href="https://t.me/your_bot" target="_blank" rel="noopener" class="cta primary full" style="padding:10px 12px;text-align:center;">Оформить через Telegram</a>
         </div>
       </footer>
     </div>
@@ -356,35 +331,30 @@
   <div id="overlay" class="overlay" hidden></div>
 
   <script>
-    // Продукты и состояние (без изменений)
+    // Базовые товары (статичные, для офлайн-режима)
     let PRODUCTS = [
-      {"id":201,"name":"RK-Compact Pro","price":7490,"category":"keyboards","brand":"ProGamer","thumb":"prod-keyboard-01.png","tag":"Хит","popularity":94,"available":true,"desc":"Механическая RGB клавиатура 75%."},
-      {"id":202,"name":"RK-Flex TKL","price":6390,"category":"keyboards","brand":"NightFox","thumb":"prod-keyboard-02.png","tag":"","popularity":72,"available":true,"desc":"Без цифровой панели, компактный корпус."},
-      {"id":203,"name":"GamerMouse V2","price":3290,"category":"mice","brand":"ProGamer","thumb":"prod-mouse-01.png","tag":"Новинка","popularity":80,"available":true,"desc":"Оптический сенсор 16000 DPI."},
-      {"id":204,"name":"SilentMouse Elite","price":4890,"category":"mice","brand":"NightFox","thumb":"prod-mouse-02.png","tag":"","popularity":64,"available":false,"desc":"Бесшумные клики, эргономика."},
-      {"id":205,"name":"StreamCam 4K","price":29990,"category":"cameras","brand":"Beamline","thumb":"prod-camera-01.png","tag":"Премиум","popularity":98,"available":true,"desc":"4K@60fps, автофокус."},
-      {"id":206,"name":"CompactCam HD","price":9990,"category":"cameras","brand":"AeroSound","thumb":"prod-camera-02.png","tag":"","popularity":58,"available":true,"desc":"HD камера для стримов и видеозвонков."},
-      {"id":207,"name":"Panel RGB X","price":5590,"category":"light","brand":"Beamline","thumb":"prod-light-01.png","tag":"","popularity":76,"available":true,"desc":"Регулируемая RGB панель."},
-      {"id":208,"name":"KeyLight Mini","price":2390,"category":"light","brand":"Elgato-like","thumb":"prod-light-02.png","tag":"","popularity":52,"available":false,"desc":"Компактный свет для лица."},
-      {"id":209,"name":"Studio M1","price":12990,"category":"microphones","brand":"StudioTech","thumb":"prod-mic-01.png","tag":"Хит","popularity":90,"available":true,"desc":"Конденсаторный микрофон студийного уровня."},
-      {"id":210,"name":"Vocal Pro USB","price":7990,"category":"microphones","brand":"AeroSound","thumb":"prod-mic-02.png","tag":"","popularity":68,"available":true,"desc":"USB микрофон plug&play."},
-      {"id":211,"name":"XL Desk Mat","price":1490,"category":"mats","brand":"Generic","thumb":"prod-mat-01.png","tag":"","popularity":61,"available":true,"desc":"Коврик большого размера для стола."},
-      {"id":212,"name":"GripPad Pro","price":1890,"category":"mats","brand":"NightFox","thumb":"prod-mat-02.png","tag":"","popularity":40,"available":true,"desc":"Антискользящий коврик с RGB краем."},
-      {"id":213,"name":"BeatStudio 7","price":10990,"category":"headphones","brand":"ProGamer","thumb":"prod-headphones-01.png","tag":"","popularity":78,"available":false,"desc":"Закрытые наушники с микрофоном."},
-      {"id":214,"name":"ClearVoice Headset","price":6990,"category":"headphones","brand":"AeroSound","thumb":"prod-headphones-02.png","tag":"","popularity":69,"available":true,"desc":"Удобная гарнитура для стрима."},
-      {"id":215,"name":"Mic Boom Arm","price":1590,"category":"accessories","brand":"Generic","thumb":"prod-acc-01.png","tag":"","popularity":50,"available":true,"desc":"Регулируемый держатель микрофона."},
-      {"id":216,"name":"Pro Cable Kit","price":790,"category":"accessories","brand":"StudioTech","thumb":"prod-acc-02.png","tag":"","popularity":35,"available":true,"desc":"Набор кабелей для стримера."},
-      {"id":217,"name":"MacroPad 12","price":4490,"category":"accessories","brand":"NightFox","thumb":"prod-acc-03.png","tag":"Новинка","popularity":55,"available":true,"desc":"Мини-клавиатура для макросов."}
+      {"id":201,"name":"RK-Compact Pro","price":7490,"category":"keyboards","brand":"ProGamer","thumb":"prod-keyboard-01.png","tag":"Хит","popularity":94,"available":true,"description":"Механическая RGB клавиатура 75%."},
+      {"id":202,"name":"RK-Flex TKL","price":6390,"category":"keyboards","brand":"NightFox","thumb":"prod-keyboard-02.png","tag":"","popularity":72,"available":true,"description":"Без цифровой панели, компактный корпус."},
+      {"id":203,"name":"GamerMouse V2","price":3290,"category":"mice","brand":"ProGamer","thumb":"prod-mouse-01.png","tag":"Новинка","popularity":80,"available":true,"description":"Оптический сенсор 16000 DPI."},
+      {"id":204,"name":"SilentMouse Elite","price":4890,"category":"mice","brand":"NightFox","thumb":"prod-mouse-02.png","tag":"","popularity":64,"available":false,"description":"Бесшумные клики, эргономика."},
+      {"id":205,"name":"StreamCam 4K","price":29990,"category":"cameras","brand":"Beamline","thumb":"prod-camera-01.png","tag":"Премиум","popularity":98,"available":true,"description":"4K@60fps, автофокус."},
+      {"id":206,"name":"CompactCam HD","price":9990,"category":"cameras","brand":"AeroSound","thumb":"prod-camera-02.png","tag":"","popularity":58,"available":true,"description":"HD камера для стримов и видеозвонков."},
+      {"id":207,"name":"Panel RGB X","price":5590,"category":"light","brand":"Beamline","thumb":"prod-light-01.png","tag":"","popularity":76,"available":true,"description":"Регулируемая RGB панель."},
+      {"id":208,"name":"KeyLight Mini","price":2390,"category":"light","brand":"Elgato-like","thumb":"prod-light-02.png","tag":"","popularity":52,"available":false,"description":"Компактный свет для лица."},
+      {"id":209,"name":"Studio M1","price":12990,"category":"microphones","brand":"StudioTech","thumb":"prod-mic-01.png","tag":"Хит","popularity":90,"available":true,"description":"Конденсаторный микрофон студийного уровня."},
+      {"id":210,"name":"Vocal Pro USB","price":7990,"category":"microphones","brand":"AeroSound","thumb":"prod-mic-02.png","tag":"","popularity":68,"available":true,"description":"USB микрофон plug&play."},
+      {"id":211,"name":"XL Desk Mat","price":1490,"category":"mats","brand":"Generic","thumb":"prod-mat-01.png","tag":"","popularity":61,"available":true,"description":"Коврик большого размера для стола."},
+      {"id":212,"name":"GripPad Pro","price":1890,"category":"mats","brand":"NightFox","thumb":"prod-mat-02.png","tag":"","popularity":40,"available":true,"description":"Антискользящий коврик с RGB краем."},
+      {"id":213,"name":"BeatStudio 7","price":10990,"category":"headphones","brand":"ProGamer","thumb":"prod-headphones-01.png","tag":"","popularity":78,"available":false,"description":"Закрытые наушники с микрофоном."},
+      {"id":214,"name":"ClearVoice Headset","price":6990,"category":"headphones","brand":"AeroSound","thumb":"prod-headphones-02.png","tag":"","popularity":69,"available":true,"description":"Удобная гарнитура для стрима."},
+      {"id":215,"name":"Mic Boom Arm","price":1590,"category":"accessories","brand":"Generic","thumb":"prod-acc-01.png","tag":"","popularity":50,"available":true,"description":"Регулируемый держатель микрофона."},
+      {"id":216,"name":"Pro Cable Kit","price":790,"category":"accessories","brand":"StudioTech","thumb":"prod-acc-02.png","tag":"","popularity":35,"available":true,"description":"Набор кабелей для стримера."},
+      {"id":217,"name":"MacroPad 12","price":4490,"category":"accessories","brand":"NightFox","thumb":"prod-acc-03.png","tag":"Новинка","popularity":55,"available":true,"description":"Мини-клавиатура для макросов."}
     ];
 
     let state = {
-      search: '',
-      category: '',
-      brand: '',
-      availability: '',
-      sort: 'featured',
-      minPrice: null,
-      maxPrice: null,
+      search: '', category: '', brand: '', availability: '',
+      sort: 'featured', minPrice: null, maxPrice: null,
       cart: JSON.parse(localStorage.getItem('cart') || '[]')
     };
 
@@ -409,28 +379,33 @@
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
 
+    // Нормализация полей товара — поддержка и старых (desc/longDesc) и новых (description/long_description)
+    function normalizeProduct(p) {
+      return {
+        ...p,
+        description: p.description || p.desc || '',
+        long_description: p.long_description || p.longDesc || ''
+      };
+    }
+
     function loadCustomProducts() {
       try {
         const raw = localStorage.getItem('custom_products') || '[]';
         const arr = JSON.parse(raw);
-        return Array.isArray(arr) ? arr.map(p => ({...p, id: Number(p.id)})) : [];
-      } catch (e) {
-        return [];
-      }
+        return Array.isArray(arr) ? arr.map(p => normalizeProduct({...p, id: Number(p.id)})) : [];
+      } catch (e) { return []; }
     }
 
     function mergeCustomIntoProducts() {
       try {
         const custom = loadCustomProducts();
-        const base = Array.isArray(window.PRODUCTS) ? window.PRODUCTS.slice() : (Array.isArray(PRODUCTS) ? PRODUCTS.slice() : []);
+        const base = Array.isArray(window.PRODUCTS) ? window.PRODUCTS.slice() : PRODUCTS.slice();
         const map = new Map();
-        base.forEach(p => map.set(Number(p.id), p));
-        custom.forEach(p => map.set(Number(p.id), p));
+        base.forEach(p => map.set(Number(p.id), normalizeProduct(p)));
+        custom.forEach(p => map.set(Number(p.id), normalizeProduct(p)));
         window.PRODUCTS = Array.from(map.values());
-        try { PRODUCTS = window.PRODUCTS; } catch(e){}
-      } catch (err) {
-        console.error('mergeCustomIntoProducts error', err);
-      }
+        try { PRODUCTS = window.PRODUCTS; } catch(e) {}
+      } catch (err) { console.error('mergeCustomIntoProducts error', err); }
     }
 
     async function fetchProductsFromApi() {
@@ -439,7 +414,7 @@
         if (!r.ok) return null;
         const data = await r.json();
         if (!Array.isArray(data)) return null;
-        return data.map(p => ({...p, id: Number(p.id)}));
+        return data.map(p => normalizeProduct({...p, id: Number(p.id)}));
       } catch (e) { return null; }
     }
 
@@ -447,58 +422,46 @@
       const serverList = await fetchProductsFromApi();
       if (Array.isArray(serverList) && serverList.length) {
         window.PRODUCTS = serverList.slice();
-        try { PRODUCTS = window.PRODUCTS; } catch(e){}
+        try { PRODUCTS = window.PRODUCTS; } catch(e) {}
         return true;
       }
       try {
-        const r = await fetch('products.json', {cache:'no-store'});
+        const r = await fetch('products.json', { cache: 'no-store' });
         if (r.ok) {
           const data = await r.json();
           if (Array.isArray(data) && data.length) {
-            window.PRODUCTS = data.map(p => ({...p, id: Number(p.id)}));
-            try { PRODUCTS = window.PRODUCTS; } catch(e){}
+            window.PRODUCTS = data.map(p => normalizeProduct({...p, id: Number(p.id)}));
+            try { PRODUCTS = window.PRODUCTS; } catch(e) {}
             return true;
           }
         }
-      } catch(e){}
+      } catch(e) {}
       return false;
     }
 
-    window.addEventListener('products:updated', () => {
-      mergeCustomIntoProducts();
-      if (typeof applyFilters === 'function') applyFilters();
-    });
+    window.addEventListener('products:updated', () => { mergeCustomIntoProducts(); if (typeof applyFilters === 'function') applyFilters(); });
     window.addEventListener('storage', (e) => {
-      if (e.key === 'custom_products' || e.key === '__products_last_update__') {
-        mergeCustomIntoProducts();
-        if (typeof applyFilters === 'function') applyFilters();
-      }
+      if (e.key === 'custom_products' || e.key === '__products_last_update__') { mergeCustomIntoProducts(); if (typeof applyFilters === 'function') applyFilters(); }
     });
 
     const __recentAdds = new Map();
 
-    function readCartLocal(){
-      try { return JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e){ return []; }
-    }
-    function saveCartLocal(cart){
+    function readCartLocal() { try { return JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e) { return []; } }
+    function saveCartLocal(cart) {
       try {
         localStorage.setItem('cart', JSON.stringify(cart));
         state.cart = Array.isArray(cart) ? cart : [];
         window.dispatchEvent(new Event('cart-updated'));
-        try { localStorage.setItem('__last_cart_update__', String(Date.now())); } catch(e){}
-      } catch(e){ console.error('saveCartLocal', e); }
+        try { localStorage.setItem('__last_cart_update__', String(Date.now())); } catch(e) {}
+      } catch(e) { console.error('saveCartLocal', e); }
       updateCartUI();
     }
 
     function updateCartUI() {
       state.cart = Array.isArray(state.cart) ? state.cart : readCartLocal();
-      const qty = state.cart.reduce((s, i) => s + (Number(i.qty)||0), 0);
-      if (qty > 0) {
-        cartCountEl.hidden = false;
-        cartCountEl.textContent = qty;
-      } else {
-        cartCountEl.hidden = true;
-      }
+      const qty = state.cart.reduce((s, i) => s + (Number(i.qty) || 0), 0);
+      cartCountEl.hidden = qty === 0;
+      if (qty > 0) cartCountEl.textContent = qty;
 
       cartItemsUl.innerHTML = '';
       if (!state.cart || state.cart.length === 0) {
@@ -519,7 +482,7 @@
         li.innerHTML = `
           <a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit;display:flex;gap:10px;align-items:center">
             <div style="width:56px;height:42px;flex:0 0 56px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">
-              <img src="${escapeAttr((p.thumb || 'placeholder.png'))}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'">
+              <img src="${escapeAttr(p.thumb || 'placeholder.png')}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'">
             </div>
             <div>
               <div style="font-weight:700">${escapeHtml(p.name || 'Товар')}</div>
@@ -546,7 +509,6 @@
       if (now - last < 700) return;
       __recentAdds.set(id, now);
       setTimeout(() => { if (__recentAdds.get(id) === now) __recentAdds.delete(id); }, 900);
-
       const cart = readCartLocal();
       const found = cart.find(i => Number(i.id) === Number(id));
       if (found) found.qty = Number(found.qty || 0) + Number(qty || 0);
@@ -555,14 +517,14 @@
       openCart();
     }
 
-    function openCart(){
+    function openCart() {
       cartDrawer.style.transform = 'translateX(0)';
       cartDrawer.setAttribute('aria-hidden', 'false');
       overlay.hidden = false;
       overlay.classList.add('show');
       updateCartUI();
     }
-    function closeCartFn(){
+    function closeCartFn() {
       cartDrawer.style.transform = 'translateX(100%)';
       cartDrawer.setAttribute('aria-hidden', 'true');
       overlay.hidden = true;
@@ -581,12 +543,8 @@
           const cart = readCartLocal();
           const it = cart.find(x => Number(x.id) === Number(id));
           if (it) {
-            if (Number(it.qty || 0) > 1) {
-              it.qty = Number(it.qty || 0) - 1;
-              saveCartLocal(cart);
-            } else {
-              btn.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(0)' }], { duration: 150 });
-            }
+            if (Number(it.qty || 0) > 1) { it.qty = Number(it.qty || 0) - 1; saveCartLocal(cart); }
+            else btn.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}], {duration:150});
           }
         } else if (btn.classList.contains('remove-btn')) {
           const cart = readCartLocal().filter(x => Number(x.id) !== Number(id));
@@ -594,7 +552,6 @@
         }
         return;
       }
-
       const a = e.target.closest('a');
       if (a && a.href) {
         e.preventDefault();
@@ -607,7 +564,6 @@
     cartBtn && cartBtn.addEventListener('click', openCart);
     closeCart && closeCart.addEventListener('click', closeCartFn);
     overlay && overlay.addEventListener('click', closeCartFn);
-
     menuToggle && menuToggle.addEventListener('click', () => {
       const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
       mobileMenu.style.display = isHidden ? 'block' : 'none';
@@ -615,28 +571,20 @@
     });
 
     window.addEventListener('storage', (e) => {
-      if (e.key === 'cart' || e.key === '__last_cart_update__') {
-        state.cart = readCartLocal();
-        updateCartUI();
-      }
-      if (e.key === 'custom_products' || e.key === '__products_last_update__') {
-        mergeCustomIntoProducts();
-        applyFilters();
-      }
+      if (e.key === 'cart' || e.key === '__last_cart_update__') { state.cart = readCartLocal(); updateCartUI(); }
+      if (e.key === 'custom_products' || e.key === '__products_last_update__') { mergeCustomIntoProducts(); applyFilters(); }
     });
 
     function renderProducts(list) {
       productsGrid.innerHTML = '';
-      if (!Array.isArray(list) || list.length === 0) {
-        noResults.style.display = 'block';
-        return;
-      }
+      if (!Array.isArray(list) || list.length === 0) { noResults.style.display = 'block'; return; }
       noResults.style.display = 'none';
       list.forEach(p => {
         const card = document.createElement('article');
         card.className = 'product-card';
-        card.setAttribute('role','listitem');
-
+        card.setAttribute('role', 'listitem');
+        // description — поддержка обоих форматов
+        const desc = p.description || p.desc || '';
         card.innerHTML = `
           <div class="product-top">
             <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="${escapeAttr(p.name || '')}">
@@ -648,11 +596,9 @@
           <div class="product-body">
             <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit"><h3 class="p-title">${escapeHtml(p.name)}</h3></a>
             <div class="muted" style="font-size:13px">${escapeHtml(p.brand)} · ${escapeHtml(p.category)}</div>
-            <p class="p-desc muted">${escapeHtml(p.description || '')}</p>
+            <p class="p-desc muted">${escapeHtml(desc)}</p>
             <div class="p-row">
-              <div>
-                <div class="p-price">${Number(p.price||0).toLocaleString()} ₽</div>
-              </div>
+              <div><div class="p-price">${Number(p.price||0).toLocaleString()} ₽</div></div>
               <div class="p-actions">
                 <button class="p-add" data-id="${p.id}" ${!p.available ? 'disabled' : ''}>🛒 Добавить</button>
               </div>
@@ -664,7 +610,7 @@
     }
 
     function applyFilters() {
-      let list = (window.PRODUCTS && Array.isArray(window.PRODUCTS)) ? window.PRODUCTS.slice() : (Array.isArray(PRODUCTS) ? PRODUCTS.slice() : []);
+      let list = (window.PRODUCTS && Array.isArray(window.PRODUCTS)) ? window.PRODUCTS.slice() : PRODUCTS.slice();
       if (state.category) list = list.filter(p => p.category === state.category);
       if (state.brand) list = list.filter(p => p.brand === state.brand);
       if (state.availability === 'in') list = list.filter(p => p.available === true);
@@ -673,24 +619,19 @@
       if (state.maxPrice) list = list.filter(p => Number(p.price) <= Number(state.maxPrice));
       if (state.search && state.search.trim().length > 0) {
         const q = state.search.trim().toLowerCase();
-        list = list.filter(p => ((p.name||'') + ' ' + (p.description||'') + ' ' + (p.brand||'')).toLowerCase().includes(q));
+        list = list.filter(p => ((p.name||'') + ' ' + (p.description||p.desc||'') + ' ' + (p.brand||'')).toLowerCase().includes(q));
       }
-
       switch (state.sort) {
-        case 'price-asc': list.sort((a,b)=>Number(a.price)-Number(b.price)); break;
-        case 'price-desc': list.sort((a,b)=>Number(b.price)-Number(a.price)); break;
-        case 'new': list.sort((a,b)=>Number(b.id) - Number(a.id)); break;
-        case 'brand': list.sort((a,b)=> (String(a.brand||'')).localeCompare(String(b.brand||''))); break;
-        default: list.sort((a,b)=>Number(b.popularity||0) - Number(a.popularity||0)); break;
+        case 'price-asc':  list.sort((a,b) => Number(a.price) - Number(b.price)); break;
+        case 'price-desc': list.sort((a,b) => Number(b.price) - Number(a.price)); break;
+        case 'new':        list.sort((a,b) => Number(b.id) - Number(a.id)); break;
+        case 'brand':      list.sort((a,b) => String(a.brand||'').localeCompare(String(b.brand||''))); break;
+        default:           list.sort((a,b) => Number(b.popularity||0) - Number(a.popularity||0)); break;
       }
-
       renderProducts(list);
     }
 
-    const debounce = (fn, ms=220) => {
-      let t;
-      return (...args) => { clearTimeout(t); t = setTimeout(()=>fn(...args), ms); };
-    };
+    const debounce = (fn, ms = 220) => { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; };
 
     searchInput.addEventListener('input', debounce((e) => { state.search = e.target.value; applyFilters(); }));
     categorySelect.addEventListener('change', (e) => {
@@ -707,10 +648,8 @@
     categoryChips.addEventListener('click', (e) => {
       const btn = e.target.closest('button.chip');
       if (!btn) return;
-      const cat = btn.dataset.cat;
-      state.category = cat;
-      categorySelect.value = cat;
-      // Обновим кастомный дропдаун
+      state.category = btn.dataset.cat;
+      categorySelect.value = btn.dataset.cat;
       categorySelect.dispatchEvent(new Event('change'));
       document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === btn));
       applyFilters();
@@ -721,11 +660,11 @@
       if (!btn) return;
       const id = Number(btn.dataset.id);
       btn.disabled = true;
-      setTimeout(()=> btn.disabled = false, 700);
+      setTimeout(() => btn.disabled = false, 700);
       addToCartLocal(id, 1);
       const prev = btn.textContent;
       btn.textContent = '✓ Добавлено';
-      setTimeout(()=> btn.textContent = prev, 900);
+      setTimeout(() => btn.textContent = prev, 900);
     });
 
     function initFromUrl() {
@@ -736,67 +675,41 @@
         categorySelect.value = cat;
         categorySelect.dispatchEvent(new Event('change'));
         const chip = Array.from(document.querySelectorAll('.chip')).find(c => c.dataset.cat === cat);
-        if (chip) document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active', c===chip));
+        if (chip) document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === chip));
       }
     }
-    // Обработчик кнопки «Очистить всё»
-const resetBtn = document.getElementById('resetFiltersBtn');
-if (resetBtn) {
-  resetBtn.addEventListener('click', () => {
-    // Сбрасываем состояние фильтров
-    state.search = '';
-    state.category = '';
-    state.brand = '';
-    state.availability = '';
-    state.sort = 'featured';
-    state.minPrice = null;
-    state.maxPrice = null;
 
-    // Очищаем поля ввода и селекты
-    searchInput.value = '';
-    categorySelect.value = '';
-    brandSelect.value = '';
-    availabilitySelect.value = '';
-    sortSelect.value = 'featured';
-    minPriceInput.value = '';
-    maxPriceInput.value = '';
+    const resetBtn = document.getElementById('resetFiltersBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        state.search = ''; state.category = ''; state.brand = '';
+        state.availability = ''; state.sort = 'featured'; state.minPrice = null; state.maxPrice = null;
+        searchInput.value = ''; categorySelect.value = ''; brandSelect.value = '';
+        availabilitySelect.value = ''; sortSelect.value = 'featured';
+        minPriceInput.value = ''; maxPriceInput.value = '';
+        document.querySelectorAll('.chip').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === ''));
+        document.querySelectorAll('.ss-dropdown-title').forEach(title => {
+          const dropdown = title.closest('.ss-dropdown');
+          const select = document.getElementById(dropdown.dataset.selectId);
+          if (select) title.textContent = select.options[select.selectedIndex]?.textContent || title.textContent;
+        });
+        applyFilters();
+      });
+    }
 
-    // Обновляем чипсы категорий
-    document.querySelectorAll('.chip').forEach(chip => {
-      chip.classList.toggle('active', chip.dataset.cat === '');
-    });
-
-    // Обновляем заголовки кастомных дропдаунов
-    document.querySelectorAll('.ss-dropdown-title').forEach(title => {
-      const dropdown = title.closest('.ss-dropdown');
-      const selectId = dropdown.dataset.selectId;
-      const select = document.getElementById(selectId);
-      if (select) {
-        title.textContent = select.options[select.selectedIndex]?.textContent || title.textContent;
-      }
-    });
-
-    // Применяем фильтры (показываем все товары)
-    applyFilters();
-  });
-}
     (function addSrOnly() {
       const style = document.createElement('style');
       style.textContent = `.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}`;
       document.head.appendChild(style);
     })();
 
-    function escapeHtml(s){ if(s==null) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-    function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;'); }
+    function escapeHtml(s) { if (s == null) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function escapeAttr(s) { return escapeHtml(s).replace(/"/g, '&quot;'); }
 
-    // ----- Инициализация кастомных дропдаунов -----
     function initCustomDropdowns() {
-      const dropdowns = document.querySelectorAll('.ss-dropdown');
-      dropdowns.forEach(dropdown => {
-        const selectId = dropdown.dataset.selectId;
-        const selectEl = document.getElementById(selectId);
+      document.querySelectorAll('.ss-dropdown').forEach(dropdown => {
+        const selectEl = document.getElementById(dropdown.dataset.selectId);
         if (!selectEl) return;
-
         const button = dropdown.querySelector('.ss-dropdown-button');
         const titleSpan = dropdown.querySelector('.ss-dropdown-title');
         const listUl = dropdown.querySelector('.ss-dropdown-list');
@@ -809,15 +722,12 @@ if (resetBtn) {
             li.className = 'ss-dropdown-item';
             li.textContent = option.textContent;
             li.dataset.value = option.value;
-            if (option.selected) {
-              li.classList.add('selected');
-              titleSpan.textContent = option.textContent;
-            }
+            if (option.selected) { li.classList.add('selected'); titleSpan.textContent = option.textContent; }
             li.addEventListener('click', (e) => {
               e.stopPropagation();
               selectEl.value = li.dataset.value;
               titleSpan.textContent = li.textContent;
-              listUl.querySelectorAll('.ss-dropdown-item').forEach(item => item.classList.remove('selected'));
+              listUl.querySelectorAll('.ss-dropdown-item').forEach(i => i.classList.remove('selected'));
               li.classList.add('selected');
               dropdown.classList.remove('open');
               selectEl.dispatchEvent(new Event('change', { bubbles: true }));
@@ -825,71 +735,41 @@ if (resetBtn) {
             listUl.appendChild(li);
           });
         }
-
         populateList();
 
         button.addEventListener('click', (e) => {
           e.stopPropagation();
-          document.querySelectorAll('.ss-dropdown.open').forEach(d => {
-            if (d !== dropdown) d.classList.remove('open');
-          });
+          document.querySelectorAll('.ss-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
           dropdown.classList.toggle('open');
         });
+        document.addEventListener('click', (e) => { if (!dropdown.contains(e.target)) dropdown.classList.remove('open'); });
 
-        document.addEventListener('click', (e) => {
-          if (!dropdown.contains(e.target)) {
-            dropdown.classList.remove('open');
-          }
-        });
-
-        listUl.addEventListener('mousemove', (e) => {
-          const items = listUl.querySelectorAll('.ss-dropdown-item');
-          let targetItem = null;
-          for (let item of items) {
-            const rect = item.getBoundingClientRect();
-            if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
-              targetItem = item;
-              break;
+        if (floatingIcon) {
+          listUl.addEventListener('mousemove', (e) => {
+            let targetItem = null;
+            for (let item of listUl.querySelectorAll('.ss-dropdown-item')) {
+              const rect = item.getBoundingClientRect();
+              if (e.clientY >= rect.top && e.clientY <= rect.bottom) { targetItem = item; break; }
             }
-          }
-          if (targetItem) {
-            const rect = targetItem.getBoundingClientRect();
-            const containerRect = listUl.getBoundingClientRect();
-            const top = rect.top - containerRect.top;
-            const left = rect.left - containerRect.left;
-            floatingIcon.style.transform = `translate(${left}px, ${top}px)`;
-            floatingIcon.style.opacity = '1';
-          } else {
-            floatingIcon.style.opacity = '0';
-          }
-        });
-
-        listUl.addEventListener('mouseleave', () => {
-          floatingIcon.style.opacity = '0';
-        });
-
-        const observer = new MutationObserver(() => {
-          const selectedOption = selectEl.options[selectEl.selectedIndex];
-          if (selectedOption) {
-            titleSpan.textContent = selectedOption.textContent;
-            listUl.querySelectorAll('.ss-dropdown-item').forEach(item => {
-              item.classList.toggle('selected', item.dataset.value === selectedOption.value);
-            });
-          }
-        });
-        observer.observe(selectEl, { attributes: true, childList: true, subtree: true });
+            if (targetItem) {
+              const rect = targetItem.getBoundingClientRect();
+              const containerRect = listUl.getBoundingClientRect();
+              floatingIcon.style.transform = `translate(${rect.left - containerRect.left}px, ${rect.top - containerRect.top}px)`;
+              floatingIcon.style.opacity = '1';
+            } else { floatingIcon.style.opacity = '0'; }
+          });
+          listUl.addEventListener('mouseleave', () => { floatingIcon.style.opacity = '0'; });
+        }
 
         selectEl.addEventListener('change', () => {
-          const selectedOption = selectEl.options[selectEl.selectedIndex];
-          titleSpan.textContent = selectedOption.textContent;
-          listUl.querySelectorAll('.ss-dropdown-item').forEach(item => {
-            item.classList.toggle('selected', item.dataset.value === selectedOption.value);
-          });
+          const sel = selectEl.options[selectEl.selectedIndex];
+          titleSpan.textContent = sel.textContent;
+          listUl.querySelectorAll('.ss-dropdown-item').forEach(i => i.classList.toggle('selected', i.dataset.value === sel.value));
         });
       });
     }
 
-    (async function boot(){
+    (async function boot() {
       await tryLoadServerProducts();
       mergeCustomIntoProducts();
       initFromUrl();
