@@ -7,71 +7,103 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="catalog.css" />
   <link rel="icon" type="image/png" href="favicon.png">
-</head>
-<style>
-.logo-img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  border-radius: 8px;
-  margin-right: 12px;
-}
-.brand-sub {
-  white-space: nowrap;
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-}
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-@media (max-width: 720px) {
-  .main-nav { display: none; }
-  .menu-toggle { display: inline-block; }
-}
-.btn-reset-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.btn-reset-filters {
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border-radius: 12px;
-  background: rgba(145, 70, 255, 0.08);
-  border: 1px solid rgba(145, 70, 255, 0.25);
-  color: var(--text);
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-  white-space: nowrap;
-}
-.btn-reset-filters:hover {
-  background: rgba(145, 70, 255, 0.18);
-  border-color: var(--accent);
-}
+  <style>
+    .logo-img { width:40px; height:40px; object-fit:contain; border-radius:8px; margin-right:12px; }
+    .brand-sub { white-space:nowrap; font-size:12px; color:var(--muted); margin-top:2px; }
+    .header-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    @media (max-width:720px) { .main-nav { display:none; } .menu-toggle { display:inline-block; } }
 
-/* Исправление описания в карточке */
-.p-desc {
-  display: block !important;
-  -webkit-line-clamp: unset !important;
-  -webkit-box-orient: unset !important;
-  overflow: visible !important;
-  white-space: normal !important;
-  max-height: none !important;
-  text-overflow: unset !important;
-}
-</style>
+    .btn-reset-wrapper { display:flex; align-items:center; justify-content:flex-end; }
+    .btn-reset-filters {
+      padding:10px 20px; font-size:0.95rem; font-weight:600; border-radius:12px;
+      background:rgba(145,70,255,0.08); border:1px solid rgba(145,70,255,0.25);
+      color:var(--text); cursor:pointer; transition:background 0.2s,border-color 0.2s; white-space:nowrap;
+    }
+    .btn-reset-filters:hover { background:rgba(145,70,255,0.18); border-color:var(--accent); }
+
+    .p-desc {
+      display:block !important; -webkit-line-clamp:unset !important;
+      -webkit-box-orient:unset !important; overflow:visible !important;
+      white-space:normal !important; max-height:none !important; text-overflow:unset !important;
+    }
+
+    /* ===== ПОИСК В ШАПКЕ ===== */
+    .header-search-btn {
+      background:transparent; border:1px solid rgba(255,255,255,0.06);
+      padding:7px 10px; border-radius:8px; color:var(--muted); cursor:pointer;
+      display:flex; align-items:center; gap:6px; font-size:13px;
+      transition:border-color 0.2s,color 0.2s;
+    }
+    .header-search-btn:hover { border-color:rgba(145,70,255,0.4); color:var(--text); }
+    .header-search-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px);
+      z-index:9999; display:flex; align-items:flex-start; justify-content:center;
+      padding-top:80px; opacity:0; pointer-events:none; transition:opacity 0.2s;
+    }
+    .header-search-overlay.open { opacity:1; pointer-events:auto; }
+    .header-search-box {
+      width:100%; max-width:600px; background:rgba(18,6,23,0.98);
+      border:1px solid rgba(145,70,255,0.3); border-radius:16px; padding:20px;
+      box-shadow:0 24px 60px rgba(0,0,0,0.6);
+      transform:translateY(-12px); transition:transform 0.2s;
+    }
+    .header-search-overlay.open .header-search-box { transform:translateY(0); }
+    .header-search-input-wrap {
+      display:flex; align-items:center; gap:10px;
+      background:rgba(255,255,255,0.04); border:1px solid rgba(145,70,255,0.2);
+      border-radius:10px; padding:10px 14px;
+    }
+    .header-search-input-wrap svg { flex-shrink:0; opacity:0.5; }
+    #headerSearchInput {
+      flex:1; background:transparent; border:none; outline:none;
+      color:var(--text); font-size:16px; font-family:inherit;
+    }
+    .header-search-hint { margin-top:10px; font-size:13px; color:var(--muted); text-align:center; }
+
+    /* ===== КНОПКА НАВЕРХ ===== */
+    #backToTop {
+      position:fixed; bottom:32px; right:32px; width:48px; height:48px;
+      border-radius:50%; background:linear-gradient(135deg,var(--accent-2),var(--accent));
+      border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 8px 24px rgba(145,70,255,0.4); z-index:999;
+      opacity:0; transform:translateY(16px) scale(0.8);
+      transition:opacity 0.3s,transform 0.3s; pointer-events:none;
+    }
+    #backToTop.visible { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+    #backToTop:hover { box-shadow:0 12px 32px rgba(145,70,255,0.6); transform:translateY(-2px) scale(1.05); }
+
+    /* ===== АНИМАЦИЯ КАРТОЧЕК ===== */
+    .product-card {
+      opacity:0;
+      transform:translateY(24px);
+      transition:opacity 0.45s ease, transform 0.45s ease;
+    }
+    .product-card.visible { opacity:1; transform:translateY(0); }
+
+    /* ===== HOVER ГЛОУ НА КАРТОЧКАХ ===== */
+    .product-card:hover {
+      box-shadow:0 0 0 1px rgba(145,70,255,0.3), 0 16px 48px rgba(145,70,255,0.14) !important;
+      border-color:rgba(145,70,255,0.25) !important;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Поиск оверлей -->
+  <div id="searchOverlay" class="header-search-overlay" role="dialog" aria-label="Поиск">
+    <div class="header-search-box">
+      <div class="header-search-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="headerSearchInput" type="search" placeholder="Поиск товаров..." autocomplete="off" />
+      </div>
+      <div class="header-search-hint">Нажмите Enter · Esc чтобы закрыть</div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
-        <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
+        <a href="index.html" class="brand" style="text-decoration:none;color:inherit;">
           <img src="favicon.png" alt="StreamStarter" class="logo-img" />
           <div class="brand-text">
             <div class="brand-title">StreamStarter</div>
@@ -88,6 +120,10 @@
       </nav>
 
       <div class="actions">
+        <button class="header-search-btn" id="searchOpenBtn" aria-label="Поиск">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Поиск
+        </button>
         <button class="icon-btn" id="cartBtn" aria-label="Открыть корзину">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12L4 2H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span class="cart-count" id="cartCount" hidden>0</span>
@@ -134,12 +170,7 @@
               <span class="ss-dropdown-title">Все категории</span>
               <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
-            <div class="ss-dropdown-list-container">
-              <div class="ss-dropdown-list-wrapper">
-                <ul class="ss-dropdown-list"></ul>
-                <div class="ss-floating-icon" aria-hidden="true"></div>
-              </div>
-            </div>
+            <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
 
@@ -159,12 +190,7 @@
               <span class="ss-dropdown-title">Все бренды</span>
               <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
-            <div class="ss-dropdown-list-container">
-              <div class="ss-dropdown-list-wrapper">
-                <ul class="ss-dropdown-list"></ul>
-                <div class="ss-floating-icon" aria-hidden="true"></div>
-              </div>
-            </div>
+            <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
 
@@ -180,12 +206,7 @@
               <span class="ss-dropdown-title">Все — доступность</span>
               <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
-            <div class="ss-dropdown-list-container">
-              <div class="ss-dropdown-list-wrapper">
-                <ul class="ss-dropdown-list"></ul>
-                <div class="ss-floating-icon" aria-hidden="true"></div>
-              </div>
-            </div>
+            <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
 
@@ -203,12 +224,7 @@
               <span class="ss-dropdown-title">Популярные</span>
               <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
             </button>
-            <div class="ss-dropdown-list-container">
-              <div class="ss-dropdown-list-wrapper">
-                <ul class="ss-dropdown-list"></ul>
-                <div class="ss-floating-icon" aria-hidden="true"></div>
-              </div>
-            </div>
+            <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
 
@@ -242,67 +258,53 @@
     </section>
   </main>
 
-<footer class="site-footer">
-  <div class="container footer-container">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>Товары</h4>
-        <ul>
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-grid">
+        <div class="footer-col"><h4>Товары</h4><ul>
           <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
           <li><a href="catalog.html?cat=mice">Мышки</a></li>
           <li><a href="catalog.html?cat=cameras">Камеры</a></li>
           <li><a href="catalog.html?cat=light">Свет</a></li>
           <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
           <li><a href="catalog.html">Все товары</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Поддержка</h4>
-        <ul>
+        </ul></div>
+        <div class="footer-col"><h4>Поддержка</h4><ul>
           <li><a href="support.html">База знаний</a></li>
           <li><a href="support.html#faq">Частые вопросы</a></li>
           <li><a href="blog.html">Гайды</a></li>
           <li><a href="#contacts">Связаться с нами</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Компания</h4>
-        <ul>
+        </ul></div>
+        <div class="footer-col"><h4>Компания</h4><ul>
           <li><a href="index.html#about">О нас</a></li>
           <li><a href="blog.html">Блог</a></li>
           <li><a href="#">Вакансии</a></li>
           <li><a href="#">Партнёрам</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Правовая информация</h4>
-        <ul>
+        </ul></div>
+        <div class="footer-col"><h4>Правовая информация</h4><ul>
           <li><a href="#">Политика конфиденциальности</a></li>
           <li><a href="#">Пользовательское соглашение</a></li>
           <li><a href="#">Оферта</a></li>
           <li><a href="#">Cookies</a></li>
-        </ul>
+        </ul></div>
+      </div>
+      <div class="footer-contact-block" id="contacts">
+        <div class="footer-contact-map">
+          <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+        </div>
+        <div class="footer-contact-info">
+          <p><strong>Контакты магазина</strong></p>
+          <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+          <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+          <p>📍 ул. Твардовского, д.2к5, Москва</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+        <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
       </div>
     </div>
-
-    <div class="footer-contact-block" id="contacts">
-      <div class="footer-contact-map">
-        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
-      </div>
-      <div class="footer-contact-info">
-        <p><strong>Контакты магазина</strong></p>
-        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
-        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
-        <p>📍 ул. Твардовского, д.2к5, Москва</p>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
-      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
   <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
     <div class="drawer-inner">
@@ -327,8 +329,12 @@
   </aside>
   <div id="overlay" class="overlay" hidden></div>
 
+  <!-- Кнопка Наверх -->
+  <button id="backToTop" aria-label="Наверх">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
   <script>
-    // Базовые товары (статичные, для офлайн-режима)
     let PRODUCTS = [
       {"id":201,"name":"RK-Compact Pro","price":7490,"category":"keyboards","brand":"ProGamer","thumb":"prod-keyboard-01.png","tag":"Хит","popularity":94,"available":true,"description":"Механическая RGB клавиатура 75%."},
       {"id":202,"name":"RK-Flex TKL","price":6390,"category":"keyboards","brand":"NightFox","thumb":"prod-keyboard-02.png","tag":"","popularity":72,"available":true,"description":"Без цифровой панели, компактный корпус."},
@@ -349,11 +355,7 @@
       {"id":217,"name":"MacroPad 12","price":4490,"category":"accessories","brand":"NightFox","thumb":"prod-acc-03.png","tag":"Новинка","popularity":55,"available":true,"description":"Мини-клавиатура для макросов."}
     ];
 
-    let state = {
-      search: '', category: '', brand: '', availability: '',
-      sort: 'featured', minPrice: null, maxPrice: null,
-      cart: JSON.parse(localStorage.getItem('cart') || '[]')
-    };
+    let state = { search:'', category:'', brand:'', availability:'', sort:'featured', minPrice:null, maxPrice:null, cart:[] };
 
     const productsGrid = document.getElementById('productsGrid');
     const searchInput = document.getElementById('searchInput');
@@ -374,203 +376,137 @@
     const cartEmpty = document.getElementById('cartEmpty');
     const cartTotal = document.getElementById('cartTotal');
     const menuToggle = document.getElementById('menuToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
 
-    // Нормализация полей товара — поддержка и старых (desc/longDesc) и новых (description/long_description)
+    function escapeHtml(s) { if(s==null)return''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function escapeAttr(s) { return escapeHtml(s).replace(/"/g,'&quot;'); }
+
     function normalizeProduct(p) {
-      return {
-        ...p,
-        description: p.description || p.desc || '',
-        long_description: p.long_description || p.longDesc || ''
-      };
+      return { ...p, description: p.description||p.desc||'', long_description: p.long_description||p.longDesc||'' };
     }
 
     function loadCustomProducts() {
-      try {
-        const raw = localStorage.getItem('custom_products') || '[]';
-        const arr = JSON.parse(raw);
-        return Array.isArray(arr) ? arr.map(p => normalizeProduct({...p, id: Number(p.id)})) : [];
-      } catch (e) { return []; }
+      try { const arr=JSON.parse(localStorage.getItem('custom_products')||'[]'); return Array.isArray(arr)?arr.map(p=>normalizeProduct({...p,id:Number(p.id)})):[];} catch(e){return[];}
     }
 
     function mergeCustomIntoProducts() {
       try {
-        const custom = loadCustomProducts();
-        const base = Array.isArray(window.PRODUCTS) ? window.PRODUCTS.slice() : PRODUCTS.slice();
-        const map = new Map();
-        base.forEach(p => map.set(Number(p.id), normalizeProduct(p)));
-        custom.forEach(p => map.set(Number(p.id), normalizeProduct(p)));
-        window.PRODUCTS = Array.from(map.values());
-        try { PRODUCTS = window.PRODUCTS; } catch(e) {}
-      } catch (err) { console.error('mergeCustomIntoProducts error', err); }
+        const custom=loadCustomProducts(), base=Array.isArray(window.PRODUCTS)?window.PRODUCTS.slice():PRODUCTS.slice();
+        const map=new Map();
+        base.forEach(p=>map.set(Number(p.id),normalizeProduct(p)));
+        custom.forEach(p=>map.set(Number(p.id),normalizeProduct(p)));
+        window.PRODUCTS=Array.from(map.values());
+        try{PRODUCTS=window.PRODUCTS;}catch(e){}
+      } catch(err){console.error(err);}
     }
 
     async function fetchProductsFromApi() {
-      try {
-        const r = await fetch('/api/products', { cache: 'no-store' });
-        if (!r.ok) return null;
-        const data = await r.json();
-        if (!Array.isArray(data)) return null;
-        return data.map(p => normalizeProduct({...p, id: Number(p.id)}));
-      } catch (e) { return null; }
+      try { const r=await fetch('/api/products',{cache:'no-store'}); if(!r.ok)return null; const data=await r.json(); if(!Array.isArray(data))return null; return data.map(p=>normalizeProduct({...p,id:Number(p.id)})); } catch(e){return null;}
     }
 
     async function tryLoadServerProducts() {
-      const serverList = await fetchProductsFromApi();
-      if (Array.isArray(serverList) && serverList.length) {
-        window.PRODUCTS = serverList.slice();
-        try { PRODUCTS = window.PRODUCTS; } catch(e) {}
-        return true;
-      }
-      try {
-        const r = await fetch('products.json', { cache: 'no-store' });
-        if (r.ok) {
-          const data = await r.json();
-          if (Array.isArray(data) && data.length) {
-            window.PRODUCTS = data.map(p => normalizeProduct({...p, id: Number(p.id)}));
-            try { PRODUCTS = window.PRODUCTS; } catch(e) {}
-            return true;
-          }
-        }
-      } catch(e) {}
+      const serverList=await fetchProductsFromApi();
+      if(Array.isArray(serverList)&&serverList.length){ window.PRODUCTS=serverList.slice(); try{PRODUCTS=window.PRODUCTS;}catch(e){} return true; }
+      try { const r=await fetch('products.json',{cache:'no-store'}); if(r.ok){ const data=await r.json(); if(Array.isArray(data)&&data.length){ window.PRODUCTS=data.map(p=>normalizeProduct({...p,id:Number(p.id)})); try{PRODUCTS=window.PRODUCTS;}catch(e){} return true; } } } catch(e){}
       return false;
     }
 
-    window.addEventListener('products:updated', () => { mergeCustomIntoProducts(); if (typeof applyFilters === 'function') applyFilters(); });
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'custom_products' || e.key === '__products_last_update__') { mergeCustomIntoProducts(); if (typeof applyFilters === 'function') applyFilters(); }
+    window.addEventListener('products:updated',()=>{mergeCustomIntoProducts();if(typeof applyFilters==='function')applyFilters();});
+    window.addEventListener('storage',e=>{
+      if(e.key==='custom_products'||e.key==='__products_last_update__'){mergeCustomIntoProducts();if(typeof applyFilters==='function')applyFilters();}
     });
 
-    const __recentAdds = new Map();
-
-    function readCartLocal() { try { return JSON.parse(localStorage.getItem('cart') || '[]'); } catch(e) { return []; } }
-    function saveCartLocal(cart) {
-      try {
-        localStorage.setItem('cart', JSON.stringify(cart));
-        state.cart = Array.isArray(cart) ? cart : [];
-        window.dispatchEvent(new Event('cart-updated'));
-        try { localStorage.setItem('__last_cart_update__', String(Date.now())); } catch(e) {}
-      } catch(e) { console.error('saveCartLocal', e); }
+    const __recentAdds=new Map();
+    function readCartLocal(){try{return JSON.parse(localStorage.getItem('cart')||'[]');}catch(e){return[];}}
+    function saveCartLocal(cart){
+      try{localStorage.setItem('cart',JSON.stringify(cart));state.cart=Array.isArray(cart)?cart:[];window.dispatchEvent(new Event('cart-updated'));try{localStorage.setItem('__last_cart_update__',String(Date.now()));}catch(e){}}catch(e){console.error(e);}
       updateCartUI();
     }
 
     function updateCartUI() {
-      state.cart = Array.isArray(state.cart) ? state.cart : readCartLocal();
-      const qty = state.cart.reduce((s, i) => s + (Number(i.qty) || 0), 0);
-      cartCountEl.hidden = qty === 0;
-      if (qty > 0) cartCountEl.textContent = qty;
-
-      cartItemsUl.innerHTML = '';
-      if (!state.cart || state.cart.length === 0) {
-        cartEmpty.style.display = 'block';
-        cartTotal.textContent = '0 ₽';
-        return;
-      }
-      cartEmpty.style.display = 'none';
-      let sum = 0;
-      const source = Array.isArray(window.PRODUCTS) ? window.PRODUCTS : PRODUCTS;
-      state.cart.forEach(item => {
-        const p = (source || []).find(x => Number(x.id) === Number(item.id)) || {};
-        const itemQty = Number(item.qty) || 0;
-        sum += (Number(p.price) || 0) * itemQty;
-        const li = document.createElement('li');
-        li.className = 'cart-item';
-        li.dataset.id = item.id;
-        li.innerHTML = `
+      state.cart=Array.isArray(state.cart)?state.cart:readCartLocal();
+      const qty=state.cart.reduce((s,i)=>s+(Number(i.qty)||0),0);
+      cartCountEl.hidden=qty===0; if(qty>0)cartCountEl.textContent=qty;
+      cartItemsUl.innerHTML='';
+      if(!state.cart||!state.cart.length){cartEmpty.style.display='block';cartTotal.textContent='0 ₽';return;}
+      cartEmpty.style.display='none';
+      let sum=0;
+      const source=Array.isArray(window.PRODUCTS)?window.PRODUCTS:PRODUCTS;
+      state.cart.forEach(item=>{
+        const p=(source||[]).find(x=>Number(x.id)===Number(item.id))||{};
+        const itemQty=Number(item.qty)||0;
+        sum+=(Number(p.price)||0)*itemQty;
+        const li=document.createElement('li');
+        li.className='cart-item';li.dataset.id=item.id;
+        li.innerHTML=`
           <a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit;display:flex;gap:10px;align-items:center">
             <div style="width:56px;height:42px;flex:0 0 56px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">
-              <img src="${escapeAttr(p.thumb || 'placeholder.png')}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'">
+              <img src="${escapeAttr(p.thumb||'placeholder.png')}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'">
             </div>
             <div>
-              <div style="font-weight:700">${escapeHtml(p.name || 'Товар')}</div>
+              <div style="font-weight:700">${escapeHtml(p.name||'Товар')}</div>
               <div class="muted" style="font-size:13px">${(Number(p.price)||0).toLocaleString()} ₽ × ${itemQty}</div>
             </div>
           </a>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
-            <div class="cart-controls" style="display:flex;gap:8px;align-items:center">
+            <div style="display:flex;gap:8px;align-items:center">
               <button class="icon-btn small dec" data-id="${item.id}" aria-label="Уменьшить">−</button>
               <div style="min-width:26px;text-align:center">${itemQty}</div>
               <button class="icon-btn small inc" data-id="${item.id}" aria-label="Увеличить">＋</button>
             </div>
             <button class="remove-btn" data-id="${item.id}" title="Удалить">✕</button>
-          </div>
-        `;
+          </div>`;
         cartItemsUl.appendChild(li);
       });
-      cartTotal.textContent = `${sum.toLocaleString()} ₽`;
+      cartTotal.textContent=`${sum.toLocaleString()} ₽`;
     }
 
-    function addToCartLocal(id, qty = 1) {
-      const now = Date.now();
-      const last = __recentAdds.get(id) || 0;
-      if (now - last < 700) return;
-      __recentAdds.set(id, now);
-      setTimeout(() => { if (__recentAdds.get(id) === now) __recentAdds.delete(id); }, 900);
-      const cart = readCartLocal();
-      const found = cart.find(i => Number(i.id) === Number(id));
-      if (found) found.qty = Number(found.qty || 0) + Number(qty || 0);
-      else cart.push({ id: Number(id), qty: Number(qty || 0) });
-      saveCartLocal(cart);
-      openCart();
+    function addToCartLocal(id,qty=1){
+      const now=Date.now(),last=__recentAdds.get(id)||0;
+      if(now-last<700)return;
+      __recentAdds.set(id,now);
+      setTimeout(()=>{if(__recentAdds.get(id)===now)__recentAdds.delete(id);},900);
+      const cart=readCartLocal(),found=cart.find(i=>Number(i.id)===Number(id));
+      if(found)found.qty=Number(found.qty||0)+Number(qty||0);else cart.push({id:Number(id),qty:Number(qty||0)});
+      saveCartLocal(cart);openCart();
     }
 
-    function openCart() {
-      cartDrawer.style.transform = 'translateX(0)';
-      cartDrawer.setAttribute('aria-hidden', 'false');
-      overlay.hidden = false;
-      overlay.classList.add('show');
-      updateCartUI();
-    }
-    function closeCartFn() {
-      cartDrawer.style.transform = 'translateX(100%)';
-      cartDrawer.setAttribute('aria-hidden', 'true');
-      overlay.hidden = true;
-      overlay.classList.remove('show');
-    }
+    function openCart(){cartDrawer.style.transform='translateX(0)';cartDrawer.setAttribute('aria-hidden','false');overlay.hidden=false;overlay.classList.add('show');updateCartUI();}
+    function closeCartFn(){cartDrawer.style.transform='translateX(100%)';cartDrawer.setAttribute('aria-hidden','true');overlay.hidden=true;overlay.classList.remove('show');}
 
-    cartItemsUl.addEventListener('click', (e) => {
-      const btn = e.target.closest('button');
-      if (btn) {
-        const id = Number(btn.dataset.id);
-        if (btn.classList.contains('inc')) {
-          const cart = readCartLocal();
-          const it = cart.find(x => Number(x.id) === Number(id));
-          if (it) { it.qty = Number(it.qty || 0) + 1; saveCartLocal(cart); }
-        } else if (btn.classList.contains('dec')) {
-          const cart = readCartLocal();
-          const it = cart.find(x => Number(x.id) === Number(id));
-          if (it) {
-            if (Number(it.qty || 0) > 1) { it.qty = Number(it.qty || 0) - 1; saveCartLocal(cart); }
-            else btn.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}], {duration:150});
+    cartItemsUl.addEventListener('click',e=>{
+      const btn=e.target.closest('button');
+      if(btn){
+        const id=Number(btn.dataset.id);
+        if(btn.classList.contains('inc')){const c=readCartLocal(),it=c.find(x=>Number(x.id)===id);if(it){it.qty=Number(it.qty||0)+1;saveCartLocal(c);}return;}
+        if(btn.classList.contains('dec')){const c=readCartLocal(),it=c.find(x=>Number(x.id)===id);if(it){if(Number(it.qty||0)>1){it.qty--;saveCartLocal(c);}else btn.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}],{duration:150});}return;}
+        if(btn.classList.contains('remove-btn')){saveCartLocal(readCartLocal().filter(x=>Number(x.id)!==id));return;}
+      }
+      const a=e.target.closest('a');
+      if(a&&a.href){e.preventDefault();const href=a.getAttribute('href');closeCartFn();setTimeout(()=>{location.href=href;},200);}
+    });
+
+    cartBtn&&cartBtn.addEventListener('click',openCart);
+    closeCart&&closeCart.addEventListener('click',closeCartFn);
+    overlay&&overlay.addEventListener('click',closeCartFn);
+    menuToggle&&menuToggle.addEventListener('click',()=>{});
+
+    window.addEventListener('storage',e=>{
+      if(e.key==='cart'||e.key==='__last_cart_update__'){state.cart=readCartLocal();updateCartUI();}
+      if(e.key==='custom_products'||e.key==='__products_last_update__'){mergeCustomIntoProducts();applyFilters();}
+    });
+
+    // ===== РЕНДЕР ТОВАРОВ =====
+    let cardObserver;
+    function initCardObserver() {
+      cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 60);
+            cardObserver.unobserve(entry.target);
           }
-        } else if (btn.classList.contains('remove-btn')) {
-          const cart = readCartLocal().filter(x => Number(x.id) !== Number(id));
-          saveCartLocal(cart);
-        }
-        return;
-      }
-      const a = e.target.closest('a');
-      if (a && a.href) {
-        e.preventDefault();
-        const href = a.getAttribute('href');
-        closeCartFn();
-        setTimeout(() => { location.href = href; }, 200);
-      }
-    });
-
-    cartBtn && cartBtn.addEventListener('click', openCart);
-    closeCart && closeCart.addEventListener('click', closeCartFn);
-    overlay && overlay.addEventListener('click', closeCartFn);
-    menuToggle && menuToggle.addEventListener('click', () => {
-      const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
-      mobileMenu.style.display = isHidden ? 'block' : 'none';
-      mobileMenu.setAttribute('aria-hidden', String(!isHidden));
-    });
-
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'cart' || e.key === '__last_cart_update__') { state.cart = readCartLocal(); updateCartUI(); }
-      if (e.key === 'custom_products' || e.key === '__products_last_update__') { mergeCustomIntoProducts(); applyFilters(); }
-    });
+        });
+      }, { threshold: 0.08 });
+    }
 
     function renderProducts(list) {
       productsGrid.innerHTML = '';
@@ -580,15 +516,14 @@
         const card = document.createElement('article');
         card.className = 'product-card';
         card.setAttribute('role', 'listitem');
-        // description — поддержка обоих форматов
         const desc = p.description || p.desc || '';
         card.innerHTML = `
           <div class="product-top">
-            <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="${escapeAttr(p.name || '')}">
-              <img src="${escapeAttr(p.thumb || 'placeholder.png')}" alt="${escapeAttr(p.name || '')}" onerror="this.style.filter='grayscale(60%)'; this.src='placeholder.png'"/>
+            <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="${escapeAttr(p.name||'')}">
+              <img src="${escapeAttr(p.thumb||'placeholder.png')}" alt="${escapeAttr(p.name||'')}" onerror="this.style.filter='grayscale(60%)';this.src='placeholder.png'"/>
             </a>
-            ${p.tag ? `<span class="p-badge">${escapeHtml(p.tag)}</span>` : ''}
-            ${!p.available ? `<span class="oos">Нет в наличии</span>` : ''}
+            ${p.tag?`<span class="p-badge">${escapeHtml(p.tag)}</span>`:''}
+            ${!p.available?`<span class="oos">Нет в наличии</span>`:''}
           </div>
           <div class="product-body">
             <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit"><h3 class="p-title">${escapeHtml(p.name)}</h3></a>
@@ -596,200 +531,170 @@
             <p class="p-desc muted">${escapeHtml(desc)}</p>
             <div class="p-row">
               <div><div class="p-price">${Number(p.price||0).toLocaleString()} ₽</div></div>
-              <div class="p-actions">
-                <button class="p-add" data-id="${p.id}" ${!p.available ? 'disabled' : ''}>🛒 Добавить</button>
-              </div>
+              <div class="p-actions"><button class="p-add" data-id="${p.id}" ${!p.available?'disabled':''}>🛒 Добавить</button></div>
             </div>
-          </div>
-        `;
+          </div>`;
         productsGrid.appendChild(card);
+        if (cardObserver) cardObserver.observe(card);
       });
     }
 
     function applyFilters() {
-      let list = (window.PRODUCTS && Array.isArray(window.PRODUCTS)) ? window.PRODUCTS.slice() : PRODUCTS.slice();
-      if (state.category) list = list.filter(p => p.category === state.category);
-      if (state.brand) list = list.filter(p => p.brand === state.brand);
-      if (state.availability === 'in') list = list.filter(p => p.available === true);
-      if (state.availability === 'out') list = list.filter(p => p.available === false);
-      if (state.minPrice) list = list.filter(p => Number(p.price) >= Number(state.minPrice));
-      if (state.maxPrice) list = list.filter(p => Number(p.price) <= Number(state.maxPrice));
-      if (state.search && state.search.trim().length > 0) {
-        const q = state.search.trim().toLowerCase();
-        list = list.filter(p => ((p.name||'') + ' ' + (p.description||p.desc||'') + ' ' + (p.brand||'')).toLowerCase().includes(q));
+      let list=(window.PRODUCTS&&Array.isArray(window.PRODUCTS))?window.PRODUCTS.slice():PRODUCTS.slice();
+      if(state.category)list=list.filter(p=>p.category===state.category);
+      if(state.brand)list=list.filter(p=>p.brand===state.brand);
+      if(state.availability==='in')list=list.filter(p=>p.available===true);
+      if(state.availability==='out')list=list.filter(p=>p.available===false);
+      if(state.minPrice)list=list.filter(p=>Number(p.price)>=Number(state.minPrice));
+      if(state.maxPrice)list=list.filter(p=>Number(p.price)<=Number(state.maxPrice));
+      if(state.search&&state.search.trim().length>0){
+        const q=state.search.trim().toLowerCase();
+        list=list.filter(p=>((p.name||'')+' '+(p.description||p.desc||'')+' '+(p.brand||'')).toLowerCase().includes(q));
       }
-      switch (state.sort) {
-        case 'price-asc':  list.sort((a,b) => Number(a.price) - Number(b.price)); break;
-        case 'price-desc': list.sort((a,b) => Number(b.price) - Number(a.price)); break;
-        case 'new':        list.sort((a,b) => Number(b.id) - Number(a.id)); break;
-        case 'brand':      list.sort((a,b) => String(a.brand||'').localeCompare(String(b.brand||''))); break;
-        default:           list.sort((a,b) => Number(b.popularity||0) - Number(a.popularity||0)); break;
+      switch(state.sort){
+        case'price-asc':list.sort((a,b)=>Number(a.price)-Number(b.price));break;
+        case'price-desc':list.sort((a,b)=>Number(b.price)-Number(a.price));break;
+        case'new':list.sort((a,b)=>Number(b.id)-Number(a.id));break;
+        case'brand':list.sort((a,b)=>String(a.brand||'').localeCompare(String(b.brand||'')));break;
+        default:list.sort((a,b)=>Number(b.popularity||0)-Number(a.popularity||0));break;
       }
       renderProducts(list);
     }
 
-    const debounce = (fn, ms = 220) => { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; };
+    const debounce=(fn,ms=220)=>{let t;return(...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),ms);};};
 
-    searchInput.addEventListener('input', debounce((e) => { state.search = e.target.value; applyFilters(); }));
-    categorySelect.addEventListener('change', (e) => {
-      state.category = e.target.value;
-      document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.cat === state.category));
-      applyFilters();
-    });
-    brandSelect.addEventListener('change', (e) => { state.brand = e.target.value; applyFilters(); });
-    availabilitySelect.addEventListener('change', (e) => { state.availability = e.target.value; applyFilters(); });
-    sortSelect.addEventListener('change', (e) => { state.sort = e.target.value; applyFilters(); });
-    minPriceInput.addEventListener('change', (e) => { state.minPrice = e.target.value || null; applyFilters(); });
-    maxPriceInput.addEventListener('change', (e) => { state.maxPrice = e.target.value || null; applyFilters(); });
+    searchInput.addEventListener('input',debounce(e=>{state.search=e.target.value;applyFilters();}));
+    categorySelect.addEventListener('change',e=>{state.category=e.target.value;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.cat===state.category));applyFilters();});
+    brandSelect.addEventListener('change',e=>{state.brand=e.target.value;applyFilters();});
+    availabilitySelect.addEventListener('change',e=>{state.availability=e.target.value;applyFilters();});
+    sortSelect.addEventListener('change',e=>{state.sort=e.target.value;applyFilters();});
+    minPriceInput.addEventListener('change',e=>{state.minPrice=e.target.value||null;applyFilters();});
+    maxPriceInput.addEventListener('change',e=>{state.maxPrice=e.target.value||null;applyFilters();});
 
-    categoryChips.addEventListener('click', (e) => {
-      const btn = e.target.closest('button.chip');
-      if (!btn) return;
-      state.category = btn.dataset.cat;
-      categorySelect.value = btn.dataset.cat;
+    categoryChips.addEventListener('click',e=>{
+      const btn=e.target.closest('button.chip');
+      if(!btn)return;
+      state.category=btn.dataset.cat;
+      categorySelect.value=btn.dataset.cat;
       categorySelect.dispatchEvent(new Event('change'));
-      document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === btn));
+      document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===btn));
       applyFilters();
     });
 
-    productsGrid.addEventListener('click', (e) => {
-      const btn = e.target.closest('button.p-add');
-      if (!btn) return;
-      const id = Number(btn.dataset.id);
-      btn.disabled = true;
-      setTimeout(() => btn.disabled = false, 700);
-      addToCartLocal(id, 1);
-      const prev = btn.textContent;
-      btn.textContent = '✓ Добавлено';
-      setTimeout(() => btn.textContent = prev, 900);
+    productsGrid.addEventListener('click',e=>{
+      const btn=e.target.closest('button.p-add');
+      if(!btn)return;
+      const id=Number(btn.dataset.id);
+      btn.disabled=true;setTimeout(()=>btn.disabled=false,700);
+      addToCartLocal(id,1);
+      const prev=btn.textContent;btn.textContent='✓ Добавлено';setTimeout(()=>btn.textContent=prev,900);
     });
 
-function initFromUrl() {
-  const qs = new URLSearchParams(location.search);
-  const cat = qs.get('cat') || '';
-  const brand = qs.get('brand') || '';
-const search = qs.get('search') || '';
-if (search) {
-  state.search = search;
-  searchInput.value = search;
-}
+    function initFromUrl() {
+      const qs=new URLSearchParams(location.search);
+      const cat=qs.get('cat')||'', brand=qs.get('brand')||'', search=qs.get('search')||'';
+      if(search){state.search=search;searchInput.value=search;}
+      if(cat){
+        state.category=cat;categorySelect.value=cat;categorySelect.dispatchEvent(new Event('change'));
+        const chip=Array.from(document.querySelectorAll('.chip')).find(c=>c.dataset.cat===cat);
+        if(chip)document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===chip));
+      }
+      if(brand){state.brand=brand;brandSelect.value=brand;brandSelect.dispatchEvent(new Event('change'));}
+    }
 
-  if (cat) {
-    state.category = cat;
-    categorySelect.value = cat;
-    categorySelect.dispatchEvent(new Event('change'));
-    const chip = Array.from(document.querySelectorAll('.chip')).find(c => c.dataset.cat === cat);
-    if (chip) document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === chip));
-  }
-
-  if (brand) {
-    state.brand = brand;
-    brandSelect.value = brand;
-    brandSelect.dispatchEvent(new Event('change'));
-  }
-}
-
-    const resetBtn = document.getElementById('resetFiltersBtn');
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        state.search = ''; state.category = ''; state.brand = '';
-        state.availability = ''; state.sort = 'featured'; state.minPrice = null; state.maxPrice = null;
-        searchInput.value = ''; categorySelect.value = ''; brandSelect.value = '';
-        availabilitySelect.value = ''; sortSelect.value = 'featured';
-        minPriceInput.value = ''; maxPriceInput.value = '';
-        document.querySelectorAll('.chip').forEach(chip => chip.classList.toggle('active', chip.dataset.cat === ''));
-        document.querySelectorAll('.ss-dropdown-title').forEach(title => {
-          const dropdown = title.closest('.ss-dropdown');
-          const select = document.getElementById(dropdown.dataset.selectId);
-          if (select) title.textContent = select.options[select.selectedIndex]?.textContent || title.textContent;
+    const resetBtn=document.getElementById('resetFiltersBtn');
+    if(resetBtn){
+      resetBtn.addEventListener('click',()=>{
+        state.search='';state.category='';state.brand='';state.availability='';state.sort='featured';state.minPrice=null;state.maxPrice=null;
+        searchInput.value='';categorySelect.value='';brandSelect.value='';availabilitySelect.value='';sortSelect.value='featured';minPriceInput.value='';maxPriceInput.value='';
+        document.querySelectorAll('.chip').forEach(chip=>chip.classList.toggle('active',chip.dataset.cat===''));
+        document.querySelectorAll('.ss-dropdown-title').forEach(title=>{
+          const dropdown=title.closest('.ss-dropdown'),select=document.getElementById(dropdown.dataset.selectId);
+          if(select)title.textContent=select.options[select.selectedIndex]?.textContent||title.textContent;
         });
         applyFilters();
       });
     }
 
-    (function addSrOnly() {
-      const style = document.createElement('style');
-      style.textContent = `.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}`;
-      document.head.appendChild(style);
+    (function addSrOnly(){
+      const s=document.createElement('style');
+      s.textContent=`.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}`;
+      document.head.appendChild(s);
     })();
 
-    function escapeHtml(s) { if (s == null) return ''; return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-    function escapeAttr(s) { return escapeHtml(s).replace(/"/g, '&quot;'); }
-
     function initCustomDropdowns() {
-      document.querySelectorAll('.ss-dropdown').forEach(dropdown => {
-        const selectEl = document.getElementById(dropdown.dataset.selectId);
-        if (!selectEl) return;
-        const button = dropdown.querySelector('.ss-dropdown-button');
-        const titleSpan = dropdown.querySelector('.ss-dropdown-title');
-        const listUl = dropdown.querySelector('.ss-dropdown-list');
-        const floatingIcon = dropdown.querySelector('.ss-floating-icon');
-
-        function populateList() {
-          listUl.innerHTML = '';
-          Array.from(selectEl.options).forEach(option => {
-            const li = document.createElement('li');
-            li.className = 'ss-dropdown-item';
-            li.textContent = option.textContent;
-            li.dataset.value = option.value;
-            if (option.selected) { li.classList.add('selected'); titleSpan.textContent = option.textContent; }
-            li.addEventListener('click', (e) => {
-              e.stopPropagation();
-              selectEl.value = li.dataset.value;
-              titleSpan.textContent = li.textContent;
-              listUl.querySelectorAll('.ss-dropdown-item').forEach(i => i.classList.remove('selected'));
-              li.classList.add('selected');
-              dropdown.classList.remove('open');
-              selectEl.dispatchEvent(new Event('change', { bubbles: true }));
-            });
+      document.querySelectorAll('.ss-dropdown').forEach(dropdown=>{
+        const selectEl=document.getElementById(dropdown.dataset.selectId);
+        if(!selectEl)return;
+        const button=dropdown.querySelector('.ss-dropdown-button');
+        const titleSpan=dropdown.querySelector('.ss-dropdown-title');
+        const listUl=dropdown.querySelector('.ss-dropdown-list');
+        const floatingIcon=dropdown.querySelector('.ss-floating-icon');
+        function populateList(){
+          listUl.innerHTML='';
+          Array.from(selectEl.options).forEach(option=>{
+            const li=document.createElement('li');li.className='ss-dropdown-item';li.textContent=option.textContent;li.dataset.value=option.value;
+            if(option.selected){li.classList.add('selected');titleSpan.textContent=option.textContent;}
+            li.addEventListener('click',e=>{e.stopPropagation();selectEl.value=li.dataset.value;titleSpan.textContent=li.textContent;listUl.querySelectorAll('.ss-dropdown-item').forEach(i=>i.classList.remove('selected'));li.classList.add('selected');dropdown.classList.remove('open');selectEl.dispatchEvent(new Event('change',{bubbles:true}));});
             listUl.appendChild(li);
           });
         }
         populateList();
-
-        button.addEventListener('click', (e) => {
-          e.stopPropagation();
-          document.querySelectorAll('.ss-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
-          dropdown.classList.toggle('open');
-        });
-        document.addEventListener('click', (e) => { if (!dropdown.contains(e.target)) dropdown.classList.remove('open'); });
-
-        if (floatingIcon) {
-          listUl.addEventListener('mousemove', (e) => {
-            let targetItem = null;
-            for (let item of listUl.querySelectorAll('.ss-dropdown-item')) {
-              const rect = item.getBoundingClientRect();
-              if (e.clientY >= rect.top && e.clientY <= rect.bottom) { targetItem = item; break; }
-            }
-            if (targetItem) {
-              const rect = targetItem.getBoundingClientRect();
-              const containerRect = listUl.getBoundingClientRect();
-              floatingIcon.style.transform = `translate(${rect.left - containerRect.left}px, ${rect.top - containerRect.top}px)`;
-              floatingIcon.style.opacity = '1';
-            } else { floatingIcon.style.opacity = '0'; }
+        button.addEventListener('click',e=>{e.stopPropagation();document.querySelectorAll('.ss-dropdown.open').forEach(d=>{if(d!==dropdown)d.classList.remove('open');});dropdown.classList.toggle('open');});
+        document.addEventListener('click',e=>{if(!dropdown.contains(e.target))dropdown.classList.remove('open');});
+        if(floatingIcon){
+          listUl.addEventListener('mousemove',e=>{
+            let t=null;
+            for(let item of listUl.querySelectorAll('.ss-dropdown-item')){const r=item.getBoundingClientRect();if(e.clientY>=r.top&&e.clientY<=r.bottom){t=item;break;}}
+            if(t){const r=t.getBoundingClientRect(),cr=listUl.getBoundingClientRect();floatingIcon.style.transform=`translate(${r.left-cr.left}px,${r.top-cr.top}px)`;floatingIcon.style.opacity='1';}else floatingIcon.style.opacity='0';
           });
-          listUl.addEventListener('mouseleave', () => { floatingIcon.style.opacity = '0'; });
+          listUl.addEventListener('mouseleave',()=>{floatingIcon.style.opacity='0';});
         }
-
-        selectEl.addEventListener('change', () => {
-          const sel = selectEl.options[selectEl.selectedIndex];
-          titleSpan.textContent = sel.textContent;
-          listUl.querySelectorAll('.ss-dropdown-item').forEach(i => i.classList.toggle('selected', i.dataset.value === sel.value));
+        selectEl.addEventListener('change',()=>{
+          const sel=selectEl.options[selectEl.selectedIndex];titleSpan.textContent=sel.textContent;
+          listUl.querySelectorAll('.ss-dropdown-item').forEach(i=>i.classList.toggle('selected',i.dataset.value===sel.value));
         });
       });
     }
 
-    (async function boot() {
+    // ===== КНОПКА НАВЕРХ =====
+    const backToTop=document.getElementById('backToTop');
+    window.addEventListener('scroll',()=>{backToTop.classList.toggle('visible',window.scrollY>400);},{passive:true});
+    backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // ===== ПОИСК В ШАПКЕ =====
+    const searchOverlay=document.getElementById('searchOverlay');
+    const searchOpenBtn=document.getElementById('searchOpenBtn');
+    const headerSearchInput=document.getElementById('headerSearchInput');
+
+    function openSearch(){searchOverlay.classList.add('open');setTimeout(()=>headerSearchInput.focus(),100);}
+    function closeSearch(){searchOverlay.classList.remove('open');headerSearchInput.value='';}
+
+    searchOpenBtn.addEventListener('click',openSearch);
+    searchOverlay.addEventListener('click',e=>{if(e.target===searchOverlay)closeSearch();});
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape')closeSearch();
+      if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}
+    });
+    headerSearchInput.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        const q=headerSearchInput.value.trim();
+        if(q){state.search=q;searchInput.value=q;closeSearch();applyFilters();}
+      }
+    });
+
+    (async function boot(){
+      initCardObserver();
       await tryLoadServerProducts();
       mergeCustomIntoProducts();
       initFromUrl();
-      state.cart = readCartLocal();
+      state.cart=readCartLocal();
       updateCartUI();
       applyFilters();
       initCustomDropdowns();
     })();
 
-    window._SS = { state, getProducts: () => (window.PRODUCTS || PRODUCTS), applyFilters, addToCartLocal, updateCartUI };
+    window._SS={state,getProducts:()=>(window.PRODUCTS||PRODUCTS),applyFilters,addToCartLocal,updateCartUI};
   </script>
 </body>
 </html>
