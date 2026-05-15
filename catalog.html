@@ -665,9 +665,11 @@
     });
 
 function initFromUrl() {
-  const qs = new URLSearchParams(location.search);
-  const cat = qs.get('cat') || '';
-  const brand = qs.get('brand') || '';
+const search = qs.get('search') || '';
+if (search) {
+  state.search = search;
+  searchInput.value = search;
+}
 
   if (cat) {
     state.category = cat;
