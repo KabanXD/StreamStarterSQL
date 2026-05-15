@@ -217,13 +217,11 @@
   position: relative;
   overflow: hidden;
 }
-/* Размытие по краям */
 .brands-ticker-wrap::before,
 .brands-ticker-wrap::after {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 0; bottom: 0;
   width: 120px;
   z-index: 2;
   pointer-events: none;
@@ -236,7 +234,6 @@
   right: 0;
   background: linear-gradient(to left, #120617, transparent);
 }
-
 .brands-ticker {
   padding: 14px 0;
   background: rgba(255,255,255,0.015);
@@ -244,41 +241,37 @@
   border-bottom: 1px solid rgba(145,70,255,0.1);
   overflow: hidden;
 }
-
 .brands-track {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
   width: max-content;
-  animation: tickerScroll 28s linear infinite;
-  white-space: nowrap;
+  animation: tickerScroll 22s linear infinite;
 }
-
-.brands-track:hover {
-  animation-play-state: paused;
-}
-
-.brands-track span {
+.brands-track:hover { animation-play-state: paused; }
+.brand-chip {
   font-size: 15px;
   font-weight: 700;
   color: var(--muted);
-  letter-spacing: 0.5px;
-  transition: color 0.2s;
-  cursor: default;
+  text-decoration: none;
+  letter-spacing: 0.4px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  white-space: nowrap;
   user-select: none;
 }
-
-.brands-track span:hover {
-  color: var(--accent);
+.brand-chip:hover {
+  color: white;
+  background: rgba(145,70,255,0.12);
+  border-color: rgba(145,70,255,0.35);
 }
-
-/* точки-разделители */
-.brands-track span:nth-child(even) {
+.brand-dot {
   color: rgba(145,70,255,0.3);
-  font-weight: 400;
   font-size: 12px;
+  user-select: none;
 }
-
 @keyframes tickerScroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
