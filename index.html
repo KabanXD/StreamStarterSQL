@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
-    /* Дополнительные стили для блоков "О нас" и блога */
     .about-section {
       margin: 60px 0 40px;
       padding: 40px;
@@ -41,40 +40,29 @@
       gap: 30px;
       margin-top: 30px;
     }
-    .stat-item {
-      text-align: center;
-    }
+    .stat-item { text-align: center; }
     .stat-number {
       font-size: 2.5rem;
       font-weight: 800;
       color: var(--accent);
+      display: block;
     }
-    .stat-label {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    .stat-label { color: var(--muted); font-size: 0.9rem; }
     .about-image {
       border-radius: 24px;
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(145,70,255,0.2);
     }
-    .about-image img {
-      width: 100%;
-      display: block;
-    }
+    .about-image img { width: 100%; display: block; }
 
-    .blog-section {
-      margin: 40px 0 60px;
-    }
+    .blog-section { margin: 40px 0 60px; }
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 30px;
     }
-    .section-header .section-title {
-      margin: 0;
-    }
+    .section-header .section-title { margin: 0; }
     .blog-link-btn {
       padding: 10px 20px;
       background: rgba(145,70,255,0.1);
@@ -107,22 +95,14 @@
       box-shadow: 0 20px 40px rgba(145,70,255,0.15);
       border-color: rgba(145,70,255,0.2);
     }
-    .blog-card-image {
-      height: 180px;
-      overflow: hidden;
-    }
+    .blog-card-image { height: 180px; overflow: hidden; }
     .blog-card-image img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       transition: transform 0.3s;
     }
-    .blog-card-new:hover .blog-card-image img {
-      transform: scale(1.05);
-    }
-    .blog-card-content {
-      padding: 20px;
-    }
+    .blog-card-new:hover .blog-card-image img { transform: scale(1.05); }
+    .blog-card-content { padding: 20px; }
     .blog-card-tag {
       display: inline-block;
       padding: 4px 10px;
@@ -133,24 +113,10 @@
       font-weight: 600;
       margin-bottom: 12px;
     }
-    .blog-card-content h3 {
-      margin: 0 0 10px;
-      font-size: 1.2rem;
-      line-height: 1.4;
-    }
-    .blog-card-content h3 a {
-      text-decoration: none;
-      color: var(--text);
-      transition: color 0.2s;
-    }
-    .blog-card-content h3 a:hover {
-      color: var(--accent);
-    }
-    .blog-card-content p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 15px;
-    }
+    .blog-card-content h3 { margin: 0 0 10px; font-size: 1.2rem; line-height: 1.4; }
+    .blog-card-content h3 a { text-decoration: none; color: var(--text); transition: color 0.2s; }
+    .blog-card-content h3 a:hover { color: var(--accent); }
+    .blog-card-content p { color: var(--muted); font-size: 0.9rem; margin-bottom: 15px; }
     .blog-card-meta {
       display: flex;
       justify-content: space-between;
@@ -159,137 +125,241 @@
       border-top: 1px solid rgba(255,255,255,0.05);
       padding-top: 12px;
     }
-
-    /* Стили для корзины (чтобы все элементы были кликабельны) */
-    .cart-item a {
-      pointer-events: auto;
-      z-index: 1;
-    }
+    .cart-item a { pointer-events: auto; z-index: 1; }
 
     @media (max-width: 820px) {
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-      .blog-cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .about-grid { grid-template-columns: 1fr; }
+      .blog-cards { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 520px) {
-      .blog-cards {
-        grid-template-columns: 1fr;
-      }
-      .about-stats {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
+      .blog-cards { grid-template-columns: 1fr; }
+      .about-stats { flex-wrap: wrap; justify-content: center; }
     }
-.logo-img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  border-radius: 8px; /* по желанию, если нужны скругления */
-  margin-right: 12px; /* отступ от текста */
-}
-.brand-sub {
-  white-space: nowrap;   /* не переносить на новую строку */
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-}
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;       /* на случай переполнения */
-  gap: 16px;             /* расстояние между брендом, навигацией и кнопками */
-}
-@media (max-width: 720px) {
-  .main-nav {
-    display: none;
-  }
-  .menu-toggle {
-    display: inline-block;
-  }
-}
-/* Бегущая строка брендов */
-.brands-ticker-wrap {
-  margin: 32px 0;
-  position: relative;
-  overflow: hidden;
-}
-.brands-ticker-wrap::before,
-.brands-ticker-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 120px;
-  z-index: 2;
-  pointer-events: none;
-}
-.brands-ticker-wrap::before {
-  left: 0;
-  background: linear-gradient(to right, #120617, transparent);
-}
-.brands-ticker-wrap::after {
-  right: 0;
-  background: linear-gradient(to left, #120617, transparent);
-}
-.brands-ticker {
-  padding: 14px 0;
-  background: rgba(255,255,255,0.015);
-  border-top: 1px solid rgba(145,70,255,0.1);
-  border-bottom: 1px solid rgba(145,70,255,0.1);
-  overflow: hidden;
-}
-.brands-track {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  width: max-content;
-  animation: tickerScroll 22s linear infinite;
-}
-.brands-track:hover { animation-play-state: paused; }
-.brand-chip {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--muted);
-  text-decoration: none;
-  letter-spacing: 0.4px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid transparent;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
-  white-space: nowrap;
-  user-select: none;
-}
-.brand-chip:hover {
-  color: white;
-  background: rgba(145,70,255,0.12);
-  border-color: rgba(145,70,255,0.35);
-}
-.brand-dot {
-  color: rgba(145,70,255,0.3);
-  font-size: 12px;
-  user-select: none;
-}
-@keyframes tickerScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+
+    .logo-img { width:40px; height:40px; object-fit:contain; border-radius:8px; margin-right:12px; }
+    .brand-sub { white-space:nowrap; font-size:12px; color:var(--muted); margin-top:2px; }
+    .header-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    @media (max-width:720px) {
+      .main-nav { display:none; }
+      .menu-toggle { display:inline-block; }
+    }
+
+    /* ===== БЕГУЩАЯ СТРОКА БРЕНДОВ ===== */
+    .brands-ticker-wrap {
+      margin: 32px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .brands-ticker-wrap::before,
+    .brands-ticker-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .brands-ticker-wrap::before { left:0; background:linear-gradient(to right,#120617,transparent); }
+    .brands-ticker-wrap::after  { right:0; background:linear-gradient(to left,#120617,transparent); }
+    .brands-ticker {
+      padding: 14px 0;
+      background: rgba(255,255,255,0.015);
+      border-top: 1px solid rgba(145,70,255,0.1);
+      border-bottom: 1px solid rgba(145,70,255,0.1);
+      overflow: hidden;
+    }
+    .brands-track {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      width: max-content;
+      animation: tickerScroll 22s linear infinite;
+    }
+    .brands-track:hover { animation-play-state: paused; }
+    .brand-chip {
+      font-size: 15px; font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.4px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .brand-chip:hover {
+      color: white;
+      background: rgba(145,70,255,0.12);
+      border-color: rgba(145,70,255,0.35);
+    }
+    .brand-dot { color:rgba(145,70,255,0.3); font-size:12px; user-select:none; }
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== ЧАСТИЦЫ НА HERO ===== */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 18px;
+    }
+    .hero { position: relative; }
+    .hero-left, .hero-right { position: relative; z-index: 1; }
+
+    /* ===== АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ===== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ===== HOVER ГЛОУ НА КАРТОЧКАХ КАТЕГОРИЙ ===== */
+    .category-card {
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .category-card:hover {
+      box-shadow: 0 0 0 1px rgba(145,70,255,0.4), 0 18px 60px rgba(145,70,255,0.18);
+    }
+
+    /* ===== КНОПКА НАВЕРХ ===== */
+    #backToTop {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(145,70,255,0.4);
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(16px) scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+    #backToTop.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    #backToTop:hover {
+      box-shadow: 0 12px 32px rgba(145,70,255,0.6);
+      transform: translateY(-2px) scale(1.05);
+    }
+    #backToTop svg { display: block; }
+
+    /* ===== ПОИСК В ШАПКЕ ===== */
+    .header-search-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .header-search-btn:hover { border-color: rgba(145,70,255,0.4); color: var(--text); }
+    .header-search-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 80px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .header-search-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .header-search-box {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(18,6,23,0.98);
+      border: 1px solid rgba(145,70,255,0.3);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      transform: translateY(-12px);
+      transition: transform 0.2s;
+    }
+    .header-search-overlay.open .header-search-box { transform: translateY(0); }
+    .header-search-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(145,70,255,0.2);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .header-search-input-wrap svg { flex-shrink: 0; opacity: 0.5; }
+    #headerSearchInput {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 16px;
+      font-family: inherit;
+    }
+    .header-search-hint {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
   </style>
 </head>
 <body>
+
+  <!-- ===== ПОИСК ОВЕРЛЕЙ ===== -->
+  <div id="searchOverlay" class="header-search-overlay" role="dialog" aria-label="Поиск">
+    <div class="header-search-box">
+      <div class="header-search-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="headerSearchInput" type="search" placeholder="Поиск товаров..." autocomplete="off" />
+      </div>
+      <div class="header-search-hint">Нажмите Enter чтобы перейти в каталог · Esc чтобы закрыть</div>
+    </div>
+  </div>
+
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
-        <a href="index.html" class="brand" style="text-decoration: none; color: inherit;">
-  <img src="favicon.png" alt="StreamStarter" class="logo-img" />
-    <div class="brand-text">
-      <div class="brand-title">StreamStarter</div>
-      <div class="brand-sub">Всё для твоего стрима</div>
-    </div>
-  </a>
-</div>
+        <a href="index.html" class="brand" style="text-decoration:none;color:inherit;">
+          <img src="favicon.png" alt="StreamStarter" class="logo-img" />
+          <div class="brand-text">
+            <div class="brand-title">StreamStarter</div>
+            <div class="brand-sub">Всё для твоего стрима</div>
+          </div>
+        </a>
+      </div>
 
       <nav class="main-nav" id="mainNav">
         <a href="index.html">Главная</a>
@@ -299,6 +369,11 @@
       </nav>
 
       <div class="actions">
+        <!-- Кнопка поиска -->
+        <button class="header-search-btn" id="searchOpenBtn" aria-label="Поиск">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Поиск
+        </button>
         <button class="icon-btn" id="cartBtn" aria-label="Открыть корзину">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M6 6h15l-1.5 9h-12L4 2H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -316,21 +391,20 @@
       <a href="catalog.html">Каталог</a>
       <a href="blog.html">Блог</a>
       <a href="support.html">Поддержка</a>
-      <div class="mobile-cta">
-        <button class="bot-btn full">Открыть бота</button>
-        <button class="ghost-btn full">Войти</button>
-      </div>
     </div>
   </header>
 
   <main class="site-main container">
     <section class="hero">
+      <!-- Частицы -->
+      <canvas id="hero-canvas"></canvas>
+
       <div class="hero-left">
-<h1>Стримь как профи — с оборудованием StreamStarter</h1>
-<p class="lead">Камеры, микрофоны, свет и аксессуары для стримов. Протестировано командой энтузиастов. Помогаем выбрать и настроить всё необходимое для ярких трансляций.</p>
-<div class="hero-ctas">
-  <a class="cta primary" href="catalog.html">Смотреть каталог</a>
-</div>
+        <h1>Стримь как профи — с оборудованием StreamStarter</h1>
+        <p class="lead">Камеры, микрофоны, свет и аксессуары для стримов. Протестировано командой энтузиастов. Помогаем выбрать и настроить всё необходимое для ярких трансляций.</p>
+        <div class="hero-ctas">
+          <a class="cta primary" href="catalog.html">Смотреть каталог</a>
+        </div>
       </div>
       <div class="hero-right">
         <div class="hero-image">
@@ -341,116 +415,82 @@
     </section>
 
     <section class="info-row">
-      <div class="info-item">
+      <div class="info-item fade-up">
         <div class="info-title">Доставка</div>
         <div class="info-sub">1—4 дня</div>
       </div>
-      <div class="info-item">
+      <div class="info-item fade-up">
         <div class="info-title">Гарантия</div>
         <div class="info-sub">14 дней</div>
       </div>
-      <div class="info-item">
+      <div class="info-item fade-up">
         <div class="info-title">Поддержка</div>
         <div class="info-sub">Онлайн</div>
       </div>
     </section>
-<!-- Бегущая строка брендов -->
-<div class="brands-ticker-wrap">
-  <div class="brands-ticker">
-    <div class="brands-track" id="brandsTicker">
-      <a href="catalog.html?brand=AeroSound" class="brand-chip">AeroSound</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=NightFox" class="brand-chip">NightFox</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=Beamline" class="brand-chip">Beamline</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=ProGamer" class="brand-chip">ProGamer</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=StudioTech" class="brand-chip">StudioTech</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=Generic" class="brand-chip">Generic</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=Elgato-like" class="brand-chip">Elgato</a><span class="brand-dot">·</span>
-      <!-- дубликат для бесшовного скролла -->
-      <a href="catalog.html?brand=AeroSound" class="brand-chip">AeroSound</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=NightFox" class="brand-chip">NightFox</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=Beamline" class="brand-chip">Beamline</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=ProGamer" class="brand-chip">ProGamer</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=StudioTech" class="brand-chip">StudioTech</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=Generic" class="brand-chip">Generic</a><span class="brand-dot">·</span>
-      <a href="catalog.html?brand=Elgato-like" class="brand-chip">Elgato</a><span class="brand-dot">·</span>
+
+    <!-- Бегущая строка брендов -->
+    <div class="brands-ticker-wrap">
+      <div class="brands-ticker">
+        <div class="brands-track" id="brandsTicker">
+          <a href="catalog.html?brand=AeroSound" class="brand-chip">AeroSound</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=NightFox" class="brand-chip">NightFox</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=Beamline" class="brand-chip">Beamline</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=ProGamer" class="brand-chip">ProGamer</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=StudioTech" class="brand-chip">StudioTech</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=Generic" class="brand-chip">Generic</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=Elgato-like" class="brand-chip">Elgato</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=AeroSound" class="brand-chip">AeroSound</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=NightFox" class="brand-chip">NightFox</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=Beamline" class="brand-chip">Beamline</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=ProGamer" class="brand-chip">ProGamer</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=StudioTech" class="brand-chip">StudioTech</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=Generic" class="brand-chip">Generic</a><span class="brand-dot">·</span>
+          <a href="catalog.html?brand=Elgato-like" class="brand-chip">Elgato</a><span class="brand-dot">·</span>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
     <h2 class="section-title">Категории</h2>
     <section class="categories-row" aria-label="Категории товаров">
       <div class="container categories">
-        <a href="catalog.html?cat=keyboards" class="category-card" aria-label="Клавиатуры">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-            <path d="M4 9h2M8 9h2M12 9h2M16 9h2M4 13h2M8 13h2M12 13h2M16 13h2"></path>
-          </svg>
+        <a href="catalog.html?cat=keyboards" class="category-card fade-up" aria-label="Клавиатуры">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M4 9h2M8 9h2M12 9h2M16 9h2M4 13h2M8 13h2M12 13h2M16 13h2"></path></svg>
           <span class="cat-label">Клавиатуры</span>
         </a>
-        <a href="catalog.html?cat=mice" class="category-card" aria-label="Мышки">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2c3 0 6 2 6 6v4c0 4-3 6-6 6s-6-2-6-6V8c0-4 3-6 6-6z"></path>
-            <path d="M12 8v-2"></path>
-          </svg>
+        <a href="catalog.html?cat=mice" class="category-card fade-up" aria-label="Мышки">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c3 0 6 2 6 6v4c0 4-3 6-6 6s-6-2-6-6V8c0-4 3-6 6-6z"></path><path d="M12 8v-2"></path></svg>
           <span class="cat-label">Мышки</span>
         </a>
-        <a href="catalog.html?cat=cameras" class="category-card" aria-label="Камеры">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="6" width="18" height="12" rx="2"></rect>
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M8 6l1.5-2h5L16 6"></path>
-          </svg>
+        <a href="catalog.html?cat=cameras" class="category-card fade-up" aria-label="Камеры">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"></rect><circle cx="12" cy="12" r="3"></circle><path d="M8 6l1.5-2h5L16 6"></path></svg>
           <span class="cat-label">Камеры</span>
         </a>
-        <a href="catalog.html?cat=light" class="category-card" aria-label="Свет">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
-            <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+        <a href="catalog.html?cat=light" class="category-card fade-up" aria-label="Свет">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5" stroke-width="1.5"/><line x1="12" y1="1" x2="12" y2="3" stroke-width="1.5"/><line x1="12" y1="21" x2="12" y2="23" stroke-width="1.5"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke-width="1.5"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke-width="1.5"/><line x1="1" y1="12" x2="3" y2="12" stroke-width="1.5"/><line x1="21" y1="12" x2="23" y2="12" stroke-width="1.5"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke-width="1.5"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke-width="1.5"/></svg>
           <span class="cat-label">Свет</span>
         </a>
-        <a href="catalog.html?cat=microphones" class="category-card" aria-label="Микрофоны">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="2" width="6" height="10" rx="3"></rect>
-            <path d="M12 14v4"></path>
-            <path d="M8 18h8"></path>
-          </svg>
+        <a href="catalog.html?cat=microphones" class="category-card fade-up" aria-label="Микрофоны">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="10" rx="3"></rect><path d="M12 14v4"></path><path d="M8 18h8"></path></svg>
           <span class="cat-label">Микрофоны</span>
         </a>
-        <a href="catalog.html?cat=mats" class="category-card" aria-label="Коврики">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2.5" y="5" width="19" height="14" rx="2"></rect>
-            <path d="M6 9h12"></path>
-          </svg>
+        <a href="catalog.html?cat=mats" class="category-card fade-up" aria-label="Коврики">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"></rect><path d="M6 9h12"></path></svg>
           <span class="cat-label">Коврики</span>
         </a>
-        <a href="catalog.html?cat=headphones" class="category-card" aria-label="Наушники">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 14v-2a8 8 0 0 1 16 0v2"></path>
-            <rect x="3" y="14" width="4" height="6" rx="1.2"></rect>
-            <rect x="17" y="14" width="4" height="6" rx="1.2"></rect>
-          </svg>
+        <a href="catalog.html?cat=headphones" class="category-card fade-up" aria-label="Наушники">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"></path><rect x="3" y="14" width="4" height="6" rx="1.2"></rect><rect x="17" y="14" width="4" height="6" rx="1.2"></rect></svg>
           <span class="cat-label">Наушники</span>
         </a>
-        <a href="catalog.html?cat=accessories" class="category-card" aria-label="Аксессуары">
-          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 7.5v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9"></path>
-            <path d="M12 3v6"></path>
-            <path d="M7 7h10"></path>
-          </svg>
+        <a href="catalog.html?cat=accessories" class="category-card fade-up" aria-label="Аксессуары">
+          <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9"></path><path d="M12 3v6"></path><path d="M7 7h10"></path></svg>
           <span class="cat-label">Аксессуары</span>
         </a>
       </div>
     </section>
 
     <!-- Блок "О нас" -->
-    <section class="about-section" id="about">
+    <section class="about-section fade-up" id="about">
       <div class="about-grid">
         <div class="about-content">
           <h2>О StreamStarter</h2>
@@ -458,15 +498,15 @@
           <p>Наша миссия — сделать качественный стриминг доступным каждому, независимо от бюджета и опыта.</p>
           <div class="about-stats">
             <div class="stat-item">
-              <div class="stat-number">100+</div>
+              <span class="stat-number" data-target="100">0</span>
               <div class="stat-label">обзоров</div>
             </div>
             <div class="stat-item">
-              <div class="stat-number">50+</div>
+              <span class="stat-number" data-target="50">0</span>
               <div class="stat-label">гайдов</div>
             </div>
             <div class="stat-item">
-              <div class="stat-number">10k+</div>
+              <span class="stat-number" data-target="10000">0</span>
               <div class="stat-label">стримеров</div>
             </div>
           </div>
@@ -484,116 +524,104 @@
         <a href="blog.html" class="blog-link-btn">Все статьи →</a>
       </div>
       <div class="blog-cards">
-        <article class="blog-card-new">
-        <a href="article.html" class="blog-card-image" style="display: block; height: 180px; overflow: hidden;">
-          <img src="article-obs-setup-thumb.png" alt="Настройка OBS" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
-        </a>
+        <article class="blog-card-new fade-up">
+          <a href="article.html" class="blog-card-image" style="display:block;height:180px;overflow:hidden;">
+            <img src="article-obs-setup-thumb.png" alt="Настройка OBS" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+          </a>
           <div class="blog-card-content">
             <span class="blog-card-tag">Гайды</span>
             <h3><a href="article.html">Как настроить OBS для Twitch за 15 минут</a></h3>
             <p>Пошаговая инструкция по установке и базовой настройке OBS Studio.</p>
-            <div class="blog-card-meta">
-              <span>12 марта 2025</span>
-              <span>Команда StreamStarter</span>
-            </div>
+            <div class="blog-card-meta"><span>12 марта 2025</span><span>Команда StreamStarter</span></div>
           </div>
         </article>
-        <article class="blog-card-new">
-        <a href="article.html" class="blog-card-image" style="display: block; height: 180px; overflow: hidden;">
-          <img src="article-audio-filters-thumb.png" alt="Настройка OBS" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
-        </a>
+        <article class="blog-card-new fade-up">
+          <a href="article-obs-audio.html" class="blog-card-image" style="display:block;height:180px;overflow:hidden;">
+            <img src="article-audio-filters-thumb.png" alt="Звук OBS" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+          </a>
           <div class="blog-card-content">
             <span class="blog-card-tag">Гайды</span>
             <h3><a href="article-obs-audio.html">Идеальный звук: фильтры и настройка микрофона</a></h3>
             <p>Как убрать шум и сделать голос чистым с помощью фильтров OBS.</p>
-            <div class="blog-card-meta">
-              <span>5 марта 2025</span>
-              <span>Алексей Звукарь</span>
-            </div>
+            <div class="blog-card-meta"><span>5 марта 2025</span><span>Алексей Звукарь</span></div>
           </div>
         </article>
-        <article class="blog-card-new">
-        <a href="article.html" class="blog-card-image" style="display: block; height: 180px; overflow: hidden;">
-          <img src="article-budget-lighting-thumb.png" alt="Настройка OBS" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" />
-        </a>
+        <article class="blog-card-new fade-up">
+          <a href="article-budget-lighting.html" class="blog-card-image" style="display:block;height:180px;overflow:hidden;">
+            <img src="article-budget-lighting-thumb.png" alt="Свет для стрима" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+          </a>
           <div class="blog-card-content">
             <span class="blog-card-tag">Советы</span>
             <h3><a href="article-budget-lighting.html">Бюджетный свет для стрима: 3 схемы до 3000 ₽</a></h3>
             <p>Как поставить свет, чтобы выглядеть профессионально, не потратив состояние.</p>
-            <div class="blog-card-meta">
-              <span>18 февраля 2025</span>
-              <span>Анна Светлова</span>
-            </div>
+            <div class="blog-card-meta"><span>18 февраля 2025</span><span>Анна Светлова</span></div>
           </div>
         </article>
       </div>
     </section>
   </main>
 
-<footer class="site-footer">
-  <div class="container footer-container">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>Товары</h4>
-        <ul>
-          <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
-          <li><a href="catalog.html?cat=mice">Мышки</a></li>
-          <li><a href="catalog.html?cat=cameras">Камеры</a></li>
-          <li><a href="catalog.html?cat=light">Свет</a></li>
-          <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
-          <li><a href="catalog.html">Все товары</a></li>
-        </ul>
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>Товары</h4>
+          <ul>
+            <li><a href="catalog.html?cat=keyboards">Клавиатуры</a></li>
+            <li><a href="catalog.html?cat=mice">Мышки</a></li>
+            <li><a href="catalog.html?cat=cameras">Камеры</a></li>
+            <li><a href="catalog.html?cat=light">Свет</a></li>
+            <li><a href="catalog.html?cat=microphones">Микрофоны</a></li>
+            <li><a href="catalog.html">Все товары</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Поддержка</h4>
+          <ul>
+            <li><a href="support.html">База знаний</a></li>
+            <li><a href="support.html#faq">Частые вопросы</a></li>
+            <li><a href="blog.html">Гайды</a></li>
+            <li><a href="#contacts">Связаться с нами</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Компания</h4>
+          <ul>
+            <li><a href="index.html#about">О нас</a></li>
+            <li><a href="blog.html">Блог</a></li>
+            <li><a href="#">Вакансии</a></li>
+            <li><a href="#">Партнёрам</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Правовая информация</h4>
+          <ul>
+            <li><a href="#">Политика конфиденциальности</a></li>
+            <li><a href="#">Пользовательское соглашение</a></li>
+            <li><a href="#">Оферта</a></li>
+            <li><a href="#">Cookies</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Поддержка</h4>
-        <ul>
-          <li><a href="support.html">База знаний</a></li>
-          <li><a href="support.html#faq">Частые вопросы</a></li>
-          <li><a href="blog.html">Гайды</a></li>
-          <!-- Вот эта ссылка теперь ведёт к контактам -->
-          <li><a href="#contacts">Связаться с нами</a></li>
-        </ul>
+      <div class="footer-contact-block" id="contacts">
+        <div class="footer-contact-map">
+          <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
+        </div>
+        <div class="footer-contact-info">
+          <p><strong>Контакты магазина</strong></p>
+          <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
+          <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
+          <p>📍 ул. Твардовского, д.2к5, Москва</p>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Компания</h4>
-        <ul>
-          <li><a href="index.html#about">О нас</a></li>
-          <li><a href="blog.html">Блог</a></li>
-          <li><a href="#">Вакансии</a></li>
-          <li><a href="#">Партнёрам</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Правовая информация</h4>
-        <ul>
-          <li><a href="#">Политика конфиденциальности</a></li>
-          <li><a href="#">Пользовательское соглашение</a></li>
-          <li><a href="#">Оферта</a></li>
-          <li><a href="#">Cookies</a></li>
-        </ul>
+      <div class="footer-bottom">
+        <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
+        <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
       </div>
     </div>
+  </footer>
 
-    <!-- Блок с картой и контактами (добавлен id="contacts") -->
-    <div class="footer-contact-block" id="contacts">
-      <div class="footer-contact-map">
-        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.389382%2C55.798475&z=16&pt=37.389382,55.798475,pm2rdl&l=map&lang=ru_RU" width="100%" height="200" frameborder="0" allowfullscreen="true" style="border-radius:12px;"></iframe>
-      </div>
-      <div class="footer-contact-info">
-        <p><strong>Контакты магазина</strong></p>
-        <p>📞 <a href="tel:+74951203520">+7 (495) 120-35-20</a></p>
-        <p>✉️ <a href="mailto:info@streamstarter.ru">info@streamstarter.ru</a></p>
-        <p>📍 ул. Твардовского, д.2к5, Москва</p>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p class="footer-slogan">Стримьте с лучшим оборудованием. Ваш путь к идеальному стриму начинается здесь.</p>
-      <p class="footer-copyright">© 2025 StreamStarter. Все права защищены.</p>
-    </div>
-  </div>
-</footer>
-
+  <!-- Корзина -->
   <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
     <div class="drawer-inner">
       <header class="drawer-header">
@@ -610,295 +638,307 @@
           <div class="total-sum" id="cartTotal">0 ₽</div>
         </div>
         <div class="drawer-actions">
-          <a href="cart.html" class="cta ghost full" style="padding:10px 12px; text-align:center;">Перейти в корзину</a>
+          <a href="cart.html" class="cta ghost full" style="padding:10px 12px;text-align:center;">Перейти в корзину</a>
         </div>
       </footer>
     </div>
   </aside>
   <div id="overlay" class="overlay" hidden></div>
 
+  <!-- Кнопка Наверх -->
+  <button id="backToTop" aria-label="Наверх">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
   <script>
-    // ==================== ПОЛНЫЙ СПИСОК ТОВАРОВ (как в каталоге) ====================
-    let PRODUCTS = [
-      {"id":201,"name":"RK-Compact Pro","price":7490,"category":"keyboards","brand":"ProGamer","thumb":"prod-keyboard-01.png","tag":"Хит","popularity":94,"available":true,"desc":"Механическая RGB клавиатура 75%."},
-      {"id":202,"name":"RK-Flex TKL","price":6390,"category":"keyboards","brand":"NightFox","thumb":"prod-keyboard-02.png","tag":"","popularity":72,"available":true,"desc":"Без цифровой панели, компактный корпус."},
-      {"id":203,"name":"GamerMouse V2","price":3290,"category":"mice","brand":"ProGamer","thumb":"prod-mouse-01.png","tag":"Новинка","popularity":80,"available":true,"desc":"Оптический сенсор 16000 DPI."},
-      {"id":204,"name":"SilentMouse Elite","price":4890,"category":"mice","brand":"NightFox","thumb":"prod-mouse-02.png","tag":"","popularity":64,"available":false,"desc":"Бесшумные клики, эргономика."},
-      {"id":205,"name":"StreamCam 4K","price":29990,"category":"cameras","brand":"Beamline","thumb":"prod-camera-01.png","tag":"Премиум","popularity":98,"available":true,"desc":"4K@60fps, автофокус."},
-      {"id":206,"name":"CompactCam HD","price":9990,"category":"cameras","brand":"AeroSound","thumb":"prod-camera-02.png","tag":"","popularity":58,"available":true,"desc":"HD камера для стримов и видеозвонков."},
-      {"id":207,"name":"Panel RGB X","price":5590,"category":"light","brand":"Beamline","thumb":"prod-light-01.png","tag":"","popularity":76,"available":true,"desc":"Регулируемая RGB панель."},
-      {"id":208,"name":"KeyLight Mini","price":2390,"category":"light","brand":"Elgato-like","thumb":"prod-light-02.png","tag":"","popularity":52,"available":false,"desc":"Компактный свет для лица."},
-      {"id":209,"name":"Studio M1","price":12990,"category":"microphones","brand":"StudioTech","thumb":"prod-mic-01.png","tag":"Хит","popularity":90,"available":true,"desc":"Конденсаторный микрофон студийного уровня."},
-      {"id":210,"name":"Vocal Pro USB","price":7990,"category":"microphones","brand":"AeroSound","thumb":"prod-mic-02.png","tag":"","popularity":68,"available":true,"desc":"USB микрофон plug&play."},
-      {"id":211,"name":"XL Desk Mat","price":1490,"category":"mats","brand":"Generic","thumb":"prod-mat-01.png","tag":"","popularity":61,"available":true,"desc":"Коврик большого размера для стола."},
-      {"id":212,"name":"GripPad Pro","price":1890,"category":"mats","brand":"NightFox","thumb":"prod-mat-02.png","tag":"","popularity":40,"available":true,"desc":"Антискользящий коврик с RGB краем."},
-      {"id":213,"name":"BeatStudio 7","price":10990,"category":"headphones","brand":"ProGamer","thumb":"prod-headphones-01.png","tag":"","popularity":78,"available":false,"desc":"Закрытые наушники с микрофоном."},
-      {"id":214,"name":"ClearVoice Headset","price":6990,"category":"headphones","brand":"AeroSound","thumb":"prod-headphones-02.png","tag":"","popularity":69,"available":true,"desc":"Удобная гарнитура для стрима."},
-      {"id":215,"name":"Mic Boom Arm","price":1590,"category":"accessories","brand":"Generic","thumb":"prod-acc-01.png","tag":"","popularity":50,"available":true,"desc":"Регулируемый держатель микрофона."},
-      {"id":216,"name":"Pro Cable Kit","price":790,"category":"accessories","brand":"StudioTech","thumb":"prod-acc-02.png","tag":"","popularity":35,"available":true,"desc":"Набор кабелей для стримера."},
-      {"id":217,"name":"MacroPad 12","price":4490,"category":"accessories","brand":"NightFox","thumb":"prod-acc-03.png","tag":"Новинка","popularity":55,"available":true,"desc":"Мини-клавиатура для макросов."}
-    ];
+  // ==================== ТОВАРЫ ====================
+  let PRODUCTS = [
+    {"id":201,"name":"RK-Compact Pro","price":7490,"category":"keyboards","brand":"ProGamer","thumb":"prod-keyboard-01.png","tag":"Хит","popularity":94,"available":true,"description":"Механическая RGB клавиатура 75%."},
+    {"id":202,"name":"RK-Flex TKL","price":6390,"category":"keyboards","brand":"NightFox","thumb":"prod-keyboard-02.png","tag":"","popularity":72,"available":true,"description":"Без цифровой панели, компактный корпус."},
+    {"id":203,"name":"GamerMouse V2","price":3290,"category":"mice","brand":"ProGamer","thumb":"prod-mouse-01.png","tag":"Новинка","popularity":80,"available":true,"description":"Оптический сенсор 16000 DPI."},
+    {"id":204,"name":"SilentMouse Elite","price":4890,"category":"mice","brand":"NightFox","thumb":"prod-mouse-02.png","tag":"","popularity":64,"available":false,"description":"Бесшумные клики, эргономика."},
+    {"id":205,"name":"StreamCam 4K","price":29990,"category":"cameras","brand":"Beamline","thumb":"prod-camera-01.png","tag":"Премиум","popularity":98,"available":true,"description":"4K@60fps, автофокус."},
+    {"id":206,"name":"CompactCam HD","price":9990,"category":"cameras","brand":"AeroSound","thumb":"prod-camera-02.png","tag":"","popularity":58,"available":true,"description":"HD камера для стримов и видеозвонков."},
+    {"id":207,"name":"Panel RGB X","price":5590,"category":"light","brand":"Beamline","thumb":"prod-light-01.png","tag":"","popularity":76,"available":true,"description":"Регулируемая RGB панель."},
+    {"id":208,"name":"KeyLight Mini","price":2390,"category":"light","brand":"Elgato-like","thumb":"prod-light-02.png","tag":"","popularity":52,"available":false,"description":"Компактный свет для лица."},
+    {"id":209,"name":"Studio M1","price":12990,"category":"microphones","brand":"StudioTech","thumb":"prod-mic-01.png","tag":"Хит","popularity":90,"available":true,"description":"Конденсаторный микрофон студийного уровня."},
+    {"id":210,"name":"Vocal Pro USB","price":7990,"category":"microphones","brand":"AeroSound","thumb":"prod-mic-02.png","tag":"","popularity":68,"available":true,"description":"USB микрофон plug&play."},
+    {"id":211,"name":"XL Desk Mat","price":1490,"category":"mats","brand":"Generic","thumb":"prod-mat-01.png","tag":"","popularity":61,"available":true,"description":"Коврик большого размера для стола."},
+    {"id":212,"name":"GripPad Pro","price":1890,"category":"mats","brand":"NightFox","thumb":"prod-mat-02.png","tag":"","popularity":40,"available":true,"description":"Антискользящий коврик с RGB краем."},
+    {"id":213,"name":"BeatStudio 7","price":10990,"category":"headphones","brand":"ProGamer","thumb":"prod-headphones-01.png","tag":"","popularity":78,"available":false,"description":"Закрытые наушники с микрофоном."},
+    {"id":214,"name":"ClearVoice Headset","price":6990,"category":"headphones","brand":"AeroSound","thumb":"prod-headphones-02.png","tag":"","popularity":69,"available":true,"description":"Удобная гарнитура для стрима."},
+    {"id":215,"name":"Mic Boom Arm","price":1590,"category":"accessories","brand":"Generic","thumb":"prod-acc-01.png","tag":"","popularity":50,"available":true,"description":"Регулируемый держатель микрофона."},
+    {"id":216,"name":"Pro Cable Kit","price":790,"category":"accessories","brand":"StudioTech","thumb":"prod-acc-02.png","tag":"","popularity":35,"available":true,"description":"Набор кабелей для стримера."},
+    {"id":217,"name":"MacroPad 12","price":4490,"category":"accessories","brand":"NightFox","thumb":"prod-acc-03.png","tag":"Новинка","popularity":55,"available":true,"description":"Мини-клавиатура для макросов."}
+  ];
 
-    function escapeHtml(s) {
-      if (s == null) return '';
-      return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-    }
-    function escapeAttr(s) {
-      return escapeHtml(s).replace(/"/g, '&quot;');
-    }
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function escapeAttr(s) { return escapeHtml(s).replace(/"/g,'&quot;'); }
 
-    async function loadProductsOnce() {
-      if (window.PRODUCTS && Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
-      try {
-        const r = await fetch('/api/products', { cache: 'no-store' });
-        if (r.ok) {
-          const data = await r.json();
-          if (Array.isArray(data)) {
-            window.PRODUCTS = data.map(p => ({ ...p, id: Number(p.id) }));
-            return window.PRODUCTS;
-          }
-        }
-      } catch (e) {}
-      try {
-        const r = await fetch('products.json', { cache: 'no-store' });
-        if (r.ok) {
-          const data = await r.json();
-          if (Array.isArray(data)) {
-            window.PRODUCTS = data.map(p => ({ ...p, id: Number(p.id) }));
-            return window.PRODUCTS;
-          }
-        }
-      } catch (e) {}
-      return PRODUCTS;
-    }
-
-    function loadCustomProducts() {
-      try {
-        const raw = localStorage.getItem('custom_products') || '[]';
-        const arr = JSON.parse(raw);
-        return Array.isArray(arr) ? arr.map(p => ({ ...p, id: Number(p.id) })) : [];
-      } catch (e) {
-        return [];
+  async function loadProductsOnce() {
+    if (window._productsLoaded && Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
+    try {
+      const r = await fetch('/api/products', { cache: 'no-store' });
+      if (r.ok) {
+        const data = await r.json();
+        if (Array.isArray(data)) { window.PRODUCTS = data.map(p=>({...p,id:Number(p.id)})); window._productsLoaded=true; return window.PRODUCTS; }
       }
-    }
-
-    function mergeCustomIntoProducts() {
-      try {
-        const custom = loadCustomProducts();
-        const base = Array.isArray(window.PRODUCTS) ? window.PRODUCTS.slice() : PRODUCTS.slice();
-        const map = new Map();
-        base.forEach(p => map.set(Number(p.id), p));
-        custom.forEach(p => map.set(Number(p.id), p));
-        window.PRODUCTS = Array.from(map.values());
-        PRODUCTS = window.PRODUCTS;
-      } catch (err) {
-        console.error('mergeCustomIntoProducts error', err);
+    } catch(e){}
+    try {
+      const r = await fetch('products.json', { cache: 'no-store' });
+      if (r.ok) {
+        const data = await r.json();
+        if (Array.isArray(data)) { window.PRODUCTS = data.map(p=>({...p,id:Number(p.id)})); window._productsLoaded=true; return window.PRODUCTS; }
       }
-    }
+    } catch(e){}
+    return PRODUCTS;
+  }
 
-    const cartBtn = document.getElementById('cartBtn');
-    const cartDrawer = document.getElementById('cartDrawer');
-    const closeCart = document.getElementById('closeCart');
-    const overlay = document.getElementById('overlay');
-    const cartItemsUl = document.getElementById('cartItems');
-    const cartEmpty = document.getElementById('cartEmpty');
-    const cartTotalEl = document.getElementById('cartTotal');
-    const cartCountEl = document.getElementById('cartCount');
+  function mergeCustomIntoProducts() {
+    try {
+      const custom = JSON.parse(localStorage.getItem('custom_products')||'[]');
+      const base = Array.isArray(window.PRODUCTS) ? window.PRODUCTS.slice() : PRODUCTS.slice();
+      const map = new Map();
+      base.forEach(p => map.set(Number(p.id), p));
+      (Array.isArray(custom) ? custom : []).forEach(p => map.set(Number(p.id), p));
+      window.PRODUCTS = Array.from(map.values());
+      PRODUCTS = window.PRODUCTS;
+    } catch(e){}
+  }
 
-    let state = {
-      cart: JSON.parse(localStorage.getItem('cart') || '[]')
-    };
+  // ==================== КОРЗИНА ====================
+  const cartBtn = document.getElementById('cartBtn');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const closeCart = document.getElementById('closeCart');
+  const overlay = document.getElementById('overlay');
+  const cartItemsUl = document.getElementById('cartItems');
+  const cartEmpty = document.getElementById('cartEmpty');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartCountEl = document.getElementById('cartCount');
+  let state = { cart: [] };
 
-    function readCartLocal() {
-      try {
-        return JSON.parse(localStorage.getItem('cart') || '[]');
-      } catch (e) {
-        return [];
-      }
-    }
+  function readCartLocal() { try { return JSON.parse(localStorage.getItem('cart')||'[]'); } catch(e){ return []; } }
+  function saveCartLocal(cart) {
+    try { localStorage.setItem('cart', JSON.stringify(cart)); state.cart = cart; window.dispatchEvent(new Event('cart-updated')); } catch(e){}
+    updateCartUI();
+  }
+  function openCart() { cartDrawer.style.transform='translateX(0)'; cartDrawer.setAttribute('aria-hidden','false'); overlay.hidden=false; overlay.classList.add('show'); updateCartUI(); }
+  function closeCartFn() { cartDrawer.style.transform='translateX(100%)'; cartDrawer.setAttribute('aria-hidden','true'); overlay.hidden=true; overlay.classList.remove('show'); }
 
-    function saveCartLocal(cart) {
-      try {
-        localStorage.setItem('cart', JSON.stringify(cart));
-        state.cart = Array.isArray(cart) ? cart : [];
-        window.dispatchEvent(new Event('cart-updated'));
-        try { localStorage.setItem('__last_cart_update__', String(Date.now())); } catch (e) {}
-      } catch (e) {
-        console.error('saveCartLocal', e);
-      }
-      updateCartUI();
-    }
+  const __recentAdds = new Map();
+  function addToCartLocal(id, qty=1) {
+    const now=Date.now(), key=Number(id), last=__recentAdds.get(key)||0;
+    if(now-last<700) return;
+    __recentAdds.set(key, now);
+    setTimeout(()=>{ if(__recentAdds.get(key)===now) __recentAdds.delete(key); }, 900);
+    const cart=readCartLocal(), found=cart.find(i=>Number(i.id)===key);
+    if(found) found.qty=Number(found.qty||0)+qty; else cart.push({id:key,qty});
+    saveCartLocal(cart); openCart();
+  }
 
-    function openCart() {
-      cartDrawer.style.transform = 'translateX(0)';
-      cartDrawer.setAttribute('aria-hidden', 'false');
-      overlay.hidden = false;
-      overlay.classList.add('show');
-      updateCartUI();
-    }
-
-    function closeCartFn() {
-      cartDrawer.style.transform = 'translateX(100%)';
-      cartDrawer.setAttribute('aria-hidden', 'true');
-      overlay.hidden = true;
-      overlay.classList.remove('show');
-    }
-
-    const __recentAdds = new Map();
-    function addToCartLocal(id, qty = 1) {
-      const now = Date.now();
-      const key = Number(id);
-      const last = __recentAdds.get(key) || 0;
-      if (now - last < 700) return;
-      __recentAdds.set(key, now);
-      setTimeout(() => {
-        if (__recentAdds.get(key) === now) __recentAdds.delete(key);
-      }, 900);
-
-      const cart = readCartLocal();
-      const found = cart.find(i => Number(i.id) === key);
-      if (found) found.qty = Number(found.qty || 0) + Number(qty || 0);
-      else cart.push({ id: key, qty: Number(qty || 0) });
-
-      saveCartLocal(cart);
-      openCart();
-    }
-
-    // ==================== КОРЗИНА СО СТРУКТУРОЙ КАК В КАТАЛОГЕ ====================
-    async function updateCartUI() {
-      const prods = await loadProductsOnce();
-      state.cart = Array.isArray(state.cart) ? state.cart : readCartLocal();
-
-      const totalQty = state.cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
-      if (cartCountEl) {
-        cartCountEl.hidden = totalQty === 0;
-        cartCountEl.textContent = totalQty;
-      }
-
-      cartItemsUl.innerHTML = '';
-      if (!state.cart.length) {
-        cartEmpty.style.display = 'block';
-        cartTotalEl.textContent = '0 ₽';
-        return;
-      }
-
-      cartEmpty.style.display = 'none';
-      let sum = 0;
-
-      state.cart.forEach(item => {
-        const p = (prods || []).find(x => Number(x.id) === Number(item.id)) || {};
-        const qty = Number(item.qty) || 0;
-        sum += (Number(p.price) || 0) * qty;
-
-        const li = document.createElement('li');
-        li.className = 'cart-item';
-        li.dataset.id = item.id;
-
-        li.innerHTML = `
-          <a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit;display:flex;gap:10px;align-items:center">
-            <div style="width:56px;height:42px;flex:0 0 56px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">
-              <img src="${escapeAttr(p.thumb || 'placeholder.png')}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'">
-            </div>
-            <div>
-              <div style="font-weight:700">${escapeHtml(p.name || 'Товар')}</div>
-              <div class="muted" style="font-size:13px">${(Number(p.price)||0).toLocaleString()} ₽ × ${qty}</div>
-            </div>
-          </a>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
-            <div class="cart-controls" style="display:flex;gap:8px;align-items:center">
-              <button class="icon-btn small dec" data-id="${item.id}" aria-label="Уменьшить">−</button>
-              <div style="min-width:26px;text-align:center">${qty}</div>
-              <button class="icon-btn small inc" data-id="${item.id}" aria-label="Увеличить">＋</button>
-            </div>
-            <button class="remove-btn" data-id="${item.id}" title="Удалить">✕</button>
+  async function updateCartUI() {
+    const prods = await loadProductsOnce();
+    state.cart = readCartLocal();
+    const totalQty = state.cart.reduce((s,i)=>s+(Number(i.qty)||0),0);
+    if(cartCountEl){ cartCountEl.hidden=totalQty===0; cartCountEl.textContent=totalQty; }
+    cartItemsUl.innerHTML='';
+    if(!state.cart.length){ cartEmpty.style.display='block'; cartTotalEl.textContent='0 ₽'; return; }
+    cartEmpty.style.display='none';
+    let sum=0;
+    state.cart.forEach(item=>{
+      const p=(prods||[]).find(x=>Number(x.id)===Number(item.id))||{};
+      const qty=Number(item.qty)||0;
+      sum+=(Number(p.price)||0)*qty;
+      const li=document.createElement('li');
+      li.className='cart-item'; li.dataset.id=item.id;
+      li.innerHTML=`
+        <a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit;display:flex;gap:10px;align-items:center">
+          <div style="width:56px;height:42px;flex:0 0 56px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">
+            <img src="${escapeAttr(p.thumb||'placeholder.png')}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'">
           </div>
-        `;
-        cartItemsUl.appendChild(li);
-      });
+          <div>
+            <div style="font-weight:700">${escapeHtml(p.name||'Товар')}</div>
+            <div class="muted" style="font-size:13px">${(Number(p.price)||0).toLocaleString()} ₽ × ${qty}</div>
+          </div>
+        </a>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="icon-btn small dec" data-id="${item.id}">−</button>
+            <div style="min-width:26px;text-align:center">${qty}</div>
+            <button class="icon-btn small inc" data-id="${item.id}">＋</button>
+          </div>
+          <button class="remove-btn" data-id="${item.id}">✕</button>
+        </div>`;
+      cartItemsUl.appendChild(li);
+    });
+    cartTotalEl.textContent=`${sum.toLocaleString()} ₽`;
+  }
 
-      cartTotalEl.textContent = `${sum.toLocaleString()} ₽`;
+  cartItemsUl.addEventListener('click', e=>{
+    const btn=e.target.closest('button');
+    if(btn){
+      const id=Number(btn.dataset.id);
+      if(btn.classList.contains('inc')){ const c=readCartLocal(),it=c.find(x=>Number(x.id)===id); if(it){it.qty++;saveCartLocal(c);} return; }
+      if(btn.classList.contains('dec')){ const c=readCartLocal(),it=c.find(x=>Number(x.id)===id); if(it){ if(it.qty>1){it.qty--;saveCartLocal(c);}else btn.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}],{duration:150}); } return; }
+      if(btn.classList.contains('remove-btn')){ saveCartLocal(readCartLocal().filter(x=>Number(x.id)!==id)); return; }
+    }
+    const a=e.target.closest('a');
+    if(a&&a.href){ e.preventDefault(); const href=a.getAttribute('href'); closeCartFn(); setTimeout(()=>{location.href=href;},200); }
+  });
+
+  cartBtn&&cartBtn.addEventListener('click',openCart);
+  closeCart&&closeCart.addEventListener('click',closeCartFn);
+  overlay&&overlay.addEventListener('click',closeCartFn);
+
+  const menuToggle=document.getElementById('menuToggle'), mobileMenu=document.getElementById('mobileMenu');
+  menuToggle&&menuToggle.addEventListener('click',()=>{
+    const h=mobileMenu.getAttribute('aria-hidden')!=='false';
+    mobileMenu.style.display=h?'block':'none';
+    mobileMenu.setAttribute('aria-hidden',String(!h));
+  });
+
+  window.addEventListener('storage',e=>{
+    if(e.key==='cart'||e.key==='__last_cart_update__'){state.cart=readCartLocal();updateCartUI();}
+    if(e.key==='custom_products'||e.key==='__products_last_update__') mergeCustomIntoProducts();
+  });
+
+  // ==================== КНОПКА НАВЕРХ ====================
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', ()=>{
+    backToTop.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  backToTop.addEventListener('click', ()=>{ window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  // ==================== ПОИСК В ШАПКЕ ====================
+  const searchOverlay = document.getElementById('searchOverlay');
+  const searchOpenBtn = document.getElementById('searchOpenBtn');
+  const headerSearchInput = document.getElementById('headerSearchInput');
+
+  function openSearch() {
+    searchOverlay.classList.add('open');
+    setTimeout(()=>headerSearchInput.focus(), 100);
+  }
+  function closeSearch() {
+    searchOverlay.classList.remove('open');
+    headerSearchInput.value='';
+  }
+
+  searchOpenBtn.addEventListener('click', openSearch);
+  searchOverlay.addEventListener('click', e=>{ if(e.target===searchOverlay) closeSearch(); });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape') closeSearch();
+    if((e.ctrlKey||e.metaKey)&&e.key==='k'){ e.preventDefault(); openSearch(); }
+  });
+  headerSearchInput.addEventListener('keydown', e=>{
+    if(e.key==='Enter'){
+      const q=headerSearchInput.value.trim();
+      if(q) window.location.href=`catalog.html?search=${encodeURIComponent(q)}`;
+    }
+  });
+
+  // ==================== АНИМАЦИЯ ПОЯВЛЕНИЯ (fade-up) ====================
+  const fadeObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('visible'); fadeObserver.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el=>fadeObserver.observe(el));
+
+  // ==================== СЧЁТЧИК ЦИФР В "О НАС" ====================
+  function animateCounter(el, target, suffix='') {
+    const duration = 1800;
+    const start = performance.now();
+    function tick(now) {
+      const elapsed = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - elapsed, 3);
+      const val = Math.round(ease * target);
+      el.textContent = val >= 1000 ? (val/1000).toFixed(0)+'k+' : val + (elapsed >= 1 ? '+' : '');
+      if(elapsed < 1) requestAnimationFrame(tick);
+      else el.textContent = target >= 1000 ? (target/1000)+'k+' : target+'+';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const statsObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.querySelectorAll('.stat-number[data-target]').forEach(el=>{
+          animateCounter(el, Number(el.dataset.target));
+        });
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const aboutSection = document.querySelector('.about-section');
+  if(aboutSection) statsObserver.observe(aboutSection);
+
+  // ==================== ЧАСТИЦЫ НА HERO ====================
+  (function initParticles() {
+    const canvas = document.getElementById('hero-canvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, particles=[], raf;
+
+    function resize() {
+      const hero = canvas.parentElement;
+      W = canvas.width = hero.offsetWidth;
+      H = canvas.height = hero.offsetHeight;
     }
 
-    cartItemsUl.addEventListener('click', (e) => {
-      const btn = e.target.closest('button');
-      if (btn) {
-        const id = Number(btn.dataset.id);
-        if (btn.classList.contains('inc')) {
-          const cart = readCartLocal();
-          const it = cart.find(x => Number(x.id) === id);
-          if (it) {
-            it.qty = Number(it.qty || 0) + 1;
-            saveCartLocal(cart);
-          }
-          return;
-        }
+    function createParticle() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.8 + 0.4,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: -Math.random() * 0.5 - 0.1,
+        alpha: Math.random() * 0.5 + 0.1,
+        life: 0,
+        maxLife: Math.random() * 200 + 100
+      };
+    }
 
-        if (btn.classList.contains('dec')) {
-          const cart = readCartLocal();
-          const it = cart.find(x => Number(x.id) === id);
-          if (it) {
-            if (Number(it.qty || 0) > 1) {
-              it.qty = Number(it.qty || 0) - 1;
-              saveCartLocal(cart);
-            } else {
-              btn.animate(
-                [{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(0)' }],
-                { duration: 150 }
-              );
-            }
-          }
-          return;
-        }
+    function init() {
+      particles = Array.from({length: 60}, createParticle);
+    }
 
-        if (btn.classList.contains('remove-btn')) {
-          const cart = readCartLocal().filter(x => Number(x.id) !== id);
-          saveCartLocal(cart);
-          return;
-        }
-      }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach((p, i) => {
+        p.x += p.dx; p.y += p.dy; p.life++;
+        const progress = p.life / p.maxLife;
+        const alpha = p.alpha * Math.sin(progress * Math.PI);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(145,70,255,${alpha})`;
+        ctx.fill();
+        if(p.life >= p.maxLife) particles[i] = createParticle();
+      });
+      raf = requestAnimationFrame(draw);
+    }
 
-      const a = e.target.closest('a');
-      if (a && a.href) {
-        e.preventDefault();
-        const href = a.getAttribute('href');
-        closeCartFn();
-        setTimeout(() => { location.href = href; }, 200);
-      }
-    });
+    resize();
+    init();
+    draw();
+    window.addEventListener('resize', ()=>{ resize(); });
+  })();
 
-    cartBtn && cartBtn.addEventListener('click', openCart);
-    closeCart && closeCart.addEventListener('click', closeCartFn);
-    overlay && overlay.addEventListener('click', closeCartFn);
+  // ==================== ПОДДЕРЖКА ?search= В КАТАЛОГЕ ====================
+  // (catalog.html уже умеет читать ?search= через initFromUrl если добавить)
 
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuToggle && menuToggle.addEventListener('click', () => {
-      const isHidden = mobileMenu.getAttribute('aria-hidden') !== 'false';
-      mobileMenu.style.display = isHidden ? 'block' : 'none';
-      mobileMenu.setAttribute('aria-hidden', String(!isHidden));
-    });
-
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'cart' || e.key === '__last_cart_update__') {
-        state.cart = readCartLocal();
-        updateCartUI();
-      }
-      if (e.key === 'custom_products' || e.key === '__products_last_update__') {
-        mergeCustomIntoProducts();
-      }
-    });
-
-    window.addEventListener('products:updated', () => {
-      mergeCustomIntoProducts();
-    });
-
-    (async function boot() {
-      await loadProductsOnce();
-      mergeCustomIntoProducts();
-      state.cart = readCartLocal();
-      updateCartUI();
-      window.addToCart = addToCartLocal;
-    })();
+  // ==================== BOOT ====================
+  (async function boot() {
+    await loadProductsOnce();
+    mergeCustomIntoProducts();
+    state.cart = readCartLocal();
+    updateCartUI();
+    window.addToCart = addToCartLocal;
+  })();
   </script>
 </body>
 </html>
