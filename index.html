@@ -211,6 +211,78 @@
     display: inline-block;
   }
 }
+/* Бегущая строка брендов */
+.brands-ticker-wrap {
+  margin: 32px 0;
+  position: relative;
+  overflow: hidden;
+}
+/* Размытие по краям */
+.brands-ticker-wrap::before,
+.brands-ticker-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.brands-ticker-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, #120617, transparent);
+}
+.brands-ticker-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, #120617, transparent);
+}
+
+.brands-ticker {
+  padding: 14px 0;
+  background: rgba(255,255,255,0.015);
+  border-top: 1px solid rgba(145,70,255,0.1);
+  border-bottom: 1px solid rgba(145,70,255,0.1);
+  overflow: hidden;
+}
+
+.brands-track {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  width: max-content;
+  animation: tickerScroll 28s linear infinite;
+  white-space: nowrap;
+}
+
+.brands-track:hover {
+  animation-play-state: paused;
+}
+
+.brands-track span {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+  cursor: default;
+  user-select: none;
+}
+
+.brands-track span:hover {
+  color: var(--accent);
+}
+
+/* точки-разделители */
+.brands-track span:nth-child(even) {
+  color: rgba(145,70,255,0.3);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
   </style>
 </head>
 <body>
@@ -289,7 +361,42 @@
         <div class="info-sub">Онлайн</div>
       </div>
     </section>
-
+<!-- Бегущая строка брендов -->
+<div class="brands-ticker-wrap">
+  <div class="brands-ticker">
+    <div class="brands-track">
+      <span>Logitech</span><span>·</span>
+      <span>HyperX</span><span>·</span>
+      <span>Razer</span><span>·</span>
+      <span>SteelSeries</span><span>·</span>
+      <span>Corsair</span><span>·</span>
+      <span>ASUS ROG</span><span>·</span>
+      <span>Elgato</span><span>·</span>
+      <span>Rode</span><span>·</span>
+      <span>Blue Yeti</span><span>·</span>
+      <span>Zowie</span><span>·</span>
+      <span>Cooler Master</span><span>·</span>
+      <span>NZXT</span><span>·</span>
+      <span>MSI</span><span>·</span>
+      <span>Beyerdynamic</span><span>·</span>
+      <!-- дубликат для бесшовного скролла -->
+      <span>Logitech</span><span>·</span>
+      <span>HyperX</span><span>·</span>
+      <span>Razer</span><span>·</span>
+      <span>SteelSeries</span><span>·</span>
+      <span>Corsair</span><span>·</span>
+      <span>ASUS ROG</span><span>·</span>
+      <span>Elgato</span><span>·</span>
+      <span>Rode</span><span>·</span>
+      <span>Blue Yeti</span><span>·</span>
+      <span>Zowie</span><span>·</span>
+      <span>Cooler Master</span><span>·</span>
+      <span>NZXT</span><span>·</span>
+      <span>MSI</span><span>·</span>
+      <span>Beyerdynamic</span><span>·</span>
+    </div>
+  </div>
+</div>
     <h2 class="section-title">Категории</h2>
     <section class="categories-row" aria-label="Категории товаров">
       <div class="container categories">
