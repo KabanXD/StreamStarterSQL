@@ -665,6 +665,9 @@
     });
 
 function initFromUrl() {
+  const qs = new URLSearchParams(location.search);
+  const cat = qs.get('cat') || '';
+  const brand = qs.get('brand') || '';
 const search = qs.get('search') || '';
 if (search) {
   state.search = search;
