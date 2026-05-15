@@ -664,17 +664,25 @@
       setTimeout(() => btn.textContent = prev, 900);
     });
 
-    function initFromUrl() {
-      const qs = new URLSearchParams(location.search);
-      const cat = qs.get('cat') || '';
-      if (cat) {
-        state.category = cat;
-        categorySelect.value = cat;
-        categorySelect.dispatchEvent(new Event('change'));
-        const chip = Array.from(document.querySelectorAll('.chip')).find(c => c.dataset.cat === cat);
-        if (chip) document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === chip));
-      }
-    }
+function initFromUrl() {
+  const qs = new URLSearchParams(location.search);
+  const cat = qs.get('cat') || '';
+  const brand = qs.get('brand') || '';
+
+  if (cat) {
+    state.category = cat;
+    categorySelect.value = cat;
+    categorySelect.dispatchEvent(new Event('change'));
+    const chip = Array.from(document.querySelectorAll('.chip')).find(c => c.dataset.cat === cat);
+    if (chip) document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === chip));
+  }
+
+  if (brand) {
+    state.brand = brand;
+    brandSelect.value = brand;
+    brandSelect.dispatchEvent(new Event('change'));
+  }
+}
 
     const resetBtn = document.getElementById('resetFiltersBtn');
     if (resetBtn) {
