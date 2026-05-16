@@ -7,6 +7,14 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="product.css" />
   <link rel="icon" type="image/png" href="favicon.png">
+  <!-- OG мета-теги (заполняются JS) -->
+<meta property="og:type" content="product" />
+<meta property="og:site_name" content="StreamStarter" />
+<meta property="og:title" id="og-title" content="StreamStarter" />
+<meta property="og:description" id="og-desc" content="Всё для твоего стрима" />
+<meta property="og:image" id="og-image" content="" />
+<meta property="og:url" id="og-url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
   <style>
     :root{--panel:#0b0b0d;--muted:#9aa0a6;--accent:#9146FF;--accent-2:#7f4cff;--text:#e8eaf0;--shadow-soft:0 18px 60px rgba(145,70,255,0.12);}
     html,body{height:100%}
@@ -459,7 +467,16 @@ body {
 
       // Заголовок страницы
       document.title = `${product.name} — StreamStarter`;
-
+      // Заполняем OG мета-теги
+const ogTitle = document.getElementById('og-title');
+const ogDesc = document.getElementById('og-desc');
+const ogImage = document.getElementById('og-image');
+const ogUrl = document.getElementById('og-url');
+if (ogTitle) ogTitle.content = `${product.name} — StreamStarter`;
+if (ogDesc) ogDesc.content = product.description || product.desc || '';
+if (ogImage) ogImage.content = thumbs[0] || '';
+if (ogUrl) ogUrl.content = window.location.href;
+      
       const thumbs=buildThumbs(product);
       if(!thumbs.length)thumbs.push('placeholder.png');
 
@@ -498,6 +515,7 @@ body {
               <div class="cta-row" style="margin-top:12px">
                 <button id="addToCartBtn" class="btn" ${product.available?'':'disabled'}>${product.available?'🛒 Добавить в корзину':'Нет в наличии'}</button>
                 <a class="btn ghost" href="catalog.html?cat=${encodeURIComponent(product.category||'')}">Другие в категории</a>
+                <button id="shareBtn" class="btn ghost" title="Поделиться">🔗 Поделиться</button>
               </div>
               <div class="muted" style="margin-top:12px">Доставка 1–4 дня · Гарантия 14 дней</div>
             </div>
@@ -592,6 +610,30 @@ body {
         addToCartLocal(Number(product.id),1);
         const prev=addBtn.textContent;addBtn.textContent='✓ Добавлено';setTimeout(()=>addBtn.textContent=prev,900);
       });
+
+      // Кнопка "Поделиться"
+const shareBtn = document.getElementById('shareBtn');
+if (shareBtn) {
+  shareBtn.addEventListener('click', async () => {
+    const shareData = {
+      title: product.name,
+      text: `${product.name} — ${Number(product.price||0).toLocaleString()} ₽`,
+      url: window.location.href
+    };
+    if (navigator.share) {
+      // Нативный шейринг на мобильных
+      try { await navigator.share(shareData); } catch(e) {}
+    } else {
+      // На ПК — копируем ссылку
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const prev = shareBtn.textContent;
+        shareBtn.textContent = '✓ Ссылка скопирована';
+        setTimeout(() => shareBtn.textContent = prev, 2000);
+      } catch(e) {}
+    }
+  });
+}
 
       // Рекомендации
       const recommendedSection=document.getElementById('recommendedSection');
