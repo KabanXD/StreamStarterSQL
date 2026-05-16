@@ -123,6 +123,21 @@
     }
     #backToTop.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
     #backToTop:hover{box-shadow:0 12px 32px rgba(145,70,255,0.6);transform:translateY(-2px) scale(1.05);}
+    /* Плавный переход между страницами */
+body {
+  animation: pageFadeIn 0.35s ease forwards;
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-leaving {
+  animation: pageFadeOut 0.25s ease forwards !important;
+}
+@keyframes pageFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
   </style>
 </head>
 <body>
