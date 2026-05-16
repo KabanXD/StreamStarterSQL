@@ -524,6 +524,11 @@ body {
     }
 
     function renderProducts(list) {
+        const countEl = document.getElementById('productsCount');
+  if (countEl) {
+    countEl.textContent = Array.isArray(list) && list.length > 0
+      ? `Найдено: ${list.length} ${pluralProducts(list.length)}`
+      : '';
       productsGrid.innerHTML = '';
       if (!Array.isArray(list) || list.length === 0) { noResults.style.display = 'block'; return; }
       noResults.style.display = 'none';
@@ -533,6 +538,12 @@ body {
         card.setAttribute('role', 'listitem');
         const desc = p.description || p.desc || '';
         card.innerHTML = `
+        function pluralProducts(n) {
+          const mod10 = n % 10, mod100 = n % 100;
+          if (mod10 === 1 && mod100 !== 11) return 'товар';
+          if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return 'товара';
+          return 'товаров';
+        }
           <div class="product-top">
             <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="${escapeAttr(p.name||'')}">
               <img src="${escapeAttr(p.thumb||'placeholder.png')}" alt="${escapeAttr(p.name||'')}" onerror="this.style.filter='grayscale(60%)';this.src='placeholder.png'"/>
