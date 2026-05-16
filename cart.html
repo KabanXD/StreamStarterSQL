@@ -192,6 +192,21 @@
     display: inline-block;
   }
 }
+    /* Плавный переход между страницами */
+body {
+  animation: pageFadeIn 0.35s ease forwards;
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-leaving {
+  animation: pageFadeOut 0.25s ease forwards !important;
+}
+@keyframes pageFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
   </style>
 </head>
 <body>
@@ -1489,8 +1504,20 @@ promoInput.addEventListener('keydown', (e) => {
     }
     window.addToCart = function (id, qty = 1) { const cart = readCart(); const it = cart.find(i => Number(i.id) === Number(id)); if (it) it.qty = parseQty(it.qty) + parseQty(qty); else cart.push({ id: Number(id), qty: parseQty(qty) }); saveCart(cart); };
     boot();
-  
   })();
+  // Плавный переход между страницами
+document.addEventListener('click', e => {
+  const link = e.target.closest('a');
+  if (!link) return;
+  const href = link.getAttribute('href');
+  // Только внутренние ссылки на .html страницы
+  if (!href || href.startsWith('http') || href.startsWith('#') || 
+      href.startsWith('mailto') || href.startsWith('tel') ||
+      link.target === '_blank' || !href.endsWith('.html')) return;
+  e.preventDefault();
+  document.body.classList.add('page-leaving');
+  setTimeout(() => { window.location.href = href; }, 250);
+});
 </script>
 </body>
 </html>
