@@ -437,6 +437,21 @@
   90%  { opacity: 1; }
   100% { transform: translateY(-20px) scale(1); opacity: 0; }
 }
+    /* Плавный переход между страницами */
+body {
+  animation: pageFadeIn 0.35s ease forwards;
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-leaving {
+  animation: pageFadeOut 0.25s ease forwards !important;
+}
+@keyframes pageFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
   </style>
 </head>
 <body>
@@ -1060,27 +1075,24 @@
   const loader = document.getElementById('page-loader');
   if (!loader) return;
 
-  // Создаём частицы
+  // Если уже заходили — скрываем мгновенно
+  if (sessionStorage.getItem('loader_shown')) {
+    loader.remove();
+    return;
+  }
+
   const particlesWrap = document.getElementById('loaderParticles');
   for (let i = 0; i < 18; i++) {
     const p = document.createElement('div');
     p.className = 'loader-particle';
     const size = Math.random() * 4 + 2;
-    p.style.cssText = `
-      width: ${size}px;
-      height: ${size}px;
-      left: ${Math.random() * 100}%;
-      opacity: ${Math.random() * 0.5 + 0.2};
-      animation-duration: ${Math.random() * 3 + 2.5}s;
-      animation-delay: ${Math.random() * 2}s;
-    `;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;opacity:${Math.random()*0.5+0.2};animation-duration:${Math.random()*3+2.5}s;animation-delay:${Math.random()*2}s;`;
     particlesWrap.appendChild(p);
   }
 
-  // Скрываем через 1.6 секунды
   setTimeout(() => {
     loader.classList.add('hidden');
-    // Полностью убираем из DOM после анимации
+    sessionStorage.setItem('loader_shown', '1'); // запоминаем
     setTimeout(() => loader.remove(), 700);
   }, 1600);
 })();
