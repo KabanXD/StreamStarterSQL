@@ -1096,6 +1096,19 @@ body {
     setTimeout(() => loader.remove(), 700);
   }, 1600);
 })();
+    // Плавный переход между страницами
+document.addEventListener('click', e => {
+  const link = e.target.closest('a');
+  if (!link) return;
+  const href = link.getAttribute('href');
+  // Только внутренние ссылки на .html страницы
+  if (!href || href.startsWith('http') || href.startsWith('#') || 
+      href.startsWith('mailto') || href.startsWith('tel') ||
+      link.target === '_blank' || !href.endsWith('.html')) return;
+  e.preventDefault();
+  document.body.classList.add('page-leaving');
+  setTimeout(() => { window.location.href = href; }, 250);
+});
   </script>
 </body>
 </html>
