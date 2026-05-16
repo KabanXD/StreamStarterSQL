@@ -123,9 +123,126 @@
     }
     #backToTop.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
     #backToTop:hover{box-shadow:0 12px 32px rgba(145,70,255,0.6);transform:translateY(-2px) scale(1.05);}
+    /* ===== ЗАГРУЗОЧНЫЙ ЭКРАН ===== */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: linear-gradient(135deg, #0d0520 0%, #120617 50%, #1a0a2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#page-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  z-index: 1;
+  position: relative;
+}
+.loader-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: loaderFadeIn 0.5s ease forwards;
+}
+.loader-favicon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  box-shadow: 0 0 40px rgba(145,70,255,0.5), 0 0 80px rgba(145,70,255,0.2);
+  animation: loaderPulse 2s ease-in-out infinite;
+}
+.loader-brand {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #fff 30%, #c9a9ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: Inter, system-ui, Arial;
+}
+.loader-bar-wrap {
+  width: 200px;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.loader-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #7f4cff, #9146ff, #c084fc);
+  border-radius: 99px;
+  animation: loaderProgress 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 0 0 12px rgba(145,70,255,0.8);
+}
+.loader-tagline {
+  font-size: 13px;
+  color: rgba(154,160,166,0.7);
+  letter-spacing: 0.3px;
+  font-family: Inter, system-ui, Arial;
+  animation: loaderFadeIn 0.8s ease 0.3s both;
+}
+.loader-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.loader-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(145,70,255,0.4);
+  animation: loaderParticleFloat linear infinite;
+}
+
+@keyframes loaderFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes loaderPulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(145,70,255,0.5), 0 0 80px rgba(145,70,255,0.2); }
+  50%       { box-shadow: 0 0 60px rgba(145,70,255,0.8), 0 0 120px rgba(145,70,255,0.35); }
+}
+@keyframes loaderProgress {
+  0%   { width: 0%; }
+  30%  { width: 45%; }
+  70%  { width: 75%; }
+  100% { width: 100%; }
+}
+@keyframes loaderParticleFloat {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-20px) scale(1); opacity: 0; }
+}
   </style>
 </head>
 <body>
+  <!-- ===== ЗАГРУЗОЧНЫЙ ЭКРАН ===== -->
+<div id="page-loader">
+  <div class="loader-inner">
+    <div class="loader-logo">
+      <img src="favicon.png" alt="StreamStarter" class="loader-favicon" />
+      <div class="loader-brand">StreamStarter</div>
+    </div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar"></div>
+    </div>
+    <div class="loader-tagline">Загружаем лучшее оборудование…</div>
+  </div>
+  <div class="loader-particles" id="loaderParticles"></div>
+</div>
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
@@ -620,6 +737,35 @@
     updateCartUI();
     window._SS={addToCartLocal,updateCartUI,readCart,saveCartLocal};
   })();
+    // ===== ЗАГРУЗОЧНЫЙ ЭКРАН =====
+(function initLoader() {
+  const loader = document.getElementById('page-loader');
+  if (!loader) return;
+
+  // Создаём частицы
+  const particlesWrap = document.getElementById('loaderParticles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'loader-particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${Math.random() * 100}%;
+      opacity: ${Math.random() * 0.5 + 0.2};
+      animation-duration: ${Math.random() * 3 + 2.5}s;
+      animation-delay: ${Math.random() * 2}s;
+    `;
+    particlesWrap.appendChild(p);
+  }
+
+  // Скрываем через 1.6 секунды
+  setTimeout(() => {
+    loader.classList.add('hidden');
+    // Полностью убираем из DOM после анимации
+    setTimeout(() => loader.remove(), 700);
+  }, 1600);
+})();
   </script>
 </body>
 </html>
