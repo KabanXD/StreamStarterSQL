@@ -85,6 +85,21 @@
       box-shadow:0 0 0 1px rgba(145,70,255,0.3), 0 16px 48px rgba(145,70,255,0.14) !important;
       border-color:rgba(145,70,255,0.25) !important;
     }
+    /* Плавный переход между страницами */
+body {
+  animation: pageFadeIn 0.35s ease forwards;
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-leaving {
+  animation: pageFadeOut 0.25s ease forwards !important;
+}
+@keyframes pageFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
   </style>
 </head>
 <body>
