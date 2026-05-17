@@ -7,14 +7,13 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="product.css" />
   <link rel="icon" type="image/png" href="favicon.png">
-  <!-- OG мета-теги (заполняются JS) -->
-<meta property="og:type" content="product" />
-<meta property="og:site_name" content="StreamStarter" />
-<meta property="og:title" id="og-title" content="StreamStarter" />
-<meta property="og:description" id="og-desc" content="Всё для твоего стрима" />
-<meta property="og:image" id="og-image" content="" />
-<meta property="og:url" id="og-url" content="" />
-<meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:type" content="product" />
+  <meta property="og:site_name" content="StreamStarter" />
+  <meta property="og:title" id="og-title" content="StreamStarter" />
+  <meta property="og:description" id="og-desc" content="Всё для твоего стрима" />
+  <meta property="og:image" id="og-image" content="" />
+  <meta property="og:url" id="og-url" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
   <style>
     :root{--panel:#0b0b0d;--muted:#9aa0a6;--accent:#9146FF;--accent-2:#7f4cff;--text:#e8eaf0;--shadow-soft:0 18px 60px rgba(145,70,255,0.12);}
     html,body{height:100%}
@@ -25,7 +24,6 @@
     header.page-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-top:20px;}
     header.page-top a.breadcrumb{color:var(--muted);text-decoration:none;margin-right:10px}
     header.page-top a.breadcrumb:hover{color:var(--text)}
-    /* Хлебные крошки — категория как ссылка */
     .breadcrumb-cat{color:var(--muted);text-decoration:none;margin-left:8px;transition:color 0.2s;}
     .breadcrumb-cat:hover{color:var(--accent);}
     h1.prod-title{margin:0;color:var(--text)}
@@ -77,15 +75,7 @@
     .lb-next{left:auto;right:8px}
     .lb-indicator{color:#fff;font-weight:700;font-size:14px;margin-top:6px}
     img{image-rendering:auto}
-    @media(max-width:560px){
-      .rec-card{width:46%}
-      .thumb-viewport{width:auto}
-      .thumb-scroll{height:auto;overflow:auto}
-      .thumb-list{flex-direction:row}
-      .vthumb{width:84px;height:64px}
-      .main-image{min-height:220px}
-      .lb-img{width:calc(100vw - 40px)}
-    }
+    @media(max-width:560px){.rec-card{width:46%}.thumb-viewport{width:auto}.thumb-scroll{height:auto;overflow:auto}.thumb-list{flex-direction:row}.vthumb{width:84px;height:64px}.main-image{min-height:220px}.lb-img{width:calc(100vw - 40px)}}
     .cart-head-btn{position:relative;}
     .cart-count{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#9146ff;color:#fff;font-size:11px;line-height:18px;text-align:center;font-weight:700;box-shadow:0 0 0 2px rgba(0,0,0,.35);}
     .cart-drawer{position:fixed;right:0;top:0;height:100vh;width:380px;max-width:92%;transform:translateX(100%);transition:transform .22s ease;background:linear-gradient(180deg,#07050b,#0b0710);box-shadow:-24px 0 60px rgba(0,0,0,0.6);z-index:10000;color:var(--text);display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,0.03);}
@@ -102,10 +92,7 @@
     .cart-item-title{font-weight:700;line-height:1.25;white-space:normal;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
     .cart-item-sub{font-size:13px;color:var(--muted);margin-top:4px;}
     .cart-controls{grid-column:3;display:grid;grid-template-columns:auto auto auto;grid-template-rows:auto auto;gap:10px 8px;align-items:center;justify-items:center;margin-left:auto;}
-    .cart-controls .dec{grid-column:1;grid-row:1;}
-    .cart-controls>div{grid-column:2;grid-row:1;min-width:26px;text-align:center;font-weight:700;}
-    .cart-controls .inc{grid-column:3;grid-row:1;}
-    .cart-controls .remove-btn{grid-column:3;grid-row:2;justify-self:end;}
+    .cart-controls .dec{grid-column:1;grid-row:1;}.cart-controls>div{grid-column:2;grid-row:1;min-width:26px;text-align:center;font-weight:700;}.cart-controls .inc{grid-column:3;grid-row:1;}.cart-controls .remove-btn{grid-column:3;grid-row:2;justify-self:end;}
     .icon-btn{position:relative;background:transparent;border:1px solid rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;color:inherit;cursor:pointer;}
     .icon-btn.small{padding:6px 8px;}
     .remove-btn{background:transparent;border:0;color:#f66;cursor:pointer;padding:6px;border-radius:6px;}
@@ -120,35 +107,21 @@
     .header-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
     @media(max-width:720px){.main-nav{display:none;}.menu-toggle{display:inline-block;}}
 
-    /* ===== КНОПКА НАВЕРХ ===== */
-    #backToTop{
-      position:fixed;bottom:32px;right:32px;width:48px;height:48px;border-radius:50%;
-      background:linear-gradient(135deg,var(--accent-2),var(--accent));border:none;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 8px 24px rgba(145,70,255,0.4);z-index:999;
-      opacity:0;transform:translateY(16px) scale(0.8);
-      transition:opacity 0.3s,transform 0.3s;pointer-events:none;
-    }
+    /* КНОПКА НАВЕРХ */
+    #backToTop{position:fixed;bottom:32px;right:32px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent-2),var(--accent));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(145,70,255,0.4);z-index:998;opacity:0;transform:translateY(16px) scale(0.8);transition:opacity 0.3s,transform 0.3s;pointer-events:none;}
     #backToTop.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
     #backToTop:hover{box-shadow:0 12px 32px rgba(145,70,255,0.6);transform:translateY(-2px) scale(1.05);}
-    /* Плавный переход между страницами */
-body {
-  animation: pageFadeIn 0.35s ease forwards;
-}
-@keyframes pageFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.page-leaving {
-  animation: pageFadeOut 0.25s ease forwards !important;
-}
-@keyframes pageFadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-8px); }
-}
+
+    /* ПЛАВНЫЙ ПЕРЕХОД — только враппер */
+    #page-transition-wrap{animation:pageFadeIn 0.35s ease forwards;}
+    @keyframes pageFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .page-leaving #page-transition-wrap{animation:pageFadeOut 0.25s ease forwards !important;}
+    @keyframes pageFadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
   </style>
 </head>
 <body>
+
+<div id="page-transition-wrap">
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
@@ -186,7 +159,6 @@ body {
       <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">
         <a href="catalog.html" class="breadcrumb">Каталог</a>
         <span style="color:var(--muted)">/</span>
-        <!-- категория станет ссылкой после загрузки товара -->
         <a id="breadcrumb-category" class="breadcrumb-cat" href="catalog.html"></a>
       </div>
       <div style="display:flex;align-items:center;gap:12px">
@@ -252,444 +224,357 @@ body {
       </div>
     </div>
   </footer>
+</div><!-- /page-transition-wrap -->
 
-  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
-    <div class="drawer-inner">
-      <header class="drawer-header">
-        <h3>Корзина</h3>
-        <button id="closeCart" class="icon-btn">✕</button>
-      </header>
-      <div class="drawer-body">
-        <ul id="cartItems" class="cart-items-list"></ul>
-        <p id="cartEmpty" class="muted">Корзина пуста</p>
-      </div>
-      <footer class="drawer-footer">
-        <div class="total-row">
-          <div>Итого</div>
-          <div class="total-sum" id="cartTotal">0 ₽</div>
-        </div>
-        <div class="drawer-actions">
-          <a href="cart.html" class="btn ghost full">Перейти в корзину</a>
-        </div>
-      </footer>
+<!-- fixed элементы вне враппера -->
+<aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+  <div class="drawer-inner">
+    <header class="drawer-header"><h3>Корзина</h3><button id="closeCart" class="icon-btn">✕</button></header>
+    <div class="drawer-body">
+      <ul id="cartItems" class="cart-items-list"></ul>
+      <p id="cartEmpty" class="muted">Корзина пуста</p>
     </div>
-  </aside>
-  <div id="overlay" class="overlay" hidden></div>
-
-  <!-- Lightbox -->
-  <div id="lightbox" class="lb-overlay" aria-hidden="true">
-    <div class="lb-content" role="dialog" aria-modal="true">
-      <button class="lb-close" id="lbClose" aria-label="Закрыть">✕</button>
-      <button class="lb-prev" id="lbPrev" aria-label="Предыдущая">‹</button>
-      <div class="lb-img" id="lbImgWrap"><img id="lbImage" src="placeholder.png" alt=""></div>
-      <button class="lb-next" id="lbNext" aria-label="Следующая">›</button>
-      <div class="lb-indicator" id="lbIndicator">1 / 1</div>
-    </div>
+    <footer class="drawer-footer">
+      <div class="total-row"><div>Итого</div><div class="total-sum" id="cartTotal">0 ₽</div></div>
+      <div class="drawer-actions"><a href="cart.html" class="btn ghost full">Перейти в корзину</a></div>
+    </footer>
   </div>
+</aside>
+<div id="overlay" class="overlay" hidden></div>
 
-  <!-- Кнопка Наверх -->
-  <button id="backToTop" aria-label="Наверх">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
-  </button>
+<div id="lightbox" class="lb-overlay" aria-hidden="true">
+  <div class="lb-content" role="dialog" aria-modal="true">
+    <button class="lb-close" id="lbClose" aria-label="Закрыть">✕</button>
+    <button class="lb-prev" id="lbPrev" aria-label="Предыдущая">‹</button>
+    <div class="lb-img" id="lbImgWrap"><img id="lbImage" src="placeholder.png" alt=""></div>
+    <button class="lb-next" id="lbNext" aria-label="Следующая">›</button>
+    <div class="lb-indicator" id="lbIndicator">1 / 1</div>
+  </div>
+</div>
 
-  <script>
-  (function(){
-    function escapeHtml(s){ if(s==null)return''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-    function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;'); }
+<button id="backToTop" aria-label="Наверх">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
 
-    const productWrap = document.getElementById('productWrap');
-    const breadcrumbCat = document.getElementById('breadcrumb-category');
+<script>
+(function(){
+  function escapeHtml(s){if(s==null)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function escapeAttr(s){return escapeHtml(s).replace(/"/g,'&quot;');}
 
-    const cartBtnTop = document.getElementById('cartBtnTop');
-    const cartDrawer = document.getElementById('cartDrawer');
-    const closeCart = document.getElementById('closeCart');
-    const overlay = document.getElementById('overlay');
-    const cartItemsUl = document.getElementById('cartItems');
-    const cartEmpty = document.getElementById('cartEmpty');
-    const cartTotal = document.getElementById('cartTotal');
-    const cartCountTop = document.getElementById('cartCountTop');
+  const productWrap=document.getElementById('productWrap');
+  const breadcrumbCat=document.getElementById('breadcrumb-category');
+  const cartBtnTop=document.getElementById('cartBtnTop');
+  const cartDrawer=document.getElementById('cartDrawer');
+  const closeCart=document.getElementById('closeCart');
+  const overlay=document.getElementById('overlay');
+  const cartItemsUl=document.getElementById('cartItems');
+  const cartEmpty=document.getElementById('cartEmpty');
+  const cartTotal=document.getElementById('cartTotal');
+  const cartCountTop=document.getElementById('cartCountTop');
+  const lb=document.getElementById('lightbox');
+  const lbImage=document.getElementById('lbImage');
+  const lbClose=document.getElementById('lbClose');
+  const lbPrev=document.getElementById('lbPrev');
+  const lbNext=document.getElementById('lbNext');
+  const lbIndicator=document.getElementById('lbIndicator');
 
-    const lb = document.getElementById('lightbox');
-    const lbImage = document.getElementById('lbImage');
-    const lbClose = document.getElementById('lbClose');
-    const lbPrev = document.getElementById('lbPrev');
-    const lbNext = document.getElementById('lbNext');
-    const lbIndicator = document.getElementById('lbIndicator');
+  // КНОПКА НАВЕРХ
+  const backToTop=document.getElementById('backToTop');
+  window.addEventListener('scroll',()=>backToTop.classList.toggle('visible',window.scrollY>400),{passive:true});
+  backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-    // ===== КНОПКА НАВЕРХ =====
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('visible', window.scrollY > 400);
-    }, { passive: true });
-    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  // КОРЗИНА
+  function readCart(){try{return JSON.parse(localStorage.getItem('cart')||'[]');}catch(e){return[];}}
+  function saveCartLocal(c){localStorage.setItem('cart',JSON.stringify(c));window.dispatchEvent(new Event('cart-updated'));}
 
-    // ===== КОРЗИНА =====
-    function readCart(){ try{return JSON.parse(localStorage.getItem('cart')||'[]');}catch(e){return[];} }
-    function saveCartLocal(c){ localStorage.setItem('cart',JSON.stringify(c)); window.dispatchEvent(new Event('cart-updated')); }
-
-    function updateCartUI(){
-      const cart=readCart();
-      const qty=cart.reduce((s,i)=>s+(i.qty||0),0);
-      cartCountTop.textContent=qty>0?qty:'';
-      cartCountTop.hidden=!(qty>0);
-      cartItemsUl.innerHTML='';
-      if(cart.length===0){ cartEmpty.style.display='block'; cartTotal.textContent='0 ₽'; return; }
-      cartEmpty.style.display='none';
-      let sum=0;
-      cart.forEach(item=>{
-        const p=(window._ALL_PRODUCTS||window.PRODUCTS||[]).find(x=>Number(x.id)===Number(item.id))||{id:item.id,name:'Товар',price:0};
-        sum+=(p.price||0)*(item.qty||0);
-        const li=document.createElement('li');
-        li.className='cart-item'; li.dataset.id=item.id;
-        li.innerHTML=`
-          <a href="product.html?id=${encodeURIComponent(item.id)}" class="cart-item-link">
-            <div class="cart-item-thumb"><img src="${escapeAttr((p.images&&p.images[0])?p.images[0]:(p.thumb||'placeholder.png'))}" alt="${escapeAttr(p.name)}" onerror="this.src='placeholder.png'"></div>
-            <div style="min-width:0">
-              <div class="cart-item-title">${escapeHtml(p.name)}</div>
-              <div class="cart-item-sub">${(p.price||0).toLocaleString()} ₽ × ${item.qty}</div>
-            </div>
-          </a>
-          <div class="cart-controls">
-            <button class="icon-btn small dec" aria-label="Уменьшить">−</button>
-            <div style="min-width:26px;text-align:center">${item.qty}</div>
-            <button class="icon-btn small inc" aria-label="Увеличить">＋</button>
-            <button class="remove-btn" title="Удалить">✕</button>
-          </div>`;
-        cartItemsUl.appendChild(li);
-        li.querySelector('.inc').addEventListener('click',()=>{ const c=readCart(),it=c.find(x=>Number(x.id)===Number(item.id)); if(it){it.qty++;saveCartLocal(c);updateCartUI();} });
-        li.querySelector('.dec').addEventListener('click',()=>{ const c=readCart(),it=c.find(x=>Number(x.id)===Number(item.id)); if(it){if(it.qty>1){it.qty--;saveCartLocal(c);updateCartUI();}else li.querySelector('.dec').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}],{duration:160});} });
-        li.querySelector('.remove-btn').addEventListener('click',()=>{ saveCartLocal(readCart().filter(x=>Number(x.id)!==Number(item.id))); updateCartUI(); });
-      });
-      cartTotal.textContent=`${sum.toLocaleString()} ₽`;
-    }
-
-    function openCart(){ cartDrawer.style.transform='translateX(0)'; cartDrawer.setAttribute('aria-hidden','false'); overlay.classList.add('show'); overlay.hidden=false; updateCartUI(); }
-    function closeCartFn(){ cartDrawer.style.transform='translateX(100%)'; cartDrawer.setAttribute('aria-hidden','true'); overlay.classList.remove('show'); overlay.hidden=true; }
-
-    cartBtnTop&&cartBtnTop.addEventListener('click',openCart);
-    closeCart&&closeCart.addEventListener('click',closeCartFn);
-    overlay&&overlay.addEventListener('click',closeCartFn);
-    window.addEventListener('cart-updated',updateCartUI);
-
-    const __recentAdds=new Map();
-    function addToCartLocal(id,qty=1){
-      const now=Date.now(),last=__recentAdds.get(id)||0;
-      if(now-last<700)return;
-      __recentAdds.set(id,now);
-      setTimeout(()=>{if(__recentAdds.get(id)===now)__recentAdds.delete(id);},900);
-      const cart=readCart(),found=cart.find(x=>Number(x.id)===Number(id));
-      if(found)found.qty=(found.qty||0)+qty; else cart.push({id:Number(id),qty});
-      saveCartLocal(cart); openCart();
-    }
-
-    // ===== LIGHTBOX =====
-    let lbThumbs=[],lbIndex=0;
-    function openLightbox(index,thumbs){
-      lbThumbs=Array.isArray(thumbs)&&thumbs.length?thumbs:['placeholder.png'];
-      lbIndex=(typeof index==='number'&&index>=0&&index<lbThumbs.length)?index:0;
-      lbImage.src=lbThumbs[lbIndex]||'placeholder.png';
-      lbIndicator.textContent=`${lbIndex+1} / ${lbThumbs.length}`;
-      lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
-    }
-    function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-    function lbPrevFn(){ if(!lbThumbs.length)return; lbIndex=(lbIndex-1+lbThumbs.length)%lbThumbs.length; lbImage.src=lbThumbs[lbIndex]||'placeholder.png'; lbIndicator.textContent=`${lbIndex+1} / ${lbThumbs.length}`; }
-    function lbNextFn(){ if(!lbThumbs.length)return; lbIndex=(lbIndex+1)%lbThumbs.length; lbImage.src=lbThumbs[lbIndex]||'placeholder.png'; lbIndicator.textContent=`${lbIndex+1} / ${lbThumbs.length}`; }
-
-    lbClose.addEventListener('click',closeLightbox);
-    lbPrev.addEventListener('click',lbPrevFn);
-    lbNext.addEventListener('click',lbNextFn);
-    lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox();});
-    document.addEventListener('keydown',e=>{
-      if(!lb.classList.contains('open'))return;
-      if(e.key==='Escape')closeLightbox();
-      if(e.key==='ArrowLeft')lbPrevFn();
-      if(e.key==='ArrowRight')lbNextFn();
+  function updateCartUI(){
+    const cart=readCart();
+    const qty=cart.reduce((s,i)=>s+(i.qty||0),0);
+    cartCountTop.textContent=qty>0?qty:'';cartCountTop.hidden=!(qty>0);
+    cartItemsUl.innerHTML='';
+    if(cart.length===0){cartEmpty.style.display='block';cartTotal.textContent='0 ₽';return;}
+    cartEmpty.style.display='none';let sum=0;
+    cart.forEach(item=>{
+      const p=(window._ALL_PRODUCTS||window.PRODUCTS||[]).find(x=>Number(x.id)===Number(item.id))||{id:item.id,name:'Товар',price:0};
+      sum+=(p.price||0)*(item.qty||0);
+      const li=document.createElement('li');li.className='cart-item';li.dataset.id=item.id;
+      li.innerHTML=`<a href="product.html?id=${encodeURIComponent(item.id)}" class="cart-item-link"><div class="cart-item-thumb"><img src="${escapeAttr((p.images&&p.images[0])?p.images[0]:(p.thumb||'placeholder.png'))}" alt="${escapeAttr(p.name)}" onerror="this.src='placeholder.png'"></div><div style="min-width:0"><div class="cart-item-title">${escapeHtml(p.name)}</div><div class="cart-item-sub">${(p.price||0).toLocaleString()} ₽ × ${item.qty}</div></div></a><div class="cart-controls"><button class="icon-btn small dec" aria-label="Уменьшить">−</button><div style="min-width:26px;text-align:center">${item.qty}</div><button class="icon-btn small inc" aria-label="Увеличить">＋</button><button class="remove-btn" title="Удалить">✕</button></div>`;
+      cartItemsUl.appendChild(li);
+      li.querySelector('.inc').addEventListener('click',()=>{const c=readCart(),it=c.find(x=>Number(x.id)===Number(item.id));if(it){it.qty++;saveCartLocal(c);updateCartUI();}});
+      li.querySelector('.dec').addEventListener('click',()=>{const c=readCart(),it=c.find(x=>Number(x.id)===Number(item.id));if(it){if(it.qty>1){it.qty--;saveCartLocal(c);updateCartUI();}else li.querySelector('.dec').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}],{duration:160});}});
+      li.querySelector('.remove-btn').addEventListener('click',()=>{saveCartLocal(readCart().filter(x=>Number(x.id)!==Number(item.id)));updateCartUI();});
     });
+    cartTotal.textContent=`${sum.toLocaleString()} ₽`;
+  }
 
-    // ===== ЗАГРУЗКА ТОВАРА =====
-    const qs=new URLSearchParams(location.search);
-    const productId=qs.get('id')?Number(qs.get('id')):null;
+  function openCart(){cartDrawer.style.transform='translateX(0)';cartDrawer.setAttribute('aria-hidden','false');overlay.classList.add('show');overlay.hidden=false;updateCartUI();}
+  function closeCartFn(){cartDrawer.style.transform='translateX(100%)';cartDrawer.setAttribute('aria-hidden','true');overlay.classList.remove('show');overlay.hidden=true;}
 
-    async function fetchProductsFromApi(){ try{const r=await fetch('/api/products',{cache:'no-store'}); if(!r.ok)throw new Error(); const data=await r.json(); if(Array.isArray(data))return data;}catch(e){} return null; }
-    async function fetchProductFromApiOne(id){ try{const r=await fetch('/api/products/'+encodeURIComponent(id),{cache:'no-store'}); if(!r.ok)throw new Error(); return await r.json();}catch(e){return null;} }
-    async function loadProductsFallback(){ try{const r=await fetch('products.json',{cache:'no-store'}); if(r.ok){const data=await r.json(); if(Array.isArray(data))return data;}}catch(e){} if(Array.isArray(window.PRODUCTS))return window.PRODUCTS; return []; }
+  cartBtnTop&&cartBtnTop.addEventListener('click',openCart);
+  closeCart&&closeCart.addEventListener('click',closeCartFn);
+  overlay&&overlay.addEventListener('click',closeCartFn);
+  window.addEventListener('cart-updated',updateCartUI);
 
-    function mergeWithLocal(list){
-      try{
-        const custom=JSON.parse(localStorage.getItem('custom_products')||'[]');
-        if(!Array.isArray(custom))return list;
-        const map=new Map();
-        list.forEach(p=>map.set(Number(p.id),p));
-        custom.forEach(p=>map.set(Number(p.id),p));
-        return Array.from(map.values());
-      }catch(e){return list;}
+  const __recentAdds=new Map();
+  function addToCartLocal(id,qty=1){
+    const now=Date.now(),last=__recentAdds.get(id)||0;if(now-last<700)return;
+    __recentAdds.set(id,now);setTimeout(()=>{if(__recentAdds.get(id)===now)__recentAdds.delete(id);},900);
+    const cart=readCart(),found=cart.find(x=>Number(x.id)===Number(id));
+    if(found)found.qty=(found.qty||0)+qty;else cart.push({id:Number(id),qty});
+    saveCartLocal(cart);openCart();
+  }
+
+  // LIGHTBOX
+  let lbThumbs=[],lbIndex=0;
+  function openLightbox(index,thumbs){
+    lbThumbs=Array.isArray(thumbs)&&thumbs.length?thumbs:['placeholder.png'];
+    lbIndex=(typeof index==='number'&&index>=0&&index<lbThumbs.length)?index:0;
+    lbImage.src=lbThumbs[lbIndex]||'placeholder.png';
+    lbIndicator.textContent=`${lbIndex+1} / ${lbThumbs.length}`;
+    lb.classList.add('open');lb.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+  }
+  function closeLightbox(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+  function lbPrevFn(){if(!lbThumbs.length)return;lbIndex=(lbIndex-1+lbThumbs.length)%lbThumbs.length;lbImage.src=lbThumbs[lbIndex]||'placeholder.png';lbIndicator.textContent=`${lbIndex+1} / ${lbThumbs.length}`;}
+  function lbNextFn(){if(!lbThumbs.length)return;lbIndex=(lbIndex+1)%lbThumbs.length;lbImage.src=lbThumbs[lbIndex]||'placeholder.png';lbIndicator.textContent=`${lbIndex+1} / ${lbThumbs.length}`;}
+
+  lbClose.addEventListener('click',closeLightbox);
+  lbPrev.addEventListener('click',lbPrevFn);
+  lbNext.addEventListener('click',lbNextFn);
+  lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox();});
+  document.addEventListener('keydown',e=>{
+    if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape')closeLightbox();
+    if(e.key==='ArrowLeft')lbPrevFn();
+    if(e.key==='ArrowRight')lbNextFn();
+  });
+
+  // ЗАГРУЗКА ТОВАРА
+  const qs=new URLSearchParams(location.search);
+  const productId=qs.get('id')?Number(qs.get('id')):null;
+
+  async function fetchProductsFromApi(){try{const r=await fetch('/api/products',{cache:'no-store'});if(!r.ok)throw new Error();const data=await r.json();if(Array.isArray(data))return data;}catch(e){}return null;}
+  async function fetchProductFromApiOne(id){try{const r=await fetch('/api/products/'+encodeURIComponent(id),{cache:'no-store'});if(!r.ok)throw new Error();return await r.json();}catch(e){return null;}}
+  async function loadProductsFallback(){try{const r=await fetch('products.json',{cache:'no-store'});if(r.ok){const data=await r.json();if(Array.isArray(data))return data;}}catch(e){}if(Array.isArray(window.PRODUCTS))return window.PRODUCTS;return[];}
+
+  function mergeWithLocal(list){
+    try{const custom=JSON.parse(localStorage.getItem('custom_products')||'[]');if(!Array.isArray(custom))return list;const map=new Map();list.forEach(p=>map.set(Number(p.id),p));custom.forEach(p=>map.set(Number(p.id),p));return Array.from(map.values());}catch(e){return list;}
+  }
+
+  function buildThumbs(p){
+    if(!p)return['placeholder.png'];
+    if(Array.isArray(p.images)&&p.images.length)return p.images.map(x=>String(x).trim()).filter(Boolean);
+    if(typeof p.images==='string'&&p.images.trim())return p.images.split(',').map(x=>x.trim()).filter(Boolean);
+    const thumbs=[];
+    if(p.thumb){const t0=String(p.thumb).trim();thumbs.push(t0);const dot=t0.lastIndexOf('.');const base=dot>=0?t0.slice(0,dot):t0;const ext=dot>=0?t0.slice(dot):'';thumbs.push(base+'-2'+ext);thumbs.push(base+'-3'+ext);}
+    return Array.from(new Set(thumbs)).filter(Boolean);
+  }
+
+  const CAT_NAMES={keyboards:'Клавиатуры',mice:'Мышки',cameras:'Камеры',light:'Свет',microphones:'Микрофоны',mats:'Коврики',headphones:'Наушники',accessories:'Аксессуары'};
+
+  (async function boot(){
+    let list=await fetchProductsFromApi();
+    if(!list)list=await loadProductsFallback();
+    const mergedList=mergeWithLocal(list);
+    window._ALL_PRODUCTS=mergedList;
+
+    let product=null;
+    if(productId!=null){
+      product=mergedList.find(p=>Number(p.id)===Number(productId));
+      if(!product){const pApi=await fetchProductFromApiOne(productId);if(pApi)product=pApi;}
     }
-
-    function buildThumbs(p){
-      if(!p)return['placeholder.png'];
-      if(Array.isArray(p.images)&&p.images.length)return p.images.map(x=>String(x).trim()).filter(Boolean);
-      if(typeof p.images==='string'&&p.images.trim())return p.images.split(',').map(x=>x.trim()).filter(Boolean);
-      const thumbs=[];
-      if(p.thumb){const t0=String(p.thumb).trim();thumbs.push(t0);const dot=t0.lastIndexOf('.');const base=dot>=0?t0.slice(0,dot):t0;const ext=dot>=0?t0.slice(dot):'';thumbs.push(base+'-2'+ext);thumbs.push(base+'-3'+ext);}
-      return Array.from(new Set(thumbs)).filter(Boolean);
+    if(!product){
+      productWrap.innerHTML=`<div class="panel" style="text-align:center;padding:28px"><h3>Товар не найден</h3><p class="muted">Возможно, товар удалён или id указан неверно.</p><p style="margin-top:12px"><a href="catalog.html" class="btn ghost">Вернуться в каталог</a></p></div>`;
+      return;
     }
+    renderProductPage(product,mergedList);
+    updateCartUI();
+  })();
 
-    // Карта категорий для читаемых названий
-    const CAT_NAMES = {
-      keyboards:'Клавиатуры', mice:'Мышки', cameras:'Камеры', light:'Свет',
-      microphones:'Микрофоны', mats:'Коврики', headphones:'Наушники', accessories:'Аксессуары'
-    };
+  function renderProductPage(product,allProducts){
+    const catName=CAT_NAMES[product.category]||product.category||'';
+    breadcrumbCat.textContent=catName;
+    breadcrumbCat.href=`catalog.html?cat=${encodeURIComponent(product.category||'')}`;
+    document.title=`${product.name} — StreamStarter`;
 
-    (async function boot(){
-      let list=await fetchProductsFromApi();
-      if(!list)list=await loadProductsFallback();
-      const mergedList=mergeWithLocal(list);
-      window._ALL_PRODUCTS=mergedList;
+    // Сначала строим thumbs, потом заполняем OG теги
+    const thumbs=buildThumbs(product);
+    if(!thumbs.length)thumbs.push('placeholder.png');
 
-      let product=null;
-      if(productId!=null){
-        product=mergedList.find(p=>Number(p.id)===Number(productId));
-        if(!product){const pApi=await fetchProductFromApiOne(productId); if(pApi)product=pApi;}
-      }
-      if(!product){
-        productWrap.innerHTML=`<div class="panel" style="text-align:center;padding:28px"><h3>Товар не найден</h3><p class="muted">Возможно, товар удалён или id указан неверно.</p><p style="margin-top:12px"><a href="catalog.html" class="btn ghost">Вернуться в каталог</a></p></div>`;
-        return;
-      }
-      renderProductPage(product,mergedList);
-      updateCartUI();
-    })();
+    // OG мета-теги
+    const ogTitle=document.getElementById('og-title');
+    const ogDesc=document.getElementById('og-desc');
+    const ogImage=document.getElementById('og-image');
+    const ogUrl=document.getElementById('og-url');
+    if(ogTitle)ogTitle.content=`${product.name} — StreamStarter`;
+    if(ogDesc)ogDesc.content=product.description||product.desc||'';
+    if(ogImage)ogImage.content=thumbs[0]||'';
+    if(ogUrl)ogUrl.content=window.location.href;
 
-    function renderProductPage(product,allProducts){
-      // Хлебные крошки — категория как ссылка
-      const catName = CAT_NAMES[product.category] || product.category || '';
-      breadcrumbCat.textContent = catName;
-      breadcrumbCat.href = `catalog.html?cat=${encodeURIComponent(product.category||'')}`;
-
-      // Заголовок страницы
-      document.title = `${product.name} — StreamStarter`;
-      // Заполняем OG мета-теги
-const ogTitle = document.getElementById('og-title');
-const ogDesc = document.getElementById('og-desc');
-const ogImage = document.getElementById('og-image');
-const ogUrl = document.getElementById('og-url');
-if (ogTitle) ogTitle.content = `${product.name} — StreamStarter`;
-if (ogDesc) ogDesc.content = product.description || product.desc || '';
-if (ogImage) ogImage.content = thumbs[0] || '';
-if (ogUrl) ogUrl.content = window.location.href;
-      
-      const thumbs=buildThumbs(product);
-      if(!thumbs.length)thumbs.push('placeholder.png');
-
-      const html=`
-        <div class="product-grid">
-          <div class="gallery">
-            <div class="gallery-top">
-              <div class="thumb-viewport">
-                <button class="thumb-nav hidden" id="thumbPrevBtn" aria-label="Предыдущие миниатюры">▲</button>
-                <div class="thumb-scroll" id="thumbScroll">
-                  <div class="thumb-list" id="thumbList">
-                    ${thumbs.map((t,i)=>`<button class="vthumb ${i===0?'active':''}" data-index="${i}"><img src="${escapeAttr(t)}" alt="thumb ${i+1}" onerror="this.src='placeholder.png'"></button>`).join('')}
-                  </div>
+    const html=`
+      <div class="product-grid">
+        <div class="gallery">
+          <div class="gallery-top">
+            <div class="thumb-viewport">
+              <button class="thumb-nav hidden" id="thumbPrevBtn" aria-label="Предыдущие миниатюры">▲</button>
+              <div class="thumb-scroll" id="thumbScroll">
+                <div class="thumb-list" id="thumbList">
+                  ${thumbs.map((t,i)=>`<button class="vthumb ${i===0?'active':''}" data-index="${i}"><img src="${escapeAttr(t)}" alt="thumb ${i+1}" onerror="this.src='placeholder.png'"></button>`).join('')}
                 </div>
-                <button class="thumb-nav hidden" id="thumbNextBtn" aria-label="Следующие миниатюры">▼</button>
               </div>
-              <div class="main-image" id="mainImageWrap">
-                <img id="mainImage" src="${escapeAttr(thumbs[0])}" alt="${escapeAttr(product.name)}" onerror="this.src='placeholder.png'">
-              </div>
+              <button class="thumb-nav hidden" id="thumbNextBtn" aria-label="Следующие миниатюры">▼</button>
+            </div>
+            <div class="main-image" id="mainImageWrap">
+              <img id="mainImage" src="${escapeAttr(thumbs[0])}" alt="${escapeAttr(product.name)}" onerror="this.src='placeholder.png'">
             </div>
           </div>
+        </div>
 
-          <aside class="product-info panel">
-            <div>
-              <div class="p-tags">
-                ${product.tag?`<span class="badge">${escapeHtml(product.tag)}</span>`:''}
-                <div class="p-sub" style="margin-left:6px">${escapeHtml(product.brand||'')} · <a href="catalog.html?cat=${encodeURIComponent(product.category||'')}" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">${escapeHtml(catName)}</a></div>
-              </div>
-              <h1 class="prod-title" style="margin:10px 0 6px 0">${escapeHtml(product.name)}</h1>
-              <div class="p-sub">${escapeHtml(product.description||product.desc||'')}</div>
+        <aside class="product-info panel">
+          <div>
+            <div class="p-tags">
+              ${product.tag?`<span class="badge">${escapeHtml(product.tag)}</span>`:''}
+              <div class="p-sub" style="margin-left:6px">${escapeHtml(product.brand||'')} · <a href="catalog.html?cat=${encodeURIComponent(product.category||'')}" style="color:var(--muted);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">${escapeHtml(catName)}</a></div>
             </div>
+            <h1 class="prod-title" style="margin:10px 0 6px 0">${escapeHtml(product.name)}</h1>
+            <div class="p-sub">${escapeHtml(product.description||product.desc||'')}</div>
+          </div>
 
-            <div class="purchase">
-              <div class="p-price">${Number(product.price||0).toLocaleString()} ₽</div>
-              <div class="muted" style="margin-top:6px">${product.available?'✅ Есть в наличии':'❌ Нет в наличии'}</div>
-              <div class="cta-row" style="margin-top:12px">
-                <button id="addToCartBtn" class="btn" ${product.available?'':'disabled'}>${product.available?'🛒 Добавить в корзину':'Нет в наличии'}</button>
-                <a class="btn ghost" href="catalog.html?cat=${encodeURIComponent(product.category||'')}">Другие в категории</a>
-                <button id="shareBtn" class="btn ghost" title="Поделиться">🔗 Поделиться</button>
-              </div>
-              <div class="muted" style="margin-top:12px">Доставка 1–4 дня · Гарантия 14 дней</div>
+          <div class="purchase">
+            <div class="p-price">${Number(product.price||0).toLocaleString()} ₽</div>
+            <div class="muted" style="margin-top:6px">${product.available?'✅ Есть в наличии':'❌ Нет в наличии'}</div>
+            <div class="cta-row" style="margin-top:12px">
+              <button id="addToCartBtn" class="btn" ${product.available?'':'disabled'}>${product.available?'🛒 Добавить в корзину':'Нет в наличии'}</button>
+              <a class="btn ghost" href="catalog.html?cat=${encodeURIComponent(product.category||'')}">Другие в категории</a>
+              <button id="shareBtn" class="btn ghost" title="Поделиться">🔗 Поделиться</button>
             </div>
+            <div class="muted" style="margin-top:12px">Доставка 1–4 дня · Гарантия 14 дней</div>
+          </div>
 
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.02);margin:14px 0">
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.02);margin:14px 0">
 
-            <div class="specs">
-              <h4>Краткие характеристики</h4>
-              <table class="spec-table" style="width:100%"><tbody>
-                <tr><td style="width:40%" class="muted">Категория</td><td><a href="catalog.html?cat=${encodeURIComponent(product.category||'')}" style="color:var(--text);text-decoration:none;">${escapeHtml(catName)}</a></td></tr>
-                <tr><td class="muted">Бренд</td><td>${escapeHtml(product.brand||'')}</td></tr>
-                <tr><td class="muted">Наличие</td><td>${product.available?'В наличии':'Нет в наличии'}</td></tr>
-                <tr><td class="muted">Цена</td><td>${Number(product.price||0).toLocaleString()} ₽</td></tr>
-                ${Array.isArray(product.specs)?product.specs.slice(0,5).map(s=>`<tr><td class="muted">${escapeHtml(s.k)}</td><td>${escapeHtml(s.v)}</td></tr>`).join(''):''}
-              </tbody></table>
-              ${product.specs&&product.specs.length>5?`<div style="margin-top:8px" class="muted">Показаны первые 5 характеристик. Полный список во вкладке «Характеристики».</div>`:''}
-            </div>
-          </aside>
-        </div>
+          <div class="specs">
+            <h4>Краткие характеристики</h4>
+            <table class="spec-table" style="width:100%"><tbody>
+              <tr><td style="width:40%" class="muted">Категория</td><td><a href="catalog.html?cat=${encodeURIComponent(product.category||'')}" style="color:var(--text);text-decoration:none;">${escapeHtml(catName)}</a></td></tr>
+              <tr><td class="muted">Бренд</td><td>${escapeHtml(product.brand||'')}</td></tr>
+              <tr><td class="muted">Наличие</td><td>${product.available?'В наличии':'Нет в наличии'}</td></tr>
+              <tr><td class="muted">Цена</td><td>${Number(product.price||0).toLocaleString()} ₽</td></tr>
+              ${Array.isArray(product.specs)?product.specs.slice(0,5).map(s=>`<tr><td class="muted">${escapeHtml(s.k)}</td><td>${escapeHtml(s.v)}</td></tr>`).join(''):''}
+            </tbody></table>
+            ${product.specs&&product.specs.length>5?`<div style="margin-top:8px" class="muted">Полный список во вкладке «Характеристики».</div>`:''}
+          </div>
+        </aside>
+      </div>
 
-        <div class="tabs" style="margin-top:12px">
-          <button class="tab-btn active" data-tab="desc">Описание</button>
-          <button class="tab-btn" data-tab="specs">Характеристики</button>
-        </div>
+      <div class="tabs" style="margin-top:12px">
+        <button class="tab-btn active" data-tab="desc">Описание</button>
+        <button class="tab-btn" data-tab="specs">Характеристики</button>
+      </div>
+      <div class="tab-panel" id="desc" style="margin-top:12px">
+        <h3>О товаре</h3>
+        <p class="muted">${escapeHtml(product.long_description||product.longDesc||product.description||product.desc||'Описание не указано.')}</p>
+      </div>
+      <div class="tab-panel" id="specs" style="margin-top:12px;display:none">
+        <h3>Характеристики</h3>
+        ${Array.isArray(product.specs)&&product.specs.length?`<table style="width:100%" class="spec-table">${product.specs.map(s=>`<tr><td class="muted" style="width:40%">${escapeHtml(s.k)}</td><td>${escapeHtml(s.v)}</td></tr>`).join('')}</table>`:`<p class="muted">Характеристики не указаны.</p>`}
+      </div>
+    `;
 
-        <div class="tab-panel" id="desc" style="margin-top:12px">
-          <h3>О товаре</h3>
-          <p class="muted">${escapeHtml(product.long_description||product.longDesc||product.description||product.desc||'Описание не указано.')}</p>
-        </div>
-        <div class="tab-panel" id="specs" style="margin-top:12px;display:none">
-          <h3>Характеристики</h3>
-          ${Array.isArray(product.specs)&&product.specs.length?`<table style="width:100%" class="spec-table">${product.specs.map(s=>`<tr><td class="muted" style="width:40%">${escapeHtml(s.k)}</td><td>${escapeHtml(s.v)}</td></tr>`).join('')}</table>`:`<p class="muted">Характеристики не указаны.</p>`}
-        </div>
-      `;
+    productWrap.innerHTML=html;
 
-      productWrap.innerHTML=html;
+    // Галерея
+    const mainImage=document.getElementById('mainImage');
+    const thumbScroll=document.getElementById('thumbScroll');
+    const thumbList=document.getElementById('thumbList');
+    const thumbPrevBtn=document.getElementById('thumbPrevBtn');
+    const thumbNextBtn=document.getElementById('thumbNextBtn');
 
-      // Галерея
-      const mainImage=document.getElementById('mainImage');
-      const thumbScroll=document.getElementById('thumbScroll');
-      const thumbList=document.getElementById('thumbList');
-      const thumbPrevBtn=document.getElementById('thumbPrevBtn');
-      const thumbNextBtn=document.getElementById('thumbNextBtn');
-
-      function updateThumbButtons(){
-        const need=thumbList.scrollHeight>thumbScroll.clientHeight+2;
-        if(!need){thumbPrevBtn.classList.add('hidden');thumbNextBtn.classList.add('hidden');}
-        else{
-          thumbPrevBtn.classList.remove('hidden');thumbNextBtn.classList.remove('hidden');
-          thumbPrevBtn.classList.toggle('hidden',thumbScroll.scrollTop<=3);
-          thumbNextBtn.classList.toggle('hidden',thumbScroll.scrollTop+thumbScroll.clientHeight>=thumbList.scrollHeight-3);
-        }
-      }
-
-      function itemScrollAmount(){ const first=thumbList.querySelector('.vthumb'); if(!first)return 72; return first.offsetHeight+8; }
-
-      thumbList.querySelectorAll('.vthumb').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const i=Number(btn.dataset.index);
-          mainImage.src=thumbs[i]||'placeholder.png';
-          thumbList.querySelectorAll('.vthumb').forEach((el,j)=>el.classList.toggle('active',j===i));
-        });
-      });
-
-      mainImage.style.cursor='zoom-in';
-      mainImage.addEventListener('click',()=>{
-        const idx=thumbs.findIndex(t=>mainImage.src.endsWith(t.replace(/^.*\//,'')));
-        openLightbox(idx>=0?idx:0,thumbs);
-      });
-
-      thumbPrevBtn.addEventListener('click',()=>thumbScroll.scrollBy({top:-itemScrollAmount(),behavior:'smooth'}));
-      thumbNextBtn.addEventListener('click',()=>thumbScroll.scrollBy({top:itemScrollAmount(),behavior:'smooth'}));
-      thumbScroll.addEventListener('scroll',updateThumbButtons);
-      window.addEventListener('resize',()=>setTimeout(updateThumbButtons,120));
-      setTimeout(updateThumbButtons,60);
-
-      // Табы
-      document.querySelectorAll('.tab-btn').forEach(b=>{
-        b.addEventListener('click',()=>{
-          document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
-          b.classList.add('active');
-          const tab=b.dataset.tab;
-          document.querySelectorAll('.tab-panel').forEach(panel=>panel.style.display=panel.id===tab?'':'none');
-          if(window.innerWidth<980){const el=document.getElementById(tab);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
-        });
-      });
-
-      // Добавить в корзину
-      const addBtn=document.getElementById('addToCartBtn');
-      addBtn&&addBtn.addEventListener('click',()=>{
-        addBtn.disabled=true;setTimeout(()=>addBtn.disabled=false,700);
-        addToCartLocal(Number(product.id),1);
-        const prev=addBtn.textContent;addBtn.textContent='✓ Добавлено';setTimeout(()=>addBtn.textContent=prev,900);
-      });
-
-      // Кнопка "Поделиться"
-const shareBtn = document.getElementById('shareBtn');
-if (shareBtn) {
-  shareBtn.addEventListener('click', async () => {
-    const shareData = {
-      title: product.name,
-      text: `${product.name} — ${Number(product.price||0).toLocaleString()} ₽`,
-      url: window.location.href
-    };
-    if (navigator.share) {
-      // Нативный шейринг на мобильных
-      try { await navigator.share(shareData); } catch(e) {}
-    } else {
-      // На ПК — копируем ссылку
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        const prev = shareBtn.textContent;
-        shareBtn.textContent = '✓ Ссылка скопирована';
-        setTimeout(() => shareBtn.textContent = prev, 2000);
-      } catch(e) {}
+    function updateThumbButtons(){
+      const need=thumbList.scrollHeight>thumbScroll.clientHeight+2;
+      if(!need){thumbPrevBtn.classList.add('hidden');thumbNextBtn.classList.add('hidden');}
+      else{thumbPrevBtn.classList.remove('hidden');thumbNextBtn.classList.remove('hidden');thumbPrevBtn.classList.toggle('hidden',thumbScroll.scrollTop<=3);thumbNextBtn.classList.toggle('hidden',thumbScroll.scrollTop+thumbScroll.clientHeight>=thumbList.scrollHeight-3);}
     }
-  });
-}
+    function itemScrollAmount(){const first=thumbList.querySelector('.vthumb');if(!first)return 72;return first.offsetHeight+8;}
 
-      // Рекомендации
-      const recommendedSection=document.getElementById('recommendedSection');
-      const recommendedGrid=document.getElementById('recommendedGrid');
-      recommendedGrid.innerHTML='';
-      let rec=allProducts.filter(x=>x.category===product.category&&Number(x.id)!==Number(product.id));
-      if(rec.length<4){
-        const others=allProducts.filter(x=>Number(x.id)!==Number(product.id)&&!rec.some(r=>r.id===x.id));
-        others.sort((a,b)=>(b.popularity||0)-(a.popularity||0));
-        rec=rec.concat(others.slice(0,4-rec.length));
-      }
-      rec=rec.slice(0,6);
-      if(rec.length){
-        recommendedSection.style.display='';
-        rec.forEach(p=>{
-          const card=document.createElement('div');
-          card.className='rec-card';
-          card.innerHTML=`
-            <a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit">
-              <div class="rec-thumb"><img src="${escapeAttr((Array.isArray(p.images)&&p.images[0])?p.images[0]:(p.thumb||'placeholder.png'))}" alt="${escapeAttr(p.name)}" onerror="this.src='placeholder.png'"></div>
-              <div class="rec-body">
-                <div class="rec-title">${escapeHtml(p.name)}</div>
-                <div class="rec-sub">${escapeHtml(p.brand||'')} · ${escapeHtml(CAT_NAMES[p.category]||p.category||'')}</div>
-                <div class="rec-price">${Number(p.price||0).toLocaleString()} ₽</div>
-              </div>
-            </a>`;
-          recommendedGrid.appendChild(card);
-        });
-      } else { recommendedSection.style.display='none'; }
-    }
-
-    // Мобильное меню
-    const menuToggle=document.getElementById('menuToggle');
-    const mobileMenu=document.getElementById('mobileMenu');
-    menuToggle&&menuToggle.addEventListener('click',()=>{
-      const h=mobileMenu.getAttribute('aria-hidden')!=='false';
-      mobileMenu.style.display=h?'block':'none';
-      mobileMenu.setAttribute('aria-hidden',String(!h));
+    thumbList.querySelectorAll('.vthumb').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const i=Number(btn.dataset.index);mainImage.src=thumbs[i]||'placeholder.png';
+        thumbList.querySelectorAll('.vthumb').forEach((el,j)=>el.classList.toggle('active',j===i));
+      });
     });
 
-    updateCartUI();
-    window._SS={addToCartLocal,updateCartUI,readCart,saveCartLocal};
-  })();
-    // Плавный переход между страницами
-document.addEventListener('click', e => {
-  const link = e.target.closest('a');
-  if (!link) return;
-  const href = link.getAttribute('href');
-  // Только внутренние ссылки на .html страницы
-  if (!href || href.startsWith('http') || href.startsWith('#') || 
-      href.startsWith('mailto') || href.startsWith('tel') ||
-      link.target === '_blank' || !href.endsWith('.html')) return;
-  e.preventDefault();
-  document.body.classList.add('page-leaving');
-  setTimeout(() => { window.location.href = href; }, 250);
-});
-  </script>
+    mainImage.style.cursor='zoom-in';
+    mainImage.addEventListener('click',()=>{
+      const idx=thumbs.findIndex(t=>mainImage.src.endsWith(t.replace(/^.*\//,'')));
+      openLightbox(idx>=0?idx:0,thumbs);
+    });
+
+    thumbPrevBtn.addEventListener('click',()=>thumbScroll.scrollBy({top:-itemScrollAmount(),behavior:'smooth'}));
+    thumbNextBtn.addEventListener('click',()=>thumbScroll.scrollBy({top:itemScrollAmount(),behavior:'smooth'}));
+    thumbScroll.addEventListener('scroll',updateThumbButtons);
+    window.addEventListener('resize',()=>setTimeout(updateThumbButtons,120));
+    setTimeout(updateThumbButtons,60);
+
+    // Табы
+    document.querySelectorAll('.tab-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');const tab=b.dataset.tab;
+        document.querySelectorAll('.tab-panel').forEach(panel=>panel.style.display=panel.id===tab?'':'none');
+        if(window.innerWidth<980){const el=document.getElementById(tab);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+      });
+    });
+
+    // Добавить в корзину
+    const addBtn=document.getElementById('addToCartBtn');
+    addBtn&&addBtn.addEventListener('click',()=>{
+      addBtn.disabled=true;setTimeout(()=>addBtn.disabled=false,700);
+      addToCartLocal(Number(product.id),1);
+      const prev=addBtn.textContent;addBtn.textContent='✓ Добавлено';setTimeout(()=>addBtn.textContent=prev,900);
+    });
+
+    // Поделиться
+    const shareBtn=document.getElementById('shareBtn');
+    if(shareBtn){
+      shareBtn.addEventListener('click',async()=>{
+        const shareData={title:product.name,text:`${product.name} — ${Number(product.price||0).toLocaleString()} ₽`,url:window.location.href};
+        if(navigator.share){try{await navigator.share(shareData);}catch(e){}}
+        else{try{await navigator.clipboard.writeText(window.location.href);const prev=shareBtn.textContent;shareBtn.textContent='✓ Ссылка скопирована';setTimeout(()=>shareBtn.textContent=prev,2000);}catch(e){}}
+      });
+    }
+
+    // Рекомендации
+    const recommendedSection=document.getElementById('recommendedSection');
+    const recommendedGrid=document.getElementById('recommendedGrid');
+    recommendedGrid.innerHTML='';
+    let rec=allProducts.filter(x=>x.category===product.category&&Number(x.id)!==Number(product.id));
+    if(rec.length<4){const others=allProducts.filter(x=>Number(x.id)!==Number(product.id)&&!rec.some(r=>r.id===x.id));others.sort((a,b)=>(b.popularity||0)-(a.popularity||0));rec=rec.concat(others.slice(0,4-rec.length));}
+    rec=rec.slice(0,6);
+    if(rec.length){
+      recommendedSection.style.display='';
+      rec.forEach(p=>{
+        const card=document.createElement('div');card.className='rec-card';
+        card.innerHTML=`<a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit"><div class="rec-thumb"><img src="${escapeAttr((Array.isArray(p.images)&&p.images[0])?p.images[0]:(p.thumb||'placeholder.png'))}" alt="${escapeAttr(p.name)}" onerror="this.src='placeholder.png'"></div><div class="rec-body"><div class="rec-title">${escapeHtml(p.name)}</div><div class="rec-sub">${escapeHtml(p.brand||'')} · ${escapeHtml(CAT_NAMES[p.category]||p.category||'')}</div><div class="rec-price">${Number(p.price||0).toLocaleString()} ₽</div></div></a>`;
+        recommendedGrid.appendChild(card);
+      });
+    } else {recommendedSection.style.display='none';}
+  }
+
+  // Мобильное меню
+  const menuToggle=document.getElementById('menuToggle'),mobileMenu=document.getElementById('mobileMenu');
+  menuToggle&&menuToggle.addEventListener('click',()=>{const h=mobileMenu.getAttribute('aria-hidden')!=='false';mobileMenu.style.display=h?'block':'none';mobileMenu.setAttribute('aria-hidden',String(!h));});
+
+  // Плавный переход
+  document.addEventListener('click',e=>{
+    const link=e.target.closest('a');if(!link)return;
+    const href=link.getAttribute('href');
+    if(!href||href.startsWith('http')||href.startsWith('#')||href.startsWith('mailto')||href.startsWith('tel')||link.target==='_blank'||!href.endsWith('.html'))return;
+    e.preventDefault();document.body.classList.add('page-leaving');setTimeout(()=>{window.location.href=href;},250);
+  });
+
+  updateCartUI();
+  window._SS={addToCartLocal,updateCartUI,readCart,saveCartLocal};
+})();
+</script>
 </body>
 </html>
