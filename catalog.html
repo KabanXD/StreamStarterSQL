@@ -8,101 +8,48 @@
   <link rel="stylesheet" href="catalog.css" />
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
-    .logo-img { width:40px; height:40px; object-fit:contain; border-radius:8px; margin-right:12px; }
-    .brand-sub { white-space:nowrap; font-size:12px; color:var(--muted); margin-top:2px; }
-    .header-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
-    @media (max-width:720px) { .main-nav { display:none; } .menu-toggle { display:inline-block; } }
+    .logo-img{width:40px;height:40px;object-fit:contain;border-radius:8px;margin-right:12px;}
+    .brand-sub{white-space:nowrap;font-size:12px;color:var(--muted);margin-top:2px;}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+    @media(max-width:720px){.main-nav{display:none}.menu-toggle{display:inline-block}}
 
-    .btn-reset-wrapper { display:flex; align-items:center; justify-content:flex-end; }
-    .btn-reset-filters {
-      padding:10px 20px; font-size:0.95rem; font-weight:600; border-radius:12px;
-      background:rgba(145,70,255,0.08); border:1px solid rgba(145,70,255,0.25);
-      color:var(--text); cursor:pointer; transition:background 0.2s,border-color 0.2s; white-space:nowrap;
-    }
-    .btn-reset-filters:hover { background:rgba(145,70,255,0.18); border-color:var(--accent); }
+    .btn-reset-wrapper{display:flex;align-items:center;justify-content:flex-end;}
+    .btn-reset-filters{padding:10px 20px;font-size:0.95rem;font-weight:600;border-radius:12px;background:rgba(145,70,255,0.08);border:1px solid rgba(145,70,255,0.25);color:var(--text);cursor:pointer;transition:background 0.2s,border-color 0.2s;white-space:nowrap;}
+    .btn-reset-filters:hover{background:rgba(145,70,255,0.18);border-color:var(--accent);}
 
-    .p-desc {
-      display:block !important; -webkit-line-clamp:unset !important;
-      -webkit-box-orient:unset !important; overflow:visible !important;
-      white-space:normal !important; max-height:none !important; text-overflow:unset !important;
-    }
+    .p-desc{display:block !important;-webkit-line-clamp:unset !important;-webkit-box-orient:unset !important;overflow:visible !important;white-space:normal !important;max-height:none !important;text-overflow:unset !important;}
 
-    /* ===== ПОИСК В ШАПКЕ ===== */
-    .header-search-btn {
-      background:transparent; border:1px solid rgba(255,255,255,0.06);
-      padding:7px 10px; border-radius:8px; color:var(--muted); cursor:pointer;
-      display:flex; align-items:center; gap:6px; font-size:13px;
-      transition:border-color 0.2s,color 0.2s;
-    }
-    .header-search-btn:hover { border-color:rgba(145,70,255,0.4); color:var(--text); }
-    .header-search-overlay {
-      position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px);
-      z-index:9999; display:flex; align-items:flex-start; justify-content:center;
-      padding-top:80px; opacity:0; pointer-events:none; transition:opacity 0.2s;
-    }
-    .header-search-overlay.open { opacity:1; pointer-events:auto; }
-    .header-search-box {
-      width:100%; max-width:600px; background:rgba(18,6,23,0.98);
-      border:1px solid rgba(145,70,255,0.3); border-radius:16px; padding:20px;
-      box-shadow:0 24px 60px rgba(0,0,0,0.6);
-      transform:translateY(-12px); transition:transform 0.2s;
-    }
-    .header-search-overlay.open .header-search-box { transform:translateY(0); }
-    .header-search-input-wrap {
-      display:flex; align-items:center; gap:10px;
-      background:rgba(255,255,255,0.04); border:1px solid rgba(145,70,255,0.2);
-      border-radius:10px; padding:10px 14px;
-    }
-    .header-search-input-wrap svg { flex-shrink:0; opacity:0.5; }
-    #headerSearchInput {
-      flex:1; background:transparent; border:none; outline:none;
-      color:var(--text); font-size:16px; font-family:inherit;
-    }
-    .header-search-hint { margin-top:10px; font-size:13px; color:var(--muted); text-align:center; }
+    /* ПОИСК */
+    .header-search-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:7px 10px;border-radius:8px;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:6px;font-size:13px;transition:border-color 0.2s,color 0.2s;}
+    .header-search-btn:hover{border-color:rgba(145,70,255,0.4);color:var(--text);}
+    .header-search-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding-top:80px;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+    .header-search-overlay.open{opacity:1;pointer-events:auto;}
+    .header-search-box{width:100%;max-width:600px;background:rgba(18,6,23,0.98);border:1px solid rgba(145,70,255,0.3);border-radius:16px;padding:20px;box-shadow:0 24px 60px rgba(0,0,0,0.6);transform:translateY(-12px);transition:transform 0.2s;}
+    .header-search-overlay.open .header-search-box{transform:translateY(0);}
+    .header-search-input-wrap{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(145,70,255,0.2);border-radius:10px;padding:10px 14px;}
+    .header-search-input-wrap svg{flex-shrink:0;opacity:0.5;}
+    #headerSearchInput{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:16px;font-family:inherit;}
+    .header-search-hint{margin-top:10px;font-size:13px;color:var(--muted);text-align:center;}
 
-    /* ===== КНОПКА НАВЕРХ ===== */
-    #backToTop {
-      position:fixed; bottom:32px; right:32px; width:48px; height:48px;
-      border-radius:50%; background:linear-gradient(135deg,var(--accent-2),var(--accent));
-      border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
-      box-shadow:0 8px 24px rgba(145,70,255,0.4); z-index:999;
-      opacity:0; transform:translateY(16px) scale(0.8);
-      transition:opacity 0.3s,transform 0.3s; pointer-events:none;
-    }
-    #backToTop.visible { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
-    #backToTop:hover { box-shadow:0 12px 32px rgba(145,70,255,0.6); transform:translateY(-2px) scale(1.05); }
+    /* КНОПКА НАВЕРХ */
+    #backToTop{position:fixed;bottom:32px;right:32px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent-2),var(--accent));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(145,70,255,0.4);z-index:998;opacity:0;transform:translateY(16px) scale(0.8);transition:opacity 0.3s,transform 0.3s;pointer-events:none;}
+    #backToTop.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+    #backToTop:hover{box-shadow:0 12px 32px rgba(145,70,255,0.6);transform:translateY(-2px) scale(1.05);}
 
-    /* ===== АНИМАЦИЯ КАРТОЧЕК ===== */
-    .product-card {
-      opacity:0;
-      transform:translateY(24px);
-      transition:opacity 0.45s ease, transform 0.45s ease;
-    }
-    .product-card.visible { opacity:1; transform:translateY(0); }
+    /* АНИМАЦИЯ КАРТОЧЕК */
+    .product-card{opacity:0;transform:translateY(24px);transition:opacity 0.45s ease,transform 0.45s ease;}
+    .product-card.visible{opacity:1;transform:translateY(0);}
+    .product-card:hover{box-shadow:0 0 0 1px rgba(145,70,255,0.3),0 16px 48px rgba(145,70,255,0.14) !important;border-color:rgba(145,70,255,0.25) !important;}
 
-    /* ===== HOVER ГЛОУ НА КАРТОЧКАХ ===== */
-    .product-card:hover {
-      box-shadow:0 0 0 1px rgba(145,70,255,0.3), 0 16px 48px rgba(145,70,255,0.14) !important;
-      border-color:rgba(145,70,255,0.25) !important;
-    }
-    /* Плавный переход между страницами */
-body {
-  animation: pageFadeIn 0.35s ease forwards;
-}
-@keyframes pageFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.page-leaving {
-  animation: pageFadeOut 0.25s ease forwards !important;
-}
-@keyframes pageFadeOut {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-8px); }
-}
+    /* ПЛАВНЫЙ ПЕРЕХОД — только на враппере */
+    #page-transition-wrap{animation:pageFadeIn 0.35s ease forwards;}
+    @keyframes pageFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .page-leaving #page-transition-wrap{animation:pageFadeOut 0.25s ease forwards !important;}
+    @keyframes pageFadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
   </style>
 </head>
 <body>
+
   <!-- Поиск оверлей -->
   <div id="searchOverlay" class="header-search-overlay" role="dialog" aria-label="Поиск">
     <div class="header-search-box">
@@ -113,6 +60,8 @@ body {
       <div class="header-search-hint">Нажмите Enter · Esc чтобы закрыть</div>
     </div>
   </div>
+
+  <div id="page-transition-wrap">
 
   <header class="site-header">
     <div class="container header-inner">
@@ -125,14 +74,12 @@ body {
           </div>
         </a>
       </div>
-
       <nav class="main-nav" id="mainNav">
         <a href="index.html">Главная</a>
         <a href="catalog.html">Каталог</a>
         <a href="blog.html">Блог</a>
         <a href="support.html">Поддержка</a>
       </nav>
-
       <div class="actions">
         <button class="header-search-btn" id="searchOpenBtn" aria-label="Поиск">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -165,7 +112,6 @@ body {
           <label for="searchInput" class="sr-only">Поиск</label>
           <input id="searchInput" type="search" placeholder="Поиск по названию, описанию или бренду..." />
         </div>
-
         <div class="control dropdown-control">
           <label class="sr-only" for="categorySelect">Категория</label>
           <select id="categorySelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -180,14 +126,10 @@ body {
             <option value="accessories">Аксессуары</option>
           </select>
           <div class="ss-dropdown" data-select-id="categorySelect">
-            <button type="button" class="ss-dropdown-button">
-              <span class="ss-dropdown-title">Все категории</span>
-              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
-            </button>
+            <button type="button" class="ss-dropdown-button"><span class="ss-dropdown-title">Все категории</span><span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></button>
             <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
-
         <div class="control dropdown-control">
           <label class="sr-only" for="brandSelect">Бренд</label>
           <select id="brandSelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -200,14 +142,10 @@ body {
             <option value="Generic">Generic</option>
           </select>
           <div class="ss-dropdown" data-select-id="brandSelect">
-            <button type="button" class="ss-dropdown-button">
-              <span class="ss-dropdown-title">Все бренды</span>
-              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
-            </button>
+            <button type="button" class="ss-dropdown-button"><span class="ss-dropdown-title">Все бренды</span><span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></button>
             <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
-
         <div class="control dropdown-control">
           <label class="sr-only" for="availabilitySelect">Доступность</label>
           <select id="availabilitySelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -216,14 +154,10 @@ body {
             <option value="out">Нет в наличии</option>
           </select>
           <div class="ss-dropdown" data-select-id="availabilitySelect">
-            <button type="button" class="ss-dropdown-button">
-              <span class="ss-dropdown-title">Все — доступность</span>
-              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
-            </button>
+            <button type="button" class="ss-dropdown-button"><span class="ss-dropdown-title">Все — доступность</span><span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></button>
             <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
-
         <div class="control dropdown-control">
           <label class="sr-only" for="sortSelect">Сортировка</label>
           <select id="sortSelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -234,14 +168,10 @@ body {
             <option value="brand">Бренд A→Z</option>
           </select>
           <div class="ss-dropdown" data-select-id="sortSelect">
-            <button type="button" class="ss-dropdown-button">
-              <span class="ss-dropdown-title">Популярные</span>
-              <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
-            </button>
+            <button type="button" class="ss-dropdown-button"><span class="ss-dropdown-title">Популярные</span><span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></button>
             <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
-
         <div class="control price-range">
           <label class="sr-only" for="minPrice">Минимальная цена</label>
           <input id="minPrice" type="number" min="0" placeholder="Мин ₽" />
@@ -249,11 +179,9 @@ body {
           <input id="maxPrice" type="number" min="0" placeholder="Макс ₽" />
         </div>
       </div>
-
       <div class="control btn-reset-wrapper">
         <button type="button" id="resetFiltersBtn" class="btn-reset-filters">✕ Очистить всё</button>
       </div>
-
       <div class="category-chips" id="categoryChips" aria-hidden="false">
         <button class="chip active" data-cat="">Все</button>
         <button class="chip" data-cat="keyboards">Клавиатуры</button>
@@ -267,7 +195,7 @@ body {
     </section>
 
     <section class="products-section" aria-label="Товары">
-  <div id="productsCount" style="font-size:13px;color:var(--muted);margin-bottom:12px;min-height:20px"></div>
+      <div id="productsCount" style="font-size:13px;color:var(--muted);margin-bottom:12px;min-height:20px"></div>
       <div id="productsGrid" class="products-grid" role="list"></div>
       <div id="noResults" class="muted" style="display:none;margin-top:18px">Ничего не найдено :( Попробуйте другой фильтр.</div>
     </section>
@@ -321,20 +249,19 @@ body {
     </div>
   </footer>
 
+  </div><!-- /page-transition-wrap -->
+
+  <!-- Корзина и оверлеи вне враппера -->
   <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
     <div class="drawer-inner">
-      <header class="drawer-header">
-        <h3>Корзина</h3>
-        <button id="closeCart" class="icon-btn">✕</button>
-      </header>
+      <header class="drawer-header"><h3>Корзина</h3><button id="closeCart" class="icon-btn">✕</button></header>
       <div class="drawer-body">
         <ul id="cartItems" style="list-style:none;padding:0;margin:0"></ul>
         <p id="cartEmpty" class="muted">Корзина пуста</p>
       </div>
       <footer class="drawer-footer">
         <div class="total-row" style="display:flex;justify-content:space-between;align-items:center">
-          <div>Итого</div>
-          <div class="total-sum" id="cartTotal">0 ₽</div>
+          <div>Итого</div><div class="total-sum" id="cartTotal">0 ₽</div>
         </div>
         <div class="drawer-actions" style="display:flex;flex-direction:column;gap:8px">
           <a href="cart.html" class="cta ghost full" style="padding:10px 12px;text-align:center;">Перейти в корзину</a>
@@ -344,7 +271,6 @@ body {
   </aside>
   <div id="overlay" class="overlay" hidden></div>
 
-  <!-- Кнопка Наверх -->
   <button id="backToTop" aria-label="Наверх">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
   </button>
@@ -392,36 +318,34 @@ body {
     const cartTotal = document.getElementById('cartTotal');
     const menuToggle = document.getElementById('menuToggle');
 
-    function escapeHtml(s) { if(s==null)return''; return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-    function escapeAttr(s) { return escapeHtml(s).replace(/"/g,'&quot;'); }
+    function escapeHtml(s){if(s==null)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+    function escapeAttr(s){return escapeHtml(s).replace(/"/g,'&quot;');}
 
-    function normalizeProduct(p) {
-      return { ...p, description: p.description||p.desc||'', long_description: p.long_description||p.longDesc||'' };
+    function normalizeProduct(p){return{...p,description:p.description||p.desc||'',long_description:p.long_description||p.longDesc||''};}
+
+    function loadCustomProducts(){
+      try{const arr=JSON.parse(localStorage.getItem('custom_products')||'[]');return Array.isArray(arr)?arr.map(p=>normalizeProduct({...p,id:Number(p.id)})):[];}catch(e){return[];}
     }
 
-    function loadCustomProducts() {
-      try { const arr=JSON.parse(localStorage.getItem('custom_products')||'[]'); return Array.isArray(arr)?arr.map(p=>normalizeProduct({...p,id:Number(p.id)})):[];} catch(e){return[];}
-    }
-
-    function mergeCustomIntoProducts() {
-      try {
-        const custom=loadCustomProducts(), base=Array.isArray(window.PRODUCTS)?window.PRODUCTS.slice():PRODUCTS.slice();
+    function mergeCustomIntoProducts(){
+      try{
+        const custom=loadCustomProducts(),base=Array.isArray(window.PRODUCTS)?window.PRODUCTS.slice():PRODUCTS.slice();
         const map=new Map();
         base.forEach(p=>map.set(Number(p.id),normalizeProduct(p)));
         custom.forEach(p=>map.set(Number(p.id),normalizeProduct(p)));
         window.PRODUCTS=Array.from(map.values());
         try{PRODUCTS=window.PRODUCTS;}catch(e){}
-      } catch(err){console.error(err);}
+      }catch(err){console.error(err);}
     }
 
-    async function fetchProductsFromApi() {
-      try { const r=await fetch('/api/products',{cache:'no-store'}); if(!r.ok)return null; const data=await r.json(); if(!Array.isArray(data))return null; return data.map(p=>normalizeProduct({...p,id:Number(p.id)})); } catch(e){return null;}
+    async function fetchProductsFromApi(){
+      try{const r=await fetch('/api/products',{cache:'no-store'});if(!r.ok)return null;const data=await r.json();if(!Array.isArray(data))return null;return data.map(p=>normalizeProduct({...p,id:Number(p.id)}));}catch(e){return null;}
     }
 
-    async function tryLoadServerProducts() {
+    async function tryLoadServerProducts(){
       const serverList=await fetchProductsFromApi();
-      if(Array.isArray(serverList)&&serverList.length){ window.PRODUCTS=serverList.slice(); try{PRODUCTS=window.PRODUCTS;}catch(e){} return true; }
-      try { const r=await fetch('products.json',{cache:'no-store'}); if(r.ok){ const data=await r.json(); if(Array.isArray(data)&&data.length){ window.PRODUCTS=data.map(p=>normalizeProduct({...p,id:Number(p.id)})); try{PRODUCTS=window.PRODUCTS;}catch(e){} return true; } } } catch(e){}
+      if(Array.isArray(serverList)&&serverList.length){window.PRODUCTS=serverList.slice();try{PRODUCTS=window.PRODUCTS;}catch(e){}return true;}
+      try{const r=await fetch('products.json',{cache:'no-store'});if(r.ok){const data=await r.json();if(Array.isArray(data)&&data.length){window.PRODUCTS=data.map(p=>normalizeProduct({...p,id:Number(p.id)}));try{PRODUCTS=window.PRODUCTS;}catch(e){}return true;}}}catch(e){}
       return false;
     }
 
@@ -437,10 +361,10 @@ body {
       updateCartUI();
     }
 
-    function updateCartUI() {
+    function updateCartUI(){
       state.cart=Array.isArray(state.cart)?state.cart:readCartLocal();
       const qty=state.cart.reduce((s,i)=>s+(Number(i.qty)||0),0);
-      cartCountEl.hidden=qty===0; if(qty>0)cartCountEl.textContent=qty;
+      cartCountEl.hidden=qty===0;if(qty>0)cartCountEl.textContent=qty;
       cartItemsUl.innerHTML='';
       if(!state.cart||!state.cart.length){cartEmpty.style.display='block';cartTotal.textContent='0 ₽';return;}
       cartEmpty.style.display='none';
@@ -452,24 +376,7 @@ body {
         sum+=(Number(p.price)||0)*itemQty;
         const li=document.createElement('li');
         li.className='cart-item';li.dataset.id=item.id;
-        li.innerHTML=`
-          <a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit;display:flex;gap:10px;align-items:center">
-            <div style="width:56px;height:42px;flex:0 0 56px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center">
-              <img src="${escapeAttr(p.thumb||'placeholder.png')}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'">
-            </div>
-            <div>
-              <div style="font-weight:700">${escapeHtml(p.name||'Товар')}</div>
-              <div class="muted" style="font-size:13px">${(Number(p.price)||0).toLocaleString()} ₽ × ${itemQty}</div>
-            </div>
-          </a>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
-            <div style="display:flex;gap:8px;align-items:center">
-              <button class="icon-btn small dec" data-id="${item.id}" aria-label="Уменьшить">−</button>
-              <div style="min-width:26px;text-align:center">${itemQty}</div>
-              <button class="icon-btn small inc" data-id="${item.id}" aria-label="Увеличить">＋</button>
-            </div>
-            <button class="remove-btn" data-id="${item.id}" title="Удалить">✕</button>
-          </div>`;
+        li.innerHTML=`<a href="product.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;color:inherit;display:flex;gap:10px;align-items:center"><div style="width:56px;height:42px;flex:0 0 56px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center"><img src="${escapeAttr(p.thumb||'placeholder.png')}" style="width:100%;height:100%;object-fit:cover" onerror="this.src='placeholder.png'"></div><div><div style="font-weight:700">${escapeHtml(p.name||'Товар')}</div><div class="muted" style="font-size:13px">${(Number(p.price)||0).toLocaleString()} ₽ × ${itemQty}</div></div></a><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><div style="display:flex;gap:8px;align-items:center"><button class="icon-btn small dec" data-id="${item.id}">−</button><div style="min-width:26px;text-align:center">${itemQty}</div><button class="icon-btn small inc" data-id="${item.id}">＋</button></div><button class="remove-btn" data-id="${item.id}">✕</button></div>`;
         cartItemsUl.appendChild(li);
       });
       cartTotal.textContent=`${sum.toLocaleString()} ₽`;
@@ -478,8 +385,7 @@ body {
     function addToCartLocal(id,qty=1){
       const now=Date.now(),last=__recentAdds.get(id)||0;
       if(now-last<700)return;
-      __recentAdds.set(id,now);
-      setTimeout(()=>{if(__recentAdds.get(id)===now)__recentAdds.delete(id);},900);
+      __recentAdds.set(id,now);setTimeout(()=>{if(__recentAdds.get(id)===now)__recentAdds.delete(id);},900);
       const cart=readCartLocal(),found=cart.find(i=>Number(i.id)===Number(id));
       if(found)found.qty=Number(found.qty||0)+Number(qty||0);else cart.push({id:Number(id),qty:Number(qty||0)});
       saveCartLocal(cart);openCart();
@@ -492,8 +398,8 @@ body {
       const btn=e.target.closest('button');
       if(btn){
         const id=Number(btn.dataset.id);
-        if(btn.classList.contains('inc')){const c=readCartLocal(),it=c.find(x=>Number(x.id)===id);if(it){it.qty=Number(it.qty||0)+1;saveCartLocal(c);}return;}
-        if(btn.classList.contains('dec')){const c=readCartLocal(),it=c.find(x=>Number(x.id)===id);if(it){if(Number(it.qty||0)>1){it.qty--;saveCartLocal(c);}else btn.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}],{duration:150});}return;}
+        if(btn.classList.contains('inc')){const c=readCartLocal(),it=c.find(x=>Number(x.id)===id);if(it){it.qty++;saveCartLocal(c);}return;}
+        if(btn.classList.contains('dec')){const c=readCartLocal(),it=c.find(x=>Number(x.id)===id);if(it){if(it.qty>1){it.qty--;saveCartLocal(c);}else btn.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(0)'}],{duration:150});}return;}
         if(btn.classList.contains('remove-btn')){saveCartLocal(readCartLocal().filter(x=>Number(x.id)!==id));return;}
       }
       const a=e.target.closest('a');
@@ -510,40 +416,38 @@ body {
       if(e.key==='custom_products'||e.key==='__products_last_update__'){mergeCustomIntoProducts();applyFilters();}
     });
 
-    // ===== РЕНДЕР ТОВАРОВ =====
+    // РЕНДЕР ТОВАРОВ
     let cardObserver;
-    function initCardObserver() {
-      cardObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => entry.target.classList.add('visible'), i * 60);
-            cardObserver.unobserve(entry.target);
-          }
+    function initCardObserver(){
+      cardObserver=new IntersectionObserver((entries)=>{
+        entries.forEach((entry,i)=>{
+          if(entry.isIntersecting){setTimeout(()=>entry.target.classList.add('visible'),i*60);cardObserver.unobserve(entry.target);}
         });
-      }, { threshold: 0.08 });
+      },{threshold:0.08});
     }
 
-    function renderProducts(list) {
-        const countEl = document.getElementById('productsCount');
-  if (countEl) {
-    countEl.textContent = Array.isArray(list) && list.length > 0
-      ? `Найдено: ${list.length} ${pluralProducts(list.length)}`
-      : '';
-      productsGrid.innerHTML = '';
-      if (!Array.isArray(list) || list.length === 0) { noResults.style.display = 'block'; return; }
-      noResults.style.display = 'none';
-      list.forEach(p => {
-        const card = document.createElement('article');
-        card.className = 'product-card';
-        card.setAttribute('role', 'listitem');
-        const desc = p.description || p.desc || '';
-        card.innerHTML = `
-        function pluralProducts(n) {
-          const mod10 = n % 10, mod100 = n % 100;
-          if (mod10 === 1 && mod100 !== 11) return 'товар';
-          if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return 'товара';
-          return 'товаров';
-        }
+    // Склонение
+    function pluralProducts(n){
+      const mod10=n%10,mod100=n%100;
+      if(mod10===1&&mod100!==11)return'товар';
+      if(mod10>=2&&mod10<=4&&(mod100<10||mod100>=20))return'товара';
+      return'товаров';
+    }
+
+    function renderProducts(list){
+      // Счётчик
+      const countEl=document.getElementById('productsCount');
+      if(countEl) countEl.textContent=Array.isArray(list)&&list.length>0?`Найдено: ${list.length} ${pluralProducts(list.length)}`:'';
+
+      productsGrid.innerHTML='';
+      if(!Array.isArray(list)||list.length===0){noResults.style.display='block';return;}
+      noResults.style.display='none';
+      list.forEach(p=>{
+        const card=document.createElement('article');
+        card.className='product-card';
+        card.setAttribute('role','listitem');
+        const desc=p.description||p.desc||'';
+        card.innerHTML=`
           <div class="product-top">
             <a class="product-link" href="product.html?id=${encodeURIComponent(p.id)}" aria-label="${escapeAttr(p.name||'')}">
               <img src="${escapeAttr(p.thumb||'placeholder.png')}" alt="${escapeAttr(p.name||'')}" onerror="this.style.filter='grayscale(60%)';this.src='placeholder.png'"/>
@@ -561,11 +465,11 @@ body {
             </div>
           </div>`;
         productsGrid.appendChild(card);
-        if (cardObserver) cardObserver.observe(card);
+        if(cardObserver)cardObserver.observe(card);
       });
     }
 
-    function applyFilters() {
+    function applyFilters(){
       let list=(window.PRODUCTS&&Array.isArray(window.PRODUCTS))?window.PRODUCTS.slice():PRODUCTS.slice();
       if(state.category)list=list.filter(p=>p.category===state.category);
       if(state.brand)list=list.filter(p=>p.brand===state.brand);
@@ -598,33 +502,24 @@ body {
     maxPriceInput.addEventListener('change',e=>{state.maxPrice=e.target.value||null;applyFilters();});
 
     categoryChips.addEventListener('click',e=>{
-      const btn=e.target.closest('button.chip');
-      if(!btn)return;
-      state.category=btn.dataset.cat;
-      categorySelect.value=btn.dataset.cat;
+      const btn=e.target.closest('button.chip');if(!btn)return;
+      state.category=btn.dataset.cat;categorySelect.value=btn.dataset.cat;
       categorySelect.dispatchEvent(new Event('change'));
       document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===btn));
       applyFilters();
     });
 
     productsGrid.addEventListener('click',e=>{
-      const btn=e.target.closest('button.p-add');
-      if(!btn)return;
-      const id=Number(btn.dataset.id);
-      btn.disabled=true;setTimeout(()=>btn.disabled=false,700);
-      addToCartLocal(id,1);
-      const prev=btn.textContent;btn.textContent='✓ Добавлено';setTimeout(()=>btn.textContent=prev,900);
+      const btn=e.target.closest('button.p-add');if(!btn)return;
+      const id=Number(btn.dataset.id);btn.disabled=true;setTimeout(()=>btn.disabled=false,700);
+      addToCartLocal(id,1);const prev=btn.textContent;btn.textContent='✓ Добавлено';setTimeout(()=>btn.textContent=prev,900);
     });
 
-    function initFromUrl() {
+    function initFromUrl(){
       const qs=new URLSearchParams(location.search);
-      const cat=qs.get('cat')||'', brand=qs.get('brand')||'', search=qs.get('search')||'';
+      const cat=qs.get('cat')||'',brand=qs.get('brand')||'',search=qs.get('search')||'';
       if(search){state.search=search;searchInput.value=search;}
-      if(cat){
-        state.category=cat;categorySelect.value=cat;categorySelect.dispatchEvent(new Event('change'));
-        const chip=Array.from(document.querySelectorAll('.chip')).find(c=>c.dataset.cat===cat);
-        if(chip)document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===chip));
-      }
+      if(cat){state.category=cat;categorySelect.value=cat;categorySelect.dispatchEvent(new Event('change'));const chip=Array.from(document.querySelectorAll('.chip')).find(c=>c.dataset.cat===cat);if(chip)document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===chip));}
       if(brand){state.brand=brand;brandSelect.value=brand;brandSelect.dispatchEvent(new Event('change'));}
     }
 
@@ -634,28 +529,17 @@ body {
         state.search='';state.category='';state.brand='';state.availability='';state.sort='featured';state.minPrice=null;state.maxPrice=null;
         searchInput.value='';categorySelect.value='';brandSelect.value='';availabilitySelect.value='';sortSelect.value='featured';minPriceInput.value='';maxPriceInput.value='';
         document.querySelectorAll('.chip').forEach(chip=>chip.classList.toggle('active',chip.dataset.cat===''));
-        document.querySelectorAll('.ss-dropdown-title').forEach(title=>{
-          const dropdown=title.closest('.ss-dropdown'),select=document.getElementById(dropdown.dataset.selectId);
-          if(select)title.textContent=select.options[select.selectedIndex]?.textContent||title.textContent;
-        });
+        document.querySelectorAll('.ss-dropdown-title').forEach(title=>{const dropdown=title.closest('.ss-dropdown'),select=document.getElementById(dropdown.dataset.selectId);if(select)title.textContent=select.options[select.selectedIndex]?.textContent||title.textContent;});
         applyFilters();
       });
     }
 
-    (function addSrOnly(){
-      const s=document.createElement('style');
-      s.textContent=`.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}`;
-      document.head.appendChild(s);
-    })();
+    (function addSrOnly(){const s=document.createElement('style');s.textContent=`.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}`;document.head.appendChild(s);})();
 
-    function initCustomDropdowns() {
+    function initCustomDropdowns(){
       document.querySelectorAll('.ss-dropdown').forEach(dropdown=>{
-        const selectEl=document.getElementById(dropdown.dataset.selectId);
-        if(!selectEl)return;
-        const button=dropdown.querySelector('.ss-dropdown-button');
-        const titleSpan=dropdown.querySelector('.ss-dropdown-title');
-        const listUl=dropdown.querySelector('.ss-dropdown-list');
-        const floatingIcon=dropdown.querySelector('.ss-floating-icon');
+        const selectEl=document.getElementById(dropdown.dataset.selectId);if(!selectEl)return;
+        const button=dropdown.querySelector('.ss-dropdown-button'),titleSpan=dropdown.querySelector('.ss-dropdown-title'),listUl=dropdown.querySelector('.ss-dropdown-list'),floatingIcon=dropdown.querySelector('.ss-floating-icon');
         function populateList(){
           listUl.innerHTML='';
           Array.from(selectEl.options).forEach(option=>{
@@ -669,44 +553,33 @@ body {
         button.addEventListener('click',e=>{e.stopPropagation();document.querySelectorAll('.ss-dropdown.open').forEach(d=>{if(d!==dropdown)d.classList.remove('open');});dropdown.classList.toggle('open');});
         document.addEventListener('click',e=>{if(!dropdown.contains(e.target))dropdown.classList.remove('open');});
         if(floatingIcon){
-          listUl.addEventListener('mousemove',e=>{
-            let t=null;
-            for(let item of listUl.querySelectorAll('.ss-dropdown-item')){const r=item.getBoundingClientRect();if(e.clientY>=r.top&&e.clientY<=r.bottom){t=item;break;}}
-            if(t){const r=t.getBoundingClientRect(),cr=listUl.getBoundingClientRect();floatingIcon.style.transform=`translate(${r.left-cr.left}px,${r.top-cr.top}px)`;floatingIcon.style.opacity='1';}else floatingIcon.style.opacity='0';
-          });
+          listUl.addEventListener('mousemove',e=>{let t=null;for(let item of listUl.querySelectorAll('.ss-dropdown-item')){const r=item.getBoundingClientRect();if(e.clientY>=r.top&&e.clientY<=r.bottom){t=item;break;}}if(t){const r=t.getBoundingClientRect(),cr=listUl.getBoundingClientRect();floatingIcon.style.transform=`translate(${r.left-cr.left}px,${r.top-cr.top}px)`;floatingIcon.style.opacity='1';}else floatingIcon.style.opacity='0';});
           listUl.addEventListener('mouseleave',()=>{floatingIcon.style.opacity='0';});
         }
-        selectEl.addEventListener('change',()=>{
-          const sel=selectEl.options[selectEl.selectedIndex];titleSpan.textContent=sel.textContent;
-          listUl.querySelectorAll('.ss-dropdown-item').forEach(i=>i.classList.toggle('selected',i.dataset.value===sel.value));
-        });
+        selectEl.addEventListener('change',()=>{const sel=selectEl.options[selectEl.selectedIndex];titleSpan.textContent=sel.textContent;listUl.querySelectorAll('.ss-dropdown-item').forEach(i=>i.classList.toggle('selected',i.dataset.value===sel.value));});
       });
     }
 
-    // ===== КНОПКА НАВЕРХ =====
+    // КНОПКА НАВЕРХ
     const backToTop=document.getElementById('backToTop');
-    window.addEventListener('scroll',()=>{backToTop.classList.toggle('visible',window.scrollY>400);},{passive:true});
+    window.addEventListener('scroll',()=>backToTop.classList.toggle('visible',window.scrollY>400),{passive:true});
     backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-    // ===== ПОИСК В ШАПКЕ =====
-    const searchOverlay=document.getElementById('searchOverlay');
-    const searchOpenBtn=document.getElementById('searchOpenBtn');
-    const headerSearchInput=document.getElementById('headerSearchInput');
-
+    // ПОИСК В ШАПКЕ
+    const searchOverlay=document.getElementById('searchOverlay'),searchOpenBtn=document.getElementById('searchOpenBtn'),headerSearchInput=document.getElementById('headerSearchInput');
     function openSearch(){searchOverlay.classList.add('open');setTimeout(()=>headerSearchInput.focus(),100);}
     function closeSearch(){searchOverlay.classList.remove('open');headerSearchInput.value='';}
-
     searchOpenBtn.addEventListener('click',openSearch);
     searchOverlay.addEventListener('click',e=>{if(e.target===searchOverlay)closeSearch();});
-    document.addEventListener('keydown',e=>{
-      if(e.key==='Escape')closeSearch();
-      if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}
-    });
-    headerSearchInput.addEventListener('keydown',e=>{
-      if(e.key==='Enter'){
-        const q=headerSearchInput.value.trim();
-        if(q){state.search=q;searchInput.value=q;closeSearch();applyFilters();}
-      }
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch();if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();openSearch();}});
+    headerSearchInput.addEventListener('keydown',e=>{if(e.key==='Enter'){const q=headerSearchInput.value.trim();if(q){state.search=q;searchInput.value=q;closeSearch();applyFilters();}}});
+
+    // ПЛАВНЫЙ ПЕРЕХОД
+    document.addEventListener('click',e=>{
+      const link=e.target.closest('a');if(!link)return;
+      const href=link.getAttribute('href');
+      if(!href||href.startsWith('http')||href.startsWith('#')||href.startsWith('mailto')||href.startsWith('tel')||link.target==='_blank'||!href.endsWith('.html'))return;
+      e.preventDefault();document.body.classList.add('page-leaving');setTimeout(()=>{window.location.href=href;},250);
     });
 
     (async function boot(){
@@ -721,19 +594,6 @@ body {
     })();
 
     window._SS={state,getProducts:()=>(window.PRODUCTS||PRODUCTS),applyFilters,addToCartLocal,updateCartUI};
-    // Плавный переход между страницами
-document.addEventListener('click', e => {
-  const link = e.target.closest('a');
-  if (!link) return;
-  const href = link.getAttribute('href');
-  // Только внутренние ссылки на .html страницы
-  if (!href || href.startsWith('http') || href.startsWith('#') || 
-      href.startsWith('mailto') || href.startsWith('tel') ||
-      link.target === '_blank' || !href.endsWith('.html')) return;
-  e.preventDefault();
-  document.body.classList.add('page-leaving');
-  setTimeout(() => { window.location.href = href; }, 250);
-});
   </script>
 </body>
 </html>
