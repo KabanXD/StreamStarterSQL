@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>404 — Страница не найдена | StreamStarter</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* Канвас с частицами на весь фон */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-404 {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      gap: 0;
+    }
+
+    /* Большой глитч-текст 404 */
+    .error-code {
+      font-size: clamp(120px, 22vw, 220px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -8px;
+      position: relative;
+      user-select: none;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(145,70,255,0.3);
+      animation: glitchIdle 6s ease-in-out infinite;
+    }
+
+    /* Градиентный текст поверх обводки */
+    .error-code::before {
+      content: '404';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #9146ff 0%, #c084fc 40%, #7f4cff 70%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: glitch 5s ease-in-out infinite;
+    }
+
+    /* Глитч слой 1 */
+    .error-code::after {
+      content: '404';
+      position: absolute;
+      inset: 0;
+      color: #00ffff;
+      opacity: 0;
+      animation: glitchLayer 5s ease-in-out infinite;
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+    }
+
+    @keyframes glitchIdle {
+      0%, 90%, 100% { transform: translate(0); }
+      91% { transform: translate(-3px, 1px); }
+      92% { transform: translate(3px, -1px); }
+      93% { transform: translate(-2px, 2px); }
+      94% { transform: translate(0); }
+    }
+
+    @keyframes glitch {
+      0%, 89%, 100% { transform: translate(0); opacity: 1; }
+      90% { transform: translate(-4px, 0); opacity: 0.8; }
+      91% { transform: translate(4px, 0); opacity: 0.9; }
+      92% { transform: translate(0); opacity: 1; }
+    }
+
+    @keyframes glitchLayer {
+      0%, 89%, 100% { opacity: 0; transform: translate(0); }
+      90% { opacity: 0.6; transform: translate(6px, 0); }
+      91% { opacity: 0.4; transform: translate(-6px, 0); }
+      92% { opacity: 0; }
+    }
+
+    /* Иконка с анимацией */
+    .error-icon {
+      font-size: 52px;
+      margin-bottom: 16px;
+      animation: floatIcon 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(145,70,255,0.6));
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-12px) rotate(5deg); }
+    }
+
+    .error-title {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 800;
+      margin: 16px 0 10px;
+      background: linear-gradient(135deg, #fff, #d4b5ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: fadeSlideUp 0.7s ease 0.2s both;
+    }
+
+    .error-desc {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 420px;
+      line-height: 1.6;
+      margin: 0 0 32px;
+      animation: fadeSlideUp 0.7s ease 0.35s both;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeSlideUp 0.7s ease 0.5s both;
+    }
+
+    .btn-home {
+      padding: 13px 28px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(145,70,255,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-home:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(145,70,255,0.55);
+    }
+
+    .btn-catalog {
+      padding: 13px 28px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      border: 1px solid rgba(145,70,255,0.35);
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .btn-catalog:hover {
+      border-color: rgba(145,70,255,0.7);
+      background: rgba(145,70,255,0.08);
+      transform: translateY(-3px);
+    }
+
+    /* Декоративная линия с пульсацией */
+    .error-line {
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 99px;
+      margin: 24px auto 0;
+      animation: pulseLine 2s ease-in-out infinite, fadeSlideUp 0.7s ease 0.6s both;
+    }
+    @keyframes pulseLine {
+      0%, 100% { opacity: 0.4; width: 60px; }
+      50% { opacity: 1; width: 120px; }
+    }
+
+    /* Подсказка внизу */
+    .error-hint {
+      position: fixed;
+      bottom: 24px;
+      color: rgba(154,160,166,0.5);
+      font-size: 13px;
+      animation: fadeSlideUp 0.7s ease 0.8s both;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Сломанный экран — декоративные линии */
+    .glitch-lines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .glitch-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(145,70,255,0.15), transparent);
+      animation: scanline linear infinite;
+    }
+    @keyframes scanline {
+      0% { transform: translateY(-100vh); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    @media(max-width:520px) {
+      .error-code { letter-spacing: -4px; }
+      .error-actions { flex-direction: column; align-items: center; }
+      .btn-home, .btn-catalog { width: 220px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Фоновые частицы -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Декоративные линии сканирования -->
+  <div class="glitch-lines" id="glitchLines"></div>
+
+  <div class="page-404">
+    <div class="error-icon">📡</div>
+    <div class="error-code">404</div>
+    <h1 class="error-title">Страница потерялась в эфире</h1>
+    <p class="error-desc">
+      Похоже, эта страница ушла в офлайн. Возможно, ссылка устарела или страница была удалена. Но не беда — у нас есть всё для твоего стрима!
+    </p>
+    <div class="error-actions">
+      <a href="index.html" class="btn-home">🏠 На главную</a>
+      <a href="catalog.html" class="btn-catalog">📦 В каталог</a>
+    </div>
+    <div class="error-line"></div>
+  </div>
+
+  <p class="error-hint">StreamStarter — Всё для твоего стрима</p>
+
+  <script>
+  // ===== ЧАСТИЦЫ НА ФОНЕ =====
+  (function() {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function createParticle() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 2 + 0.5,
+        dx: (Math.random() - 0.5) * 0.3,
+        dy: (Math.random() - 0.5) * 0.3,
+        alpha: Math.random() * 0.4 + 0.05,
+        pulse: Math.random() * Math.PI * 2,
+        pulseSpeed: Math.random() * 0.02 + 0.005
+      };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.dx; p.y += p.dy;
+        p.pulse += p.pulseSpeed;
+        const alpha = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+
+        // Оборачиваем по краям
+        if (p.x < -10) p.x = W + 10;
+        if (p.x > W + 10) p.x = -10;
+        if (p.y < -10) p.y = H + 10;
+        if (p.y > H + 10) p.y = -10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(145,70,255,${alpha})`;
+        ctx.fill();
+      });
+
+      // Соединяем близкие частицы линиями
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(145,70,255,${0.06 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    particles = Array.from({ length: 80 }, createParticle);
+    draw();
+    window.addEventListener('resize', resize);
+  })();
+
+  // ===== ЛИНИИ СКАНИРОВАНИЯ =====
+  (function() {
+    const wrap = document.getElementById('glitchLines');
+    const count = 4;
+    for (let i = 0; i < count; i++) {
+      const line = document.createElement('div');
+      line.className = 'glitch-line';
+      const duration = 8 + Math.random() * 8;
+      const delay = Math.random() * -10;
+      line.style.cssText = `
+        top: ${Math.random() * 100}%;
+        animation-duration: ${duration}s;
+        animation-delay: ${delay}s;
+        opacity: ${0.3 + Math.random() * 0.4};
+      `;
+      wrap.appendChild(line);
+    }
+  })();
+
+  // ===== ИНТЕРАКТИВНЫЙ ГЛИТЧ ПРИ ДВИЖЕНИИ МЫШИ =====
+  (function() {
+    const code = document.querySelector('.error-code');
+    document.addEventListener('mousemove', e => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      code.style.textShadow = `
+        ${dx * 6}px ${dy * 3}px 0 rgba(0,255,255,0.15),
+        ${-dx * 6}px ${-dy * 3}px 0 rgba(255,0,128,0.12)
+      `;
+    });
+    document.addEventListener('mouseleave', () => {
+      code.style.textShadow = '';
+    });
+  })();
+
+  // ===== ПЛАВНЫЙ ПЕРЕХОД =====
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('#') || !href.endsWith('.html')) return;
+    e.preventDefault();
+    document.body.style.transition = 'opacity 0.25s ease';
+    document.body.style.opacity = '0';
+    setTimeout(() => { window.location.href = href; }, 250);
+  });
+  </script>
+</body>
+</html>
