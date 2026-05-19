@@ -92,13 +92,14 @@
 }
 
 .cart-desc {
-  max-width: 280px;        /* ограничение ширины */
+  max-width: 260px;          /* ограничение ширины именно для описания */
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;   /* максимум 2 строки */
+  -webkit-line-clamp: 2;     /* максимум 2 строки */
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  white-space: normal;     /* разрешить перенос */
+  white-space: normal;       /* разрешить перенос */
+  word-break: break-word;    /* перенос длинных слов */
 }
 
 .cart-controls {
