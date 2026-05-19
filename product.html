@@ -489,11 +489,12 @@
     const thumbPrevBtn=document.getElementById('thumbPrevBtn');
     const thumbNextBtn=document.getElementById('thumbNextBtn');
 
-    function updateThumbButtons(){
-      const need=thumbList.scrollHeight>thumbScroll.clientHeight+2;
-      if(!need){thumbPrevBtn.classList.add('hidden');thumbNextBtn.classList.add('hidden');}
-      else{thumbPrevBtn.classList.remove('hidden');thumbNextBtn.classList.remove('hidden');thumbPrevBtn.classList.toggle('hidden',thumbScroll.scrollTop<=3);thumbNextBtn.classList.toggle('hidden',thumbScroll.scrollTop+thumbScroll.clientHeight>=thumbList.scrollHeight-3);}
-    }
+function updateThumbButtons() {
+  // показываем стрелки, только если миниатюр больше 5
+  const need = thumbList.children.length > 5;
+  thumbPrevBtn.classList.toggle('hidden', !need);
+  thumbNextBtn.classList.toggle('hidden', !need);
+}
     function itemScrollAmount(){const first=thumbList.querySelector('.vthumb');if(!first)return 72;return first.offsetHeight+8;}
 
     thumbList.querySelectorAll('.vthumb').forEach(btn=>{
