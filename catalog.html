@@ -46,6 +46,17 @@
     @keyframes pageFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
     .page-leaving #page-transition-wrap{animation:pageFadeOut 0.25s ease forwards !important;}
     @keyframes pageFadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
+
+    .ss-dropdown-item .brand-icon {
+  width:24px; height:24px; border-radius:5px; display:flex;
+  align-items:center; justify-content:center; font-size:13px;
+  flex-shrink:0; background:rgba(255,255,255,0.05);
+}
+.ss-dropdown-divider {
+  font-size:11px; font-weight:700; color:var(--muted);
+  padding:8px 16px 4px; text-transform:uppercase;
+  letter-spacing:0.8px; margin-top:4px;
+}
   </style>
 </head>
 <body>
@@ -130,22 +141,44 @@
             <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
           </div>
         </div>
-        <div class="control dropdown-control">
-          <label class="sr-only" for="brandSelect">Бренд</label>
-          <select id="brandSelect" class="hidden-select" aria-hidden="true" tabindex="-1">
-            <option value="">Все бренды</option>
-            <option value="AeroSound">AeroSound</option>
-            <option value="NightFox">NightFox</option>
-            <option value="Beamline">Beamline</option>
-            <option value="ProGamer">ProGamer</option>
-            <option value="StudioTech">StudioTech</option>
-            <option value="Generic">Generic</option>
-          </select>
-          <div class="ss-dropdown" data-select-id="brandSelect">
-            <button type="button" class="ss-dropdown-button"><span class="ss-dropdown-title">Все бренды</span><span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span></button>
-            <div class="ss-dropdown-list-container"><div class="ss-dropdown-list-wrapper"><ul class="ss-dropdown-list"></ul><div class="ss-floating-icon" aria-hidden="true"></div></div></div>
-          </div>
-        </div>
+<div class="control dropdown-control">
+  <label class="sr-only" for="brandSelect">Бренд</label>
+  <select id="brandSelect" class="hidden-select" aria-hidden="true" tabindex="-1">
+    <option value="">Все бренды</option>
+    <option value="Logitech">Logitech</option>
+    <option value="Razer">Razer</option>
+    <option value="SteelSeries">SteelSeries</option>
+    <option value="HyperX">HyperX</option>
+    <option value="Corsair">Corsair</option>
+    <option value="ASUS ROG">ASUS ROG</option>
+    <option value="Zowie">Zowie</option>
+    <option value="Cooler Master">Cooler Master</option>
+    <option value="Ducky">Ducky</option>
+    <option value="Keychron">Keychron</option>
+    <option value="Rode">Rode</option>
+    <option value="Blue Yeti">Blue Yeti</option>
+    <option value="Shure">Shure</option>
+    <option value="Audio-Technica">Audio-Technica</option>
+    <option value="Elgato">Elgato</option>
+    <option value="AeroSound">AeroSound</option>
+    <option value="NightFox">NightFox</option>
+    <option value="Beamline">Beamline</option>
+    <option value="ProGamer">ProGamer</option>
+    <option value="StudioTech">StudioTech</option>
+    <option value="Generic">Generic</option>
+  </select>
+  <div id="catalogBrandDropdown" class="ss-dropdown">
+    <button type="button" class="ss-dropdown-button" id="catalogBrandBtn">
+      <span class="ss-dropdown-title" id="catalogBrandTitle">Все бренды</span>
+      <span class="ss-dropdown-arrow"><svg viewBox="0 0 16 16"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></span>
+    </button>
+    <div class="ss-dropdown-list-container">
+      <div class="ss-dropdown-list-wrapper" style="max-height:400px;overflow-y:auto">
+        <ul class="ss-dropdown-list" id="catalogBrandList"></ul>
+      </div>
+    </div>
+  </div>
+</div>
         <div class="control dropdown-control">
           <label class="sr-only" for="availabilitySelect">Доступность</label>
           <select id="availabilitySelect" class="hidden-select" aria-hidden="true" tabindex="-1">
@@ -582,6 +615,89 @@
       e.preventDefault();document.body.classList.add('page-leaving');setTimeout(()=>{window.location.href=href;},250);
     });
 
+    // ===== БРЕНДЫ С ИКОНКАМИ В КАТАЛОГЕ =====
+const CATALOG_BRANDS = [
+  { name:'Logitech', icon:'🖱️', cat:'Периферия' },
+  { name:'Razer', icon:'🐍', cat:'Периферия' },
+  { name:'SteelSeries', icon:'🎮', cat:'Периферия' },
+  { name:'HyperX', icon:'⚡', cat:'Периферия' },
+  { name:'Corsair', icon:'⚓', cat:'Периферия' },
+  { name:'ASUS ROG', icon:'🔴', cat:'Периферия' },
+  { name:'Zowie', icon:'🎯', cat:'Периферия' },
+  { name:'Cooler Master', icon:'❄️', cat:'Периферия' },
+  { name:'Ducky', icon:'🦆', cat:'Периферия' },
+  { name:'Keychron', icon:'⌨️', cat:'Периферия' },
+  { name:'Rode', icon:'🎙️', cat:'Аудио' },
+  { name:'Blue Yeti', icon:'🎤', cat:'Аудио' },
+  { name:'Shure', icon:'🎵', cat:'Аудио' },
+  { name:'Audio-Technica', icon:'🎧', cat:'Аудио' },
+  { name:'Elgato', icon:'📹', cat:'Стриминг' },
+  { name:'AeroSound', icon:'🌬️', cat:'Наши бренды' },
+  { name:'NightFox', icon:'🦊', cat:'Наши бренды' },
+  { name:'Beamline', icon:'📡', cat:'Наши бренды' },
+  { name:'ProGamer', icon:'🕹️', cat:'Наши бренды' },
+  { name:'StudioTech', icon:'🎬', cat:'Наши бренды' },
+  { name:'Generic', icon:'📦', cat:'Наши бренды' },
+];
+
+function initCatalogBrandDropdown() {
+  const dropdown = document.getElementById('catalogBrandDropdown');
+  if (!dropdown) return;
+  const btn = document.getElementById('catalogBrandBtn');
+  const titleEl = document.getElementById('catalogBrandTitle');
+  const listUl = document.getElementById('catalogBrandList');
+
+  // "Все бренды" первым
+  const allLi = document.createElement('li');
+  allLi.className = 'ss-dropdown-item';
+  allLi.innerHTML = `<span class="brand-icon">🌐</span>Все бренды`;
+  allLi.addEventListener('click', e => {
+    e.stopPropagation();
+    brandSelect.value = '';
+    titleEl.textContent = 'Все бренды';
+    listUl.querySelectorAll('.ss-dropdown-item').forEach(i => i.classList.remove('selected'));
+    allLi.classList.add('selected');
+    dropdown.classList.remove('open');
+    state.brand = '';
+    applyFilters();
+  });
+  allLi.classList.add('selected');
+  listUl.appendChild(allLi);
+
+  // Группы брендов
+  const cats = [...new Set(CATALOG_BRANDS.map(b => b.cat))];
+  cats.forEach(cat => {
+    const div = document.createElement('div');
+    div.className = 'ss-dropdown-divider';
+    div.textContent = cat;
+    listUl.appendChild(div);
+    CATALOG_BRANDS.filter(b => b.cat === cat).forEach(brand => {
+      const li = document.createElement('li');
+      li.className = 'ss-dropdown-item';
+      li.dataset.value = brand.name;
+      li.innerHTML = `<span class="brand-icon">${brand.icon}</span>${escapeHtml(brand.name)}`;
+      li.addEventListener('click', e => {
+        e.stopPropagation();
+        brandSelect.value = brand.name;
+        titleEl.textContent = brand.icon + ' ' + brand.name;
+        listUl.querySelectorAll('.ss-dropdown-item').forEach(i => i.classList.remove('selected'));
+        li.classList.add('selected');
+        dropdown.classList.remove('open');
+        state.brand = brand.name;
+        applyFilters();
+      });
+      listUl.appendChild(li);
+    });
+  });
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    document.querySelectorAll('.ss-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+    dropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', e => { if (!dropdown.contains(e.target)) dropdown.classList.remove('open'); });
+}
+    
     (async function boot(){
       initCardObserver();
       await tryLoadServerProducts();
@@ -591,6 +707,7 @@
       updateCartUI();
       applyFilters();
       initCustomDropdowns();
+      initCatalogBrandDropdown();
     })();
 
     window._SS={state,getProducts:()=>(window.PRODUCTS||PRODUCTS),applyFilters,addToCartLocal,updateCartUI};
