@@ -95,7 +95,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;          /* максимум 1 строка */
   -webkit-box-orient: vertical;
-  max-width: 450px;               /* ограничение ширины, чтобы не упираться в кнопку */
+  max-width: 500px;               /* ограничение ширины, чтобы не упираться в кнопку */
   white-space: normal;
   word-break: break-word;
 }
