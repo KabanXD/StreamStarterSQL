@@ -9,6 +9,25 @@
   <script src="https://api-maps.yandex.ru/2.1/?apikey=1f98a8a3-8193-424c-af05-8aa10768ef38&lang=ru_RU" type="text/javascript"></script>
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
+    /* Убираем лишние отступы и горизонтальную прокрутку */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;                     /* запрет горизонтальной прокрутки */
+  min-height: 100vh;                      /* растягиваем на весь экран */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Основной контент занимает всё доступное пространство */
+.site-main.container.cart-page {
+  flex: 1;
+}
+
+/* Футер больше не будет отрываться от низа */
+.site-footer {
+  flex-shrink: 0;
+}
   /* ----- Модальное окно и карта ----- */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
