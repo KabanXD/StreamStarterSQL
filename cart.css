@@ -93,9 +93,9 @@
   line-height:1.45;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;          /* максимум 2 строки */
+  -webkit-line-clamp: 1;          /* максимум 1 строка */
   -webkit-box-orient: vertical;
-  max-width: 250px;               /* ограничение ширины, чтобы не упираться в кнопку */
+  max-width: 300px;               /* ограничение ширины, чтобы не упираться в кнопку */
   white-space: normal;
   word-break: break-word;
 }
