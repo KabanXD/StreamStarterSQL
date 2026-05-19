@@ -87,7 +87,13 @@
 .cart-meta { display:flex; flex-direction:column; gap:8px; min-width:0; }
 .cart-title { font-weight:700; text-decoration:none; color:var(--text); }
 .cart-sub { font-size:13px; color:var(--muted) }
-.cart-desc { font-size:13px; color:var(--muted); line-height:1.45; }
+.cart-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;          /* показывать максимум 2 строки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .cart-controls {
   display:flex;
