@@ -10,27 +10,39 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
 
-/* Растягиваем страницу на всю высоту, убираем зазор */
-html, body {
+/* === ГЛОБАЛЬНЫЙ РАСТЯГИВАЮЩИЙ КОНТЕЙНЕР === */
+html {
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   overflow-x: hidden;
 }
+
 body {
-  flex: 1 0 auto;
-  background-color: #120617;
+  min-height: 100vh;          /* fallback */
+  min-height: 100%;           /* для старых браузеров */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
+
+/* главный контент забирает всё свободное пространство */
 .site-main.container.cart-page {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+  padding: 36px 16px;
+  box-sizing: border-box;
 }
+
+/* карточная сетка внутри — тоже flex, чтобы растягивать правую панель */
 .cart-grid {
   flex: 1;
 }
+
+/* футер прижимается книзу и не сжимается */
 .site-footer {
   flex-shrink: 0;
   margin-top: 0 !important;
