@@ -84,15 +84,21 @@
   padding:6px;
 }
 
-.cart-meta { display:flex; flex-direction:column; gap:8px; min-width:0; }
 .cart-title { font-weight:700; text-decoration:none; color:var(--text); }
 .cart-sub { font-size:13px; color:var(--muted) }
-.cart-desc {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;          /* показывать максимум 2 строки */
-  -webkit-box-orient: vertical;
+.cart-meta {
+  min-width: 0;          
   overflow: hidden;
+}
+
+.cart-desc {
+  max-width: 280px;        /* ограничение ширины */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;   /* максимум 2 строки */
+  -webkit-box-orient: vertical;
   text-overflow: ellipsis;
+  white-space: normal;     /* разрешить перенос */
 }
 
 .cart-controls {
