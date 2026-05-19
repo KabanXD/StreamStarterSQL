@@ -92,7 +92,7 @@
 }
 
 .cart-desc {
-  max-width: 260px;          /* ограничение ширины именно для описания */
+  max-width: 300px;          /* ограничение ширины именно для описания */
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;     /* максимум 2 строки */
