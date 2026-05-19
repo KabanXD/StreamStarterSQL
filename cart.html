@@ -9,24 +9,32 @@
   <script src="https://api-maps.yandex.ru/2.1/?apikey=1f98a8a3-8193-424c-af05-8aa10768ef38&lang=ru_RU" type="text/javascript"></script>
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
-    /* Убираем лишние отступы и горизонтальную прокрутку */
+
+/* Убираем зазор между контентом и футером */
 html, body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;                     /* запрет горизонтальной прокрутки */
-  min-height: 100vh;                      /* растягиваем на весь экран */
+  height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
-/* Основной контент занимает всё доступное пространство */
+body {
+  flex: 1 0 auto;
+  background-color: #120617;   /* запасной цвет фона */
+  position: relative;
+}
+
 .site-main.container.cart-page {
-  flex: 1;
+  flex: 1 0 auto;
+  padding: 36px 16px;
+  box-sizing: border-box;
 }
 
-/* Футер больше не будет отрываться от низа */
 .site-footer {
   flex-shrink: 0;
+  margin-top: 0 !important;
 }
   /* ----- Модальное окно и карта ----- */
   .modal-overlay {
