@@ -577,8 +577,10 @@
             <div class="p-row">
               <div><div class="p-price">${Number(p.price||0).toLocaleString()} ₽</div></div>
               <div class="p-actions">
-                <button class="p-add" data-id="${p.id}" ${!p.available?'disabled':''}>🛒 Добавить</button>
-                <button class="p-compare" data-id="${p.id}">⚖ Сравнить</button>
+<div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+  <button class="p-add" data-id="${p.id}" ${!p.available?'disabled':''} style="width: 100%;">🛒 Добавить</button>
+  <button class="p-compare" data-id="${p.id}" style="width: 100%;">⚖ Сравнить</button>
+</div>
               </div>
             </div>
           </div>`;
