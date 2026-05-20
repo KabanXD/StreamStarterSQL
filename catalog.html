@@ -57,6 +57,88 @@
   padding:8px 16px 4px; text-transform:uppercase;
   letter-spacing:0.8px; margin-top:4px;
 }
+
+  /* Плавающая панель сравнения */
+#compare-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(13,7,20,0.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(145,70,255,0.3);
+  z-index: 9997;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+}
+#compare-bar.visible { transform: translateY(0); }
+.compare-bar-items {
+  display: flex; gap: 12px; flex: 1; align-items: center;
+}
+.compare-bar-slot {
+  width: 120px; height: 64px;
+  border: 1px dashed rgba(145,70,255,0.3);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  background: rgba(255,255,255,0.02);
+  flex-shrink: 0;
+}
+.compare-bar-slot img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.compare-bar-slot .slot-remove {
+  position: absolute; top: 4px; right: 4px;
+  background: rgba(0,0,0,0.6); border: none;
+  color: white; border-radius: 50%;
+  width: 20px; height: 20px; cursor: pointer;
+  font-size: 11px; line-height: 20px; text-align: center;
+  padding: 0;
+}
+.compare-bar-slot .slot-name {
+  font-size: 11px; color: var(--muted);
+  text-align: center; padding: 4px;
+  line-height: 1.3;
+}
+.compare-bar-empty {
+  color: rgba(154,160,166,0.4); font-size: 12px; text-align: center;
+}
+.compare-bar-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.compare-bar-count {
+  font-size: 13px; color: var(--muted); white-space: nowrap;
+}
+.btn-compare-go {
+  padding: 10px 20px; border-radius: 10px;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+  color: white; border: none; cursor: pointer;
+  font-weight: 700; font-size: 14px; white-space: nowrap;
+}
+.btn-compare-go:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-compare-clear {
+  padding: 10px 14px; border-radius: 10px;
+  background: transparent; border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted); cursor: pointer; font-size: 13px;
+}
+/* Кнопка на карточке */
+.p-compare {
+  background: transparent;
+  border: 1px solid rgba(145,70,255,0.2);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.p-compare:hover, .p-compare.active {
+  background: rgba(145,70,255,0.15);
+  border-color: var(--accent);
+  color: white;
+}
   </style>
 </head>
 <body>
@@ -494,7 +576,10 @@
             <p class="p-desc muted">${escapeHtml(desc)}</p>
             <div class="p-row">
               <div><div class="p-price">${Number(p.price||0).toLocaleString()} ₽</div></div>
-              <div class="p-actions"><button class="p-add" data-id="${p.id}" ${!p.available?'disabled':''}>🛒 Добавить</button></div>
+              <div class="p-actions">
+                <button class="p-add" data-id="${p.id}" ${!p.available?'disabled':''}>🛒 Добавить</button>
+                <button class="p-compare" data-id="${p.id}">⚖ Сравнить</button>
+              </div>
             </div>
           </div>`;
         productsGrid.appendChild(card);
@@ -543,7 +628,9 @@
     });
 
     productsGrid.addEventListener('click',e=>{
-      const btn=e.target.closest('button.p-add');if(!btn)return;
+  const cmpBtn=e.target.closest('button.p-compare');
+  if(cmpBtn){addToCompare(Number(cmpBtn.dataset.id));renderCompareBar();return;}
+  const btn=e.target.closest('button.p-add');if(!btn)return;
       const id=Number(btn.dataset.id);btn.disabled=true;setTimeout(()=>btn.disabled=false,700);
       addToCartLocal(id,1);const prev=btn.textContent;btn.textContent='✓ Добавлено';setTimeout(()=>btn.textContent=prev,900);
     });
@@ -711,6 +798,99 @@ function initCatalogBrandDropdown() {
     })();
 
     window._SS={state,getProducts:()=>(window.PRODUCTS||PRODUCTS),applyFilters,addToCartLocal,updateCartUI};
+
+    // ===== СРАВНЕНИЕ ТОВАРОВ =====
+const MAX_COMPARE = 4;
+
+function getCompareIds() {
+  try { return JSON.parse(localStorage.getItem('compare_ids') || '[]'); } catch { return []; }
+}
+function saveCompareIds(ids) {
+  localStorage.setItem('compare_ids', JSON.stringify(ids));
+  window.dispatchEvent(new Event('compare-updated'));
+}
+function addToCompare(id) {
+  id = Number(id);
+  const ids = getCompareIds();
+  if (ids.includes(id)) { removeFromCompare(id); return; }
+  if (ids.length >= MAX_COMPARE) {
+    alert(`Можно сравнить не более ${MAX_COMPARE} товаров`);
+    return;
+  }
+  ids.push(id);
+  saveCompareIds(ids);
+}
+function removeFromCompare(id) {
+  saveCompareIds(getCompareIds().filter(x => x !== Number(id)));
+}
+
+function renderCompareBar() {
+  let bar = document.getElementById('compare-bar');
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = 'compare-bar';
+    bar.innerHTML = `
+      <div class="compare-bar-items" id="compareBarItems"></div>
+      <div class="compare-bar-actions">
+        <span class="compare-bar-count" id="compareBarCount"></span>
+        <button class="btn-compare-clear" id="compareBarClear">Очистить</button>
+        <button class="btn-compare-go" id="compareBarGo">Сравнить →</button>
+      </div>`;
+    document.body.appendChild(bar);
+    document.getElementById('compareBarClear').addEventListener('click', () => {
+      saveCompareIds([]); renderCompareBar();
+    });
+    document.getElementById('compareBarGo').addEventListener('click', () => {
+      window.location.href = 'compare.html';
+    });
+  }
+
+  const ids = getCompareIds();
+  const items = document.getElementById('compareBarItems');
+  const count = document.getElementById('compareBarCount');
+  const goBtn = document.getElementById('compareBarGo');
+
+  bar.classList.toggle('visible', ids.length > 0);
+  count.textContent = ids.length > 0 ? `${ids.length} из ${MAX_COMPARE}` : '';
+  goBtn.disabled = ids.length < 2;
+
+  items.innerHTML = '';
+  const prods = window.PRODUCTS || PRODUCTS || [];
+  for (let i = 0; i < MAX_COMPARE; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'compare-bar-slot';
+    if (ids[i] != null) {
+      const p = prods.find(x => Number(x.id) === ids[i]);
+      if (p) {
+        slot.innerHTML = `
+          <img src="${p.thumb || 'placeholder.png'}" alt="${p.name}" onerror="this.src='placeholder.png'">
+          <button class="slot-remove" data-id="${p.id}">✕</button>`;
+        slot.querySelector('.slot-remove').addEventListener('click', e => {
+          e.stopPropagation();
+          removeFromCompare(Number(e.target.dataset.id));
+          renderCompareBar();
+          updateCompareButtons();
+        });
+      }
+    } else {
+      slot.innerHTML = `<span class="compare-bar-empty">+ товар</span>`;
+    }
+    items.appendChild(slot);
+  }
+  updateCompareButtons();
+}
+
+function updateCompareButtons() {
+  const ids = getCompareIds();
+  document.querySelectorAll('.p-compare').forEach(btn => {
+    const id = Number(btn.dataset.id);
+    btn.classList.toggle('active', ids.includes(id));
+    btn.textContent = ids.includes(id) ? '✓ В сравнении' : '⚖ Сравнить';
+  });
+}
+
+window.addEventListener('compare-updated', () => { renderCompareBar(); updateCompareButtons(); });
+renderCompareBar();
   </script>
 </body>
 </html>
