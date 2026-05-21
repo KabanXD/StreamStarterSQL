@@ -787,17 +787,7 @@ function initCatalogBrandDropdown() {
   document.addEventListener('click', e => { if (!dropdown.contains(e.target)) dropdown.classList.remove('open'); });
 }
     
-    (async function boot(){
-      initCardObserver();
-      await tryLoadServerProducts();
-      mergeCustomIntoProducts();
-      initFromUrl();
-      state.cart=readCartLocal();
-      updateCartUI();
-      applyFilters();
-      initCustomDropdowns();
-      initCatalogBrandDropdown();
-    })();
+(async function boot(){
 
     window._SS={state,getProducts:()=>(window.PRODUCTS||PRODUCTS),applyFilters,addToCartLocal,updateCartUI};
 
@@ -846,6 +836,13 @@ function renderCompareBar() {
       window.location.href = 'compare.html';
     });
   }
+
+  createBar();
+// На каталоге товары уже грузятся через boot() — просто ждём
+if (!window.PRODUCTS || !window.PRODUCTS.length) {
+  await loadProducts();
+}
+renderBar();
 
   const ids = getCompareIds();
   const items = document.getElementById('compareBarItems');
