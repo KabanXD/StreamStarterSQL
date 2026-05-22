@@ -788,108 +788,119 @@ function initCatalogBrandDropdown() {
 }
     
 (async function boot(){
+      initCardObserver();
+      await tryLoadServerProducts();
+      mergeCustomIntoProducts();
+      initFromUrl();
+      state.cart=readCartLocal();
+      updateCartUI();
+      applyFilters();
+      initCustomDropdowns();
+      initCatalogBrandDropdown();
+      // После загрузки товаров обновляем сравнение
+      if (typeof renderCompareBar === 'function') renderCompareBar();
+      if (typeof updateCompareButtons === 'function') updateCompareButtons();
+    })();
 
     window._SS={state,getProducts:()=>(window.PRODUCTS||PRODUCTS),applyFilters,addToCartLocal,updateCartUI};
 
     // ===== СРАВНЕНИЕ ТОВАРОВ =====
-const MAX_COMPARE = 4;
+    const MAX_COMPARE = 4;
 
-function getCompareIds() {
-  try { return JSON.parse(localStorage.getItem('compare_ids') || '[]'); } catch { return []; }
-}
-function saveCompareIds(ids) {
-  localStorage.setItem('compare_ids', JSON.stringify(ids));
-  window.dispatchEvent(new Event('compare-updated'));
-}
-function addToCompare(id) {
-  id = Number(id);
-  const ids = getCompareIds();
-  if (ids.includes(id)) { removeFromCompare(id); return; }
-  if (ids.length >= MAX_COMPARE) {
-    alert(`Можно сравнить не более ${MAX_COMPARE} товаров`);
-    return;
-  }
-  ids.push(id);
-  saveCompareIds(ids);
-}
-function removeFromCompare(id) {
-  saveCompareIds(getCompareIds().filter(x => x !== Number(id)));
-}
-
-function renderCompareBar() {
-  let bar = document.getElementById('compare-bar');
-  if (!bar) {
-    bar = document.createElement('div');
-    bar.id = 'compare-bar';
-    bar.innerHTML = `
-      <div class="compare-bar-items" id="compareBarItems"></div>
-      <div class="compare-bar-actions">
-        <span class="compare-bar-count" id="compareBarCount"></span>
-        <button class="btn-compare-clear" id="compareBarClear">Очистить</button>
-        <button class="btn-compare-go" id="compareBarGo">Сравнить →</button>
-      </div>`;
-    document.body.appendChild(bar);
-    document.getElementById('compareBarClear').addEventListener('click', () => {
-      saveCompareIds([]); renderCompareBar();
-    });
-    document.getElementById('compareBarGo').addEventListener('click', () => {
-      window.location.href = 'compare.html';
-    });
-  }
-
-  createBar();
-// На каталоге товары уже грузятся через boot() — просто ждём
-if (!window.PRODUCTS || !window.PRODUCTS.length) {
-  await loadProducts();
-}
-renderBar();
-
-  const ids = getCompareIds();
-  const items = document.getElementById('compareBarItems');
-  const count = document.getElementById('compareBarCount');
-  const goBtn = document.getElementById('compareBarGo');
-
-  bar.classList.toggle('visible', ids.length > 0);
-  count.textContent = ids.length > 0 ? `${ids.length} из ${MAX_COMPARE}` : '';
-  goBtn.disabled = ids.length < 2;
-
-  items.innerHTML = '';
-  const prods = window.PRODUCTS || PRODUCTS || [];
-  for (let i = 0; i < MAX_COMPARE; i++) {
-    const slot = document.createElement('div');
-    slot.className = 'compare-bar-slot';
-    if (ids[i] != null) {
-      const p = prods.find(x => Number(x.id) === ids[i]);
-      if (p) {
-        slot.innerHTML = `
-          <img src="${p.thumb || 'placeholder.png'}" alt="${p.name}" onerror="this.src='placeholder.png'">
-          <button class="slot-remove" data-id="${p.id}">✕</button>`;
-        slot.querySelector('.slot-remove').addEventListener('click', e => {
-          e.stopPropagation();
-          removeFromCompare(Number(e.target.dataset.id));
-          renderCompareBar();
-          updateCompareButtons();
-        });
-      }
-    } else {
-      slot.innerHTML = `<span class="compare-bar-empty">+ товар</span>`;
+    function getCompareIds(){
+      try{return JSON.parse(localStorage.getItem('compare_ids')||'[]');}catch{return[];}
     }
-    items.appendChild(slot);
-  }
-  updateCompareButtons();
-}
+    function saveCompareIds(ids){
+      localStorage.setItem('compare_ids',JSON.stringify(ids));
+      window.dispatchEvent(new Event('compare-updated'));
+    }
+    function addToCompare(id){
+      id=Number(id);
+      const ids=getCompareIds();
+      if(ids.includes(id)){removeFromCompare(id);return;}
+      if(ids.length>=MAX_COMPARE){alert(`Можно сравнить не более ${MAX_COMPARE} товаров`);return;}
+      ids.push(id);
+      saveCompareIds(ids);
+    }
+    function removeFromCompare(id){
+      saveCompareIds(getCompareIds().filter(x=>x!==Number(id)));
+    }
 
-function updateCompareButtons() {
-  const ids = getCompareIds();
-  document.querySelectorAll('.p-compare').forEach(btn => {
-    const id = Number(btn.dataset.id);
-    btn.classList.toggle('active', ids.includes(id));
-    btn.textContent = ids.includes(id) ? '✓ В сравнении' : '⚖ Сравнить';
-  });
-}
+    function renderCompareBar(){
+      let bar=document.getElementById('compare-bar');
+      if(!bar){
+        bar=document.createElement('div');
+        bar.id='compare-bar';
+        bar.innerHTML=`
+          <div class="compare-bar-items" id="compareBarItems"></div>
+          <div class="compare-bar-actions">
+            <span class="compare-bar-count" id="compareBarCount"></span>
+            <button class="btn-compare-clear" id="compareBarClear">Очистить</button>
+            <button class="btn-compare-go" id="compareBarGo">Сравнить →</button>
+          </div>`;
+        document.body.appendChild(bar);
+        document.getElementById('compareBarClear').addEventListener('click',()=>{saveCompareIds([]);renderCompareBar();});
+        document.getElementById('compareBarGo').addEventListener('click',()=>{window.location.href='compare.html';});
+      }
 
-window.addEventListener('compare-updated', () => { renderCompareBar(); updateCompareButtons(); });
-renderCompareBar();
+      const ids=getCompareIds();
+      const items=document.getElementById('compareBarItems');
+      const count=document.getElementById('compareBarCount');
+      const goBtn=document.getElementById('compareBarGo');
+
+      bar.classList.toggle('visible',ids.length>0);
+      count.textContent=ids.length>0?`${ids.length} из ${MAX_COMPARE}`:'';
+      goBtn.disabled=ids.length<2;
+
+      items.innerHTML='';
+      const prods=window.PRODUCTS||PRODUCTS||[];
+      for(let i=0;i<MAX_COMPARE;i++){
+        const slot=document.createElement('div');
+        slot.className='compare-bar-slot';
+        if(ids[i]!=null){
+          const p=prods.find(x=>Number(x.id)===ids[i]);
+          if(p){
+            const link=document.createElement('a');
+            link.href=`product.html?id=${p.id}`;
+            link.style.cssText='display:block;width:100%;height:100%;';
+            link.title=p.name;
+            const img=document.createElement('img');
+            img.src=p.thumb||'placeholder.png';
+            img.alt=p.name;
+            img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
+            img.onerror=()=>{img.src='placeholder.png';};
+            link.appendChild(img);
+            slot.appendChild(link);
+            const removeBtn=document.createElement('button');
+            removeBtn.className='slot-remove';
+            removeBtn.textContent='✕';
+            removeBtn.dataset.id=p.id;
+            removeBtn.addEventListener('click',e=>{
+              e.preventDefault();e.stopPropagation();
+              removeFromCompare(Number(p.id));
+              renderCompareBar();updateCompareButtons();
+            });
+            slot.appendChild(removeBtn);
+          }
+        } else {
+          slot.innerHTML=`<span class="compare-bar-empty">+ товар</span>`;
+        }
+        items.appendChild(slot);
+      }
+      updateCompareButtons();
+    }
+
+    function updateCompareButtons(){
+      const ids=getCompareIds();
+      document.querySelectorAll('.p-compare').forEach(btn=>{
+        const id=Number(btn.dataset.id);
+        btn.classList.toggle('active',ids.includes(id));
+        btn.textContent=ids.includes(id)?'✓ В сравнении':'⚖ Сравнить';
+      });
+    }
+
+    window.addEventListener('compare-updated',()=>{renderCompareBar();updateCompareButtons();});
+    window.addEventListener('storage',e=>{if(e.key==='compare_ids')renderCompareBar();});
   </script>
 </body>
 </html>
