@@ -139,6 +139,24 @@
   border-color: var(--accent);
   color: white;
 }
+
+  .mobile-menu {
+  display: none;
+  padding: 8px 0;
+  background: rgba(6,5,8,0.97);
+  border-top: 1px solid rgba(145,70,255,0.1);
+}
+.mobile-menu a {
+  display: block;
+  padding: 14px 16px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.mobile-menu a:last-of-type { border-bottom: none; }
+.mobile-menu a:hover { color: var(--text); }
   </style>
 </head>
 <body>
@@ -173,6 +191,12 @@
         <a href="blog.html">Блог</a>
         <a href="support.html">Поддержка</a>
       </nav>
+      <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+  <a href="index.html">Главная</a>
+  <a href="catalog.html">Каталог</a>
+  <a href="blog.html">Блог</a>
+  <a href="support.html">Поддержка</a>
+</div>
       <div class="actions">
         <button class="header-search-btn" id="searchOpenBtn" aria-label="Поиск">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -524,7 +548,13 @@
     cartBtn&&cartBtn.addEventListener('click',openCart);
     closeCart&&closeCart.addEventListener('click',closeCartFn);
     overlay&&overlay.addEventListener('click',closeCartFn);
-    menuToggle&&menuToggle.addEventListener('click',()=>{});
+    menuToggle&&menuToggle.addEventListener('click',()=>{
+  const isHidden = mobileMenu ? mobileMenu.getAttribute('aria-hidden') !== 'false' : true;
+  if (mobileMenu) {
+    mobileMenu.style.display = isHidden ? 'block' : 'none';
+    mobileMenu.setAttribute('aria-hidden', String(!isHidden));
+  }
+});
 
     window.addEventListener('storage',e=>{
       if(e.key==='cart'||e.key==='__last_cart_update__'){state.cart=readCartLocal();updateCartUI();}
