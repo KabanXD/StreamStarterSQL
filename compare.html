@@ -57,6 +57,84 @@
       color: var(--text); cursor: pointer; font-size: 13px; font-weight: 600;
     }
     .toggle-diff.active { background: rgba(145,70,255,0.25); border-color: var(--accent); }
+
+    /* Мобильная адаптация таблицы сравнения */
+@media (max-width: 768px) {
+  /* Заголовок страницы */
+  div[style*="display:flex;align-items:center;justify-content:space-between"] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /* Таблица — вертикальный скролл */
+  .compare-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid rgba(145,70,255,0.1);
+  }
+
+  .compare-table {
+    min-width: 500px;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-width: 150px;
+  }
+
+  .compare-table th {
+    font-size: 12px;
+    min-width: 100px;
+    width: 100px;
+  }
+
+  .compare-table .product-col img {
+    width: 90px;
+    height: 70px;
+  }
+
+  .compare-table .product-col .col-name {
+    font-size: 13px;
+  }
+
+  .compare-table .product-col .col-price {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .compare-table {
+    min-width: 420px;
+  }
+
+  .compare-table th {
+    min-width: 80px;
+    width: 80px;
+    font-size: 11px;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+    min-width: 130px;
+  }
+
+  .compare-table .product-col img {
+    width: 70px;
+    height: 56px;
+  }
+
+  /* Кнопки фильтра */
+  .toggle-diff, .cta.ghost {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+}
   </style>
 </head>
 <body>
@@ -74,13 +152,13 @@
   </header>
 
   <main class="site-main container" style="padding:32px 16px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
-      <h1 style="margin:0">Сравнение товаров</h1>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <button class="toggle-diff" id="toggleDiff">Только различия</button>
-        <a href="catalog.html" class="cta ghost">← В каталог</a>
-      </div>
-    </div>
+    <div style="margin-bottom:24px;">
+  <h1 style="margin:0 0 12px 0">Сравнение товаров</h1>
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+    <button class="toggle-diff" id="toggleDiff">Только различия</button>
+    <a href="catalog.html" class="cta ghost">← В каталог</a>
+  </div>
+</div>
     <div id="compareContent"></div>
   </main>
 
