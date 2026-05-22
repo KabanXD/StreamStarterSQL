@@ -622,3 +622,28 @@ a{color:inherit}
     line-height: 16px !important;
   }
 }
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+
+/* ----- Хедер ----- */
+@media (max-width: 720px) {
+  .mobile-menu {
+    display: none;
+    padding: 16px;
+    background: rgba(6,5,8,0.97);
+    border-top: 1px solid rgba(145,70,255,0.1);
+  }
+  .mobile-menu a {
+    display: block;
+    padding: 12px 0;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 16px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .mobile-menu a:last-of-type {
+    border-bottom: none;
+  }
+  .mobile-menu a:hover { color: var(--text); }
+}
