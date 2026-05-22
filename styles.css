@@ -557,3 +557,68 @@ a{color:inherit}
   pointer-events: auto;
   z-index: 1;
 }
+
+/* ===== ПАНЕЛЬ СРАВНЕНИЯ — МОБИЛЬНАЯ АДАПТАЦИЯ ===== */
+#compare-bar {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  #compare-bar {
+    padding: 10px 12px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #compareBarItems {
+    gap: 6px !important;
+    justify-content: center;
+  }
+
+  /* Слоты компактнее */
+  #compareBarItems > div {
+    width: 72px !important;
+    height: 52px !important;
+  }
+
+  /* Кнопки в одну строку */
+  #compare-bar > div:last-child {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+  }
+
+  #compareBarClear {
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+  }
+
+  #compareBarGo {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    flex: 1;
+  }
+
+  #compareBarCount {
+    font-size: 12px !important;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  #compareBarItems > div {
+    width: 60px !important;
+    height: 44px !important;
+  }
+
+  /* Кнопка удаления из слота меньше */
+  #compareBarItems button {
+    width: 16px !important;
+    height: 16px !important;
+    font-size: 9px !important;
+    line-height: 16px !important;
+  }
+}
