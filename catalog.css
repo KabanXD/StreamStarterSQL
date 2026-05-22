@@ -437,30 +437,53 @@
   }
 }
 @media (max-width: 520px) {
+  /* 2 колонки на мобиле */
   .products-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
+
   .controls-grid {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  .category-chips {
-    overflow: auto;
-  }
-  .chip {
-    flex: 0 0 auto;
-  }
-  .ss-dropdown-button {
-    padding: 10px 14px;
-    font-size: 13px;
-  }
-  .ss-dropdown-item {
-    padding: 10px 14px;
-    font-size: 13px;
-  }
-}
 
-/* ---------- Small polish ---------- */
-* {
-  box-sizing: border-box;
+  .search-control {
+    grid-column: 1 / -1;
+  }
+
+  .category-chips {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .chip { flex: 0 0 auto; }
+
+  /* Карточка на мобиле */
+  .product-top { height: 110px; }
+  .product-top img { height: 110px; }
+  .p-title { font-size: 13px; }
+  .p-price { font-size: 14px; }
+
+  .p-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .p-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+  }
+  .p-add, .p-compare {
+    width: 100%;
+    font-size: 12px !important;
+    padding: 7px 6px !important;
+    text-align: center;
+  }
+
+  .ss-dropdown-button { padding: 10px 12px; font-size: 13px; }
+  .ss-dropdown-item { padding: 10px 12px; font-size: 13px; }
 }
