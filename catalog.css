@@ -165,28 +165,6 @@
   grid-column: 1 / span 2;
 }
 
-/* Карточки на мобиле — 2 колонки вместо 1 */
-.products-grid {
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-/* Кнопки на карточке вертикально */
-.p-row {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.p-actions {
-  width: 100%;
-}
-
-.p-add, .p-compare {
-  width: 100%;
-  font-size: 12px !important;
-  padding: 6px 8px !important;
-}
 /* ---------- Стили для поля поиска ---------- */
 .control.search-control input {
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>');
