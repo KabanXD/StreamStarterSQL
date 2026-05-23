@@ -419,7 +419,7 @@
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    .btn-reset-wrapper { margin-top: 8px; }
+    .btn-reset-wrapper { margin-top: 20px; }
     .btn-reset-filters { width: 100%; }
   }
 
