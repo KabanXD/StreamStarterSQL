@@ -108,12 +108,11 @@ body::before{
 .icon-btn svg{display:block}
 
 .menu-toggle{display:none;background:transparent;border:0;padding:8px;border-radius:8px}
+
 .mobile-menu {
   display: none;
-  padding: 8px 0;
   background: rgba(6,5,8,0.97);
   border-top: 1px solid rgba(145,70,255,0.1);
-  width: 100%;
 }
 .mobile-menu a {
   display: block;
@@ -125,7 +124,7 @@ body::before{
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 .mobile-menu a:last-of-type { border-bottom: none; }
-.mobile-menu a:hover { color: var(--text); }
+.mobile-menu a:hover { color: var(--text); background: rgba(145,70,255,0.06); }
 
 .hero{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;padding:36px 0}
 .hero-left h1{font-size:36px;margin:0 0 12px 0}
