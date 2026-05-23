@@ -191,12 +191,18 @@
         <a href="blog.html">Блог</a>
         <a href="support.html">Поддержка</a>
       </nav>
-      <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
-  <a href="index.html">Главная</a>
-  <a href="catalog.html">Каталог</a>
-  <a href="blog.html">Блог</a>
-  <a href="support.html">Поддержка</a>
-</div>
+<header class="site-header">
+  <div class="container header-inner">
+    <!-- лого, nav, кнопки -->
+  </div>
+  <!-- mobile menu ЗДЕСЬ, внутри header, но вне header-inner -->
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <a href="index.html">Главная</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="blog.html">Блог</a>
+    <a href="support.html">Поддержка</a>
+  </div>
+</header>
       <div class="actions">
         <button class="header-search-btn" id="searchOpenBtn" aria-label="Поиск">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
