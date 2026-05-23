@@ -62,14 +62,44 @@
     .p-compare{background:transparent;border:1px solid rgba(145,70,255,0.2);color:var(--muted);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
     .p-compare:hover,.p-compare.active{background:rgba(145,70,255,0.15);border-color:var(--accent);color:white;}
 
-    @media(max-width:768px){
-      #compare-bar{padding:10px 12px;gap:8px;flex-direction:column;align-items:stretch;}
-      .compare-bar-items{gap:6px;justify-content:center;}
-      .compare-bar-slot{width:72px;height:52px;}
-      .compare-bar-actions{justify-content:space-between;}
-      .btn-compare-clear{padding:8px 10px;font-size:12px;}
-      .btn-compare-go{padding:8px 14px;font-size:13px;flex:1;}
-    }
+@media(max-width:768px){
+  #compare-bar {
+    padding: 10px 12px;
+    gap: 6px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .compare-bar-items {
+    gap: 6px;
+    justify-content: center;
+    flex: none;
+  }
+  .compare-bar-slot {
+    width: 64px !important;
+    height: 48px !important;
+  }
+  .compare-bar-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .compare-bar-count {
+    font-size: 12px !important;
+  }
+  .btn-compare-clear {
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+    flex-shrink: 0;
+  }
+  .btn-compare-go {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    flex: 1;
+  }
+}
   </style>
 </head>
 <body>
