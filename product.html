@@ -201,6 +201,56 @@
   border-color: var(--accent);
   color: white;
 }
+  /* ===== МОБИЛЬНАЯ ГАЛЕРЕЯ ===== */
+@media (max-width: 768px) {
+  .gallery-top {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .thumb-viewport {
+    width: 100%;
+    flex-direction: row;
+    height: auto;
+  }
+
+  .thumb-scroll {
+    height: auto !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+  }
+
+  .thumb-list {
+    flex-direction: row !important;
+    gap: 8px;
+    padding: 4px 0;
+    width: max-content;
+  }
+
+  .vthumb {
+    width: 72px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  /* Стрелки скрываем на мобиле */
+  .thumb-nav {
+    display: none !important;
+  }
+
+  .main-image {
+    width: 100%;
+    min-height: 280px;
+    max-height: 360px;
+  }
+
+  .main-image img {
+    max-height: 340px;
+    width: 100%;
+    object-fit: contain;
+  }
+}
   </style>
 </head>
 <body>
