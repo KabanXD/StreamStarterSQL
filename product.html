@@ -28,16 +28,30 @@
     .breadcrumb-cat:hover{color:var(--accent);}
     h1.prod-title{margin:0;color:var(--text)}
     .product-grid{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start}
-    @media(max-width:980px){.product-grid{grid-template-columns:1fr}}
+    @media(max-width:768px){.product-grid{grid-template-columns:1fr}}
     .gallery{display:flex;flex-direction:column;gap:10px}
     .gallery-top{display:flex;gap:12px}
     .thumb-viewport{width:86px;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative}
-    .thumb-scroll {
-  overflow: hidden;
-  height: calc((64px)*5 + (8px)*4);   /* ровно 5 миниатюр */
-}
-    .thumb-list{display:flex;flex-direction:column;gap:8px;padding:6px 0}
-    .vthumb{width:86px;height:64px;padding:6px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .thumb-scroll {
+    height: auto !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    /* Показываем ровно 3 миниатюры, остальные скроллятся */
+    max-width: calc(72px * 3 + 8px * 2 + 8px);
+  }
+     .thumb-list {
+    flex-direction: row !important;
+    gap: 8px;
+    padding: 4px 0;
+    width: max-content;
+  }
+
+  .vthumb {
+    width: 72px;
+    height: 56px;
+    flex-shrink: 0;
+  }
     .vthumb img{width:100%;height:100%;object-fit:cover;display:block}
     .vthumb.active{box-shadow:var(--shadow-soft);transform:translateY(-4px)}
     .thumb-nav{width:38px;height:36px;border-radius:8px;border:0;background:rgba(0,0,0,0.45);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;margin:6px 0}
