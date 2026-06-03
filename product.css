@@ -150,3 +150,50 @@
   max-width: 100%;
   text-align: center;
 }
+/* ===== УСИЛЕННЫЕ ОГРАНИЧЕНИЯ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ ===== */
+@media (max-width: 768px) {
+  /* Главное фото: не больше половины экрана по высоте и 100% по ширине */
+  .main-image img,
+  #mainImage,
+  .image-frame img {
+    max-width: 100% !important;
+    max-height: 50vh !important;      /* не выше 50% высоты экрана */
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Миниатюры: делаем их шире, чтобы влезало не больше 3-4 штук */
+  .thumb-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;    /* плавное прилипание */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .thumb-list {
+    gap: 12px;
+    padding: 4px 8px;
+  }
+
+  .vthumb {
+    width: 100px;                     /* шире, чем было */
+    height: 70px;
+    flex-shrink: 0;
+    scroll-snap-align: start;         /* прилипание к началу */
+  }
+
+  /* Если экран очень узкий — чуть уменьшаем миниатюры */
+  @media (max-width: 480px) {
+    .vthumb {
+      width: 85px;
+      height: 60px;
+    }
+  }
+
+  /* Убираем вертикальные кнопки, если они ещё видны */
+  .thumb-nav {
+    display: none !important;
+  }
+}
