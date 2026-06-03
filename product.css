@@ -117,4 +117,36 @@
   .sticky-panel { position:static; }
   .image-frame { min-height:320px; }
 }
+/* ===== Ограничения для всех изображений на странице товара ===== */
+.main-image img,
+.image-frame img,
+#mainImage {
+  max-width: 100% !important;
+  max-height: 550px !important;    /* на ПК не выше 550px */
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
 
+/* Также ограничиваем миниатюры, чтобы они не были слишком большими */
+.vthumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* Для всех картинок в карточках рекомендаций */
+.rec-thumb img {
+  max-width: 100%;
+  max-height: 130px;
+  object-fit: cover;
+}
+
+/* Дополнительная страховка: сам контейнер главного фото тоже не должен быть безразмерным */
+.main-image,
+.image-frame {
+  max-width: 100%;
+  text-align: center;
+}
