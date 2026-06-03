@@ -39,7 +39,13 @@
     .thumb-list{display:flex;flex-direction:column;gap:8px;padding:6px 0}
     .vthumb{width:86px;height:64px;padding:6px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}
     .thumb-nav{width:38px;height:36px;border-radius:8px;border:0;background:rgba(0,0,0,0.45);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;margin:6px 0}
-    .vthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.vthumb img,
+.rec-thumb img,
+.cart-item-thumb img {
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+}
         
     .vthumb.active{box-shadow:var(--shadow-soft);transform:translateY(-4px)}
     .thumb-nav.hidden{display:none}
@@ -204,52 +210,86 @@
 }
   /* ===== МОБИЛЬНАЯ ГАЛЕРЕЯ ===== */
 @media (max-width: 768px) {
+  /* Перестраиваем всю галерею в колонку */
   .gallery-top {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
-  .thumb-viewport {
+.thumb-viewport {
     width: 100%;
     flex-direction: row;
-    height: auto;
-  }
-
-  .thumb-scroll {
-    height: auto !important;
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;   /* плавный скролл на iOS */
+    scrollbar-width: thin;               /* тонкий скроллбар (Firefox) */
+  }
+
+  /* Контейнер скролла */
+  .thumb-scroll {
+    height: auto !important;
+    overflow: visible;
     width: 100%;
   }
 
+  /* Список миниатюр — горизонтальный ряд */
   .thumb-list {
+    display: flex;
     flex-direction: row !important;
-    gap: 8px;
-    padding: 4px 0;
+    gap: 10px;
+    padding: 6px 4px;
     width: max-content;
   }
 
+  /* Каждая миниатюра фиксированной ширины */
   .vthumb {
-    width: 72px;
-    height: 56px;
+    width: 80px;
+    height: 60px;
     flex-shrink: 0;
   }
 
-  /* Стрелки скрываем на мобиле */
+  /* Скрываем кнопки навигации (они не нужны) */
   .thumb-nav {
     display: none !important;
   }
 
+  /* Основное изображение занимает всю ширину */
   .main-image {
     width: 100%;
-    min-height: 280px;
-    max-height: 360px;
+    min-height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
+  /* Ограничение для основного фото на телефонах */
   .main-image img {
-    max-height: 340px;
+    max-height: 60vh;
+    width: auto;
+    max-width: 100%;
+  }
+    .thumb-viewport::-webkit-scrollbar {
+    height: 4px;
+  }
+  .thumb-viewport::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+  }
+  .thumb-viewport::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+  }
+}
+
+/* Дополнительная защита от огромных картинок в карточках рекомендаций */
+@media (max-width: 560px) {
+  .rec-thumb {
+    height: 100px;
+  }
+  .rec-thumb img {
+    max-height: 100px;
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 }
   </style>
