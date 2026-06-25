@@ -470,7 +470,7 @@ body {
       </div>
       <div class="actions">
         <button type="button" class="btn-ghost" id="closeCardModal">Отмена</button>
-        <button type="submit" class="btn-primary">Оплатить</button>
+        <button type="button" class="btn-primary" id="saveCardOnlyBtn">💾 Сохранить карту</button>
       </div>
     </form>
   </div>
@@ -622,6 +622,22 @@ const PROMOCODES = [
     function formatPrice(value) { return `${Math.round(Number(value) || 0).toLocaleString('ru-RU')} ₽`; }
     function parseQty(value) { const n = Number(value); return (!Number.isFinite(n) || n < 1) ? 1 : Math.max(1, Math.floor(n)); }
 
+    function saveCardData(card) {
+  localStorage.setItem('saved_card', JSON.stringify(card));
+}
+
+function getSavedCard() {
+  try {
+    return JSON.parse(localStorage.getItem('saved_card'));
+  } catch (e) {
+    return null;
+  }
+}
+
+function deleteSavedCard() {
+  localStorage.removeItem('saved_card');
+}
+
  // Функция для показа ошибки под полем
   function showFieldError(element, message) {
     if (!element) return;
@@ -703,21 +719,47 @@ function updateOpenCardButtonVisibility() {
 
 // Вызывайте эту функцию в renderPaymentMethods() и при инициализации
 function renderPaymentMethods() {
+  const saved = getSavedCard();
+  let savedBlock = '';
+  if (saved) {
+    const masked = '•••• ' + saved.number.slice(-4);
+    savedBlock = `
+      <div style="margin:10px 0; padding:10px; background:rgba(145,70,255,0.08); border-radius:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span>💳 Сохранённая карта: ${masked} (${saved.expiry})</span>
+          <button type="button" id="deleteSavedCardBtn" class="btn-ghost small">Удалить</button>
+        </div>
+      </div>`;
+  }
+
   paymentMethods.innerHTML = `
-    <label class="radio"><input type="radio" name="pay" value="sbp" ${state.payment === 'sbp' ? 'checked' : ''}> СБП (перевод по номеру телефона)</label>
-    <label class="radio"><input type="radio" name="pay" value="card" ${state.payment === 'card' ? 'checked' : ''}> Банковская карта (онлайн)</label>
+    ${savedBlock}
+    <label class="radio"><input type="radio" name="pay" value="sbp" ${state.payment === 'sbp' ? 'checked' : ''}> СБП</label>
+    <label class="radio"><input type="radio" name="pay" value="card" ${state.payment === 'card' ? 'checked' : ''}> Банковская карта онлайн</label>
     <label class="radio"><input type="radio" name="pay" value="cash" ${state.payment === 'cash' ? 'checked' : ''}> Наличными при получении</label>
   `;
 
+  // Кнопка удаления сохранённой карты
+  const delBtn = document.getElementById('deleteSavedCardBtn');
+  if (delBtn) {
+    delBtn.addEventListener('click', () => {
+      if (confirm('Удалить сохранённую карту?')) {
+        deleteSavedCard();
+        renderPaymentMethods();
+      }
+    });
+  }
+
+  // Обработчик выбора способа оплаты
   document.querySelectorAll('input[name="pay"]').forEach(input => {
     input.addEventListener('change', () => {
       state.payment = input.value;
       updateOpenCardButtonVisibility();
-      render(); // если нужно пересчитать корзину
+      render();
     });
   });
 
-  updateOpenCardButtonVisibility(); // синхронизируем при рендере
+  updateOpenCardButtonVisibility();
 }
 
 // Открытие модального окна
@@ -1264,17 +1306,7 @@ function renderPaymentMethods() {
 
     function processCardPayment(callback) {
       cardModal.classList.add('open');
-      cardForm.onsubmit = (e) => {
-        e.preventDefault();
-        // Базовая проверка
-        const number = cardNumber.value.replace(/\s/g, '');
-        if (number.length < 13 || number.length > 19) {
-          alert('Введите корректный номер карты');
-          return;
-        }
-        cardModal.classList.remove('open');
-        callback(true);
-      };
+
       closeCardModal.onclick = () => {
         cardModal.classList.remove('open');
         callback(false);
@@ -1395,9 +1427,15 @@ observer.observe(cardModal, { attributes: true });
         processSbpPayment((success) => { if (success) submitOrder('Оплата СБП'); });
         return;
       }
-if (actualPayment === 'card') {
-    submitOrder('Оплата картой онлайн');
+if (state.payment === 'card') {
+  const saved = getSavedCard();
+  if (!saved) {
+    setMessage('Сначала сохраните карту, нажав «Ввести данные карты»', 'error');
     return;
+  }
+  // Передаём замаскированные данные в заказ
+  submitOrder('Оплата картой •••• ' + saved.number.slice(-4));
+  return;
 }
       if (actualPayment === 'cash') {
         processCashPayment(() => submitOrder('Наличными при получении'));
@@ -1548,6 +1586,47 @@ promoInput.addEventListener('keydown', (e) => {
       initTimeDropdown();
       initCardValidation();
           closeCardModal.addEventListener('click', () => cardModal.classList.remove('open'));
+      const saveCardOnlyBtn = document.getElementById('saveCardOnlyBtn');
+saveCardOnlyBtn.addEventListener('click', () => {
+  const number = cardNumber.value.replace(/\s/g, '');
+  const expiry = cardExpiry.value.trim();
+  const cvc = cardCvc.value.trim();
+
+  // Простая проверка заполнения
+  if (!number || !expiry || !cvc) {
+    alert('Заполните все поля карты');
+    return;
+  }
+  if (number.length < 13 || number.length > 19) {
+    alert('Некорректный номер карты');
+    return;
+  }
+  if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+    alert('Срок должен быть в формате ММ/ГГ');
+    return;
+  }
+  if (cvc.length < 3 || cvc.length > 4) {
+    alert('CVC должен содержать 3 или 4 цифры');
+    return;
+  }
+
+  // Сохраняем карту
+  saveCardData({
+    number: number,
+    expiry: expiry,
+    cvc: cvc,
+    type: detectCardType(number)
+  });
+
+  // Закрываем окно
+  cardModal.classList.remove('open');
+
+  // Уведомление
+  setMessage('💳 Карта сохранена. Вы сможете выбрать её при оформлении.', 'success');
+
+  // Обновляем блок с сохранённой картой в форме
+  renderPaymentMethods();
+});
     cardModal.addEventListener('click', (e) => { if (e.target === cardModal) cardModal.classList.remove('open'); });
 
     }
